@@ -1,0 +1,3138 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Logic Pursuits — UI Kit</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+
+/* ============================================================
+   DESIGN TOKENS — CSS CUSTOM PROPERTIES
+   ============================================================ */
+:root {
+  /* Primary */
+  --teal:         #00C8B7;
+  --navy:         #003B5E;
+
+  /* Secondary */
+  --orange:       #EF6A00;
+  --sand:         #E9CEB2;
+  --deep-navy:    #002B3C;
+
+  /* Gradients */
+  --gradient-hero:  linear-gradient(135deg, #003B5E, #00C8B7);
+  --gradient-navy:  linear-gradient(135deg, #003B5E, #003B5E);
+  --gradient-deep:  linear-gradient(135deg, #002B3C, #002B3C);
+
+  /* Neutrals */
+  --white:        #FFFFFF;
+  --grey-50:      #F8F9FA;
+  --grey-100:     #F0F2F4;
+  --grey-200:     #E2E6EA;
+  --grey-400:     #9AA5B1;
+  --grey-700:     #3D4F5C;
+  --black:        #000000;
+
+  /* Spacing (8pt base) */
+  --space-4:      4px;
+  --space-8:      8px;
+  --space-12:     12px;
+  --space-16:     16px;
+  --space-24:     24px;
+  --space-32:     32px;
+  --space-48:     48px;
+  --space-64:     64px;
+  --space-96:     96px;
+  --space-128:    128px;
+
+  /* Typography */
+  --font:         'Gilroy', 'Nunito', 'Avenir Next', sans-serif;
+  --size-display: 80px;
+  --size-h1:      64px;
+  --size-h2:      48px;
+  --size-h3:      32px;
+  --size-h4:      24px;
+  --size-body-lg: 18px;
+  --size-body:    16px;
+  --size-body-sm: 14px;
+  --size-label:   12px;
+  --size-caption: 12px;
+
+  /* Border radius — sharp and technical */
+  --radius:       2px;
+
+  /* Transitions */
+  --t-color:      150ms ease;
+  --t-transform:  200ms ease;
+
+  /* Triangle sizes */
+  --tri-micro:    8px;
+  --tri-small:    16px;
+  --tri-medium:   32px;
+  --tri-large:    64px;
+  --tri-hero:     128px;
+  --tri-formation: 256px;
+
+  /* Sidebar */
+  --sidebar-width: 220px;
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  font-size: var(--size-body);
+  color: var(--deep-navy);
+  background: var(--white);
+  line-height: 1.6;
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
+.sidebar {
+  width: var(--sidebar-width);
+  min-width: var(--sidebar-width);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--deep-navy);
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+  border-right: 1px solid rgba(255,255,255,0.06);
+}
+
+.sidebar-logo {
+  padding: var(--space-24) var(--space-16) var(--space-16);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  flex-shrink: 0;
+}
+
+.sidebar-logo .wordmark {
+  font-family: var(--font);
+  font-weight: 900;
+  font-size: 13px;
+  letter-spacing: 0.01em;
+  color: var(--white);
+  text-transform: lowercase;
+  line-height: 1.2;
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.sidebar-logo .tri-mark {
+  display: inline-block;
+  width: 0; height: 0;
+  border-left: 5px solid var(--teal);
+  border-bottom: 5px solid transparent;
+  margin: 0 1px;
+  vertical-align: middle;
+  position: relative;
+  top: -1px;
+}
+
+.sidebar-logo .kit-label {
+  font-family: var(--font);
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--grey-400);
+  margin-top: var(--space-4);
+}
+
+.sidebar nav {
+  padding: var(--space-16) 0;
+  flex: 1;
+}
+
+.sidebar nav a {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  padding: 7px var(--space-16);
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--grey-400);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: color var(--t-color), background var(--t-color);
+  position: relative;
+}
+
+.sidebar nav a:hover {
+  color: var(--white);
+  background: rgba(255,255,255,0.05);
+}
+
+.sidebar nav a.active {
+  color: var(--teal);
+}
+
+.sidebar nav a.active::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 50%;
+  transform: translateY(-50%);
+  width: 2px; height: 16px;
+  background: var(--teal);
+}
+
+.sidebar nav .nav-num {
+  font-size: 10px;
+  color: var(--grey-700);
+  font-weight: 700;
+  min-width: 16px;
+}
+
+.sidebar nav a:hover .nav-num,
+.sidebar nav a.active .nav-num {
+  color: inherit;
+}
+
+.sidebar-toggle {
+  padding: var(--space-16);
+  border-top: 1px solid rgba(255,255,255,0.08);
+  flex-shrink: 0;
+}
+
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius);
+  padding: var(--space-8) var(--space-12);
+  width: 100%;
+  cursor: pointer;
+  font-family: var(--font);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--grey-400);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: all var(--t-color);
+}
+
+.theme-toggle:hover {
+  background: rgba(0,200,183,0.1);
+  border-color: var(--teal);
+  color: var(--teal);
+}
+
+/* ============================================================
+   MAIN CONTENT
+   ============================================================ */
+.main {
+  flex: 1;
+  overflow-x: hidden;
+}
+
+/* ============================================================
+   SECTION HEADERS
+   ============================================================ */
+.section {
+  padding: var(--space-96) var(--space-64);
+  border-bottom: 1px solid var(--grey-200);
+  position: relative;
+  overflow: hidden;
+}
+
+.section-header {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-16);
+  margin-bottom: var(--space-64);
+  padding-bottom: var(--space-24);
+  border-bottom: 2px solid var(--teal);
+}
+
+.section-num {
+  font-family: var(--font);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--teal);
+}
+
+.section-title {
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--grey-700);
+}
+
+/* Subsection */
+.subsection {
+  margin-bottom: var(--space-64);
+}
+
+.subsection-title {
+  font-family: var(--font);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--grey-400);
+  margin-bottom: var(--space-32);
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.subsection-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--grey-200);
+}
+
+/* Component meta */
+.component-meta {
+  margin-top: var(--space-12);
+  padding-top: var(--space-12);
+  border-top: 1px solid var(--grey-100);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-24);
+  flex-wrap: wrap;
+}
+
+.meta-name {
+  font-family: var(--font);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--grey-700);
+}
+
+.meta-note {
+  font-family: var(--font);
+  font-size: 12px;
+  color: var(--grey-400);
+}
+
+.meta-token {
+  font-family: monospace;
+  font-size: 11px;
+  color: var(--teal);
+  background: rgba(0,200,183,0.07);
+  padding: 2px 6px;
+  border-radius: var(--radius);
+}
+
+/* Context panel (white / dark) */
+.context-panel {
+  padding: var(--space-32);
+  border-radius: var(--radius);
+  position: relative;
+  overflow: hidden;
+}
+
+.context-panel.light { background: var(--white); border: 1px solid var(--grey-200); }
+.context-panel.dark  { background: var(--navy); }
+
+.context-label {
+  font-family: var(--font);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--grey-400);
+  margin-bottom: var(--space-24);
+}
+
+.context-label.dark-label { color: rgba(255,255,255,0.3); }
+
+.panel-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-24);
+}
+
+/* ============================================================
+   TRIANGLES (pure CSS)
+   ============================================================ */
+/* Right-angle triangles via clip-path */
+.tri {
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+/* Top-right anchored (pointing bottom-left) */
+.tri-tr {
+  clip-path: polygon(100% 0, 100% 100%, 0 0);
+}
+
+/* Bottom-left anchored (pointing top-right) */
+.tri-bl {
+  clip-path: polygon(0 0, 100% 100%, 0 100%);
+}
+
+/* Top-left anchored */
+.tri-tl {
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+
+/* Bottom-right anchored */
+.tri-br {
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+}
+
+.tri-micro  { width: var(--tri-micro);  height: var(--tri-micro); }
+.tri-small  { width: var(--tri-small);  height: var(--tri-small); }
+.tri-medium { width: var(--tri-medium); height: var(--tri-medium); }
+.tri-large  { width: var(--tri-large);  height: var(--tri-large); }
+.tri-hero   { width: var(--tri-hero);   height: var(--tri-hero); }
+.tri-formation { width: var(--tri-formation); height: var(--tri-formation); }
+
+.tri-teal  { background: var(--teal); }
+.tri-navy  { background: var(--navy); }
+.tri-white { background: var(--white); }
+.tri-deep  { background: var(--deep-navy); }
+.tri-sand  { background: var(--sand); }
+
+/* Absolute-positioned corner triangles */
+.corner-tri {
+  position: absolute;
+  display: block;
+}
+
+.corner-tri.top-right {
+  top: 0; right: 0;
+  clip-path: polygon(100% 0, 100% 100%, 0 0);
+}
+
+.corner-tri.bottom-left {
+  bottom: 0; left: 0;
+  clip-path: polygon(0 0, 100% 100%, 0 100%);
+}
+
+.corner-tri.top-left {
+  top: 0; left: 0;
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+
+/* ============================================================
+   SECTION 1: FOUNDATIONS
+   ============================================================ */
+
+/* ── Color Swatches ── */
+.color-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: var(--space-16);
+}
+
+.swatch {
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--grey-200);
+}
+
+.swatch-color {
+  height: 80px;
+  position: relative;
+}
+
+.swatch-info {
+  padding: var(--space-12);
+  background: var(--white);
+}
+
+.swatch-name {
+  font-family: var(--font);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--deep-navy);
+  margin-bottom: 4px;
+}
+
+.swatch-hex {
+  font-family: monospace;
+  font-size: 12px;
+  color: var(--grey-700);
+}
+
+.swatch-values {
+  font-family: monospace;
+  font-size: 10px;
+  color: var(--grey-400);
+  margin-top: 4px;
+  line-height: 1.5;
+}
+
+.swatch-warning {
+  margin-top: 6px;
+  font-family: var(--font);
+  font-size: 10px;
+  color: var(--orange);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.gradient-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-16);
+  margin-top: var(--space-24);
+}
+
+.gradient-swatch .swatch-color {
+  height: 100px;
+}
+
+/* ── Typography ── */
+.type-scale {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.type-row {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  border-bottom: 1px solid var(--grey-100);
+}
+
+.type-row:first-child { border-top: 1px solid var(--grey-100); }
+
+.type-meta {
+  width: 200px;
+  min-width: 200px;
+  padding: var(--space-16) var(--space-16);
+  border-right: 1px solid var(--grey-100);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.type-style-name {
+  font-family: var(--font);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--grey-700);
+  margin-bottom: 4px;
+}
+
+.type-spec {
+  font-family: monospace;
+  font-size: 10px;
+  color: var(--grey-400);
+  line-height: 1.6;
+}
+
+.type-preview {
+  flex: 1;
+  padding: var(--space-16) var(--space-24);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.type-preview.navy-bg {
+  background: var(--navy);
+  color: var(--white);
+}
+
+/* Type styles */
+.t-display {
+  font-family: var(--font);
+  font-size: var(--size-display);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  color: inherit;
+}
+
+.t-h1 {
+  font-family: var(--font);
+  font-size: var(--size-h1);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: inherit;
+}
+
+.t-h2 {
+  font-family: var(--font);
+  font-size: var(--size-h2);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  color: inherit;
+}
+
+.t-h3 {
+  font-family: var(--font);
+  font-size: var(--size-h3);
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.25;
+  color: inherit;
+}
+
+.t-h4 {
+  font-family: var(--font);
+  font-size: var(--size-h4);
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1.3;
+  color: inherit;
+}
+
+.t-body-lg {
+  font-family: var(--font);
+  font-size: var(--size-body-lg);
+  font-weight: 400;
+  line-height: 1.6;
+  color: inherit;
+}
+
+.t-body {
+  font-family: var(--font);
+  font-size: var(--size-body);
+  font-weight: 400;
+  line-height: 1.6;
+  color: inherit;
+}
+
+.t-body-sm {
+  font-family: var(--font);
+  font-size: var(--size-body-sm);
+  font-weight: 400;
+  line-height: 1.6;
+  color: inherit;
+}
+
+.t-label {
+  font-family: var(--font);
+  font-size: var(--size-label);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: inherit;
+}
+
+.t-caption {
+  font-family: var(--font);
+  font-size: var(--size-caption);
+  font-weight: 300;
+  line-height: 1.5;
+  color: inherit;
+}
+
+/* ── Grid & Spacing ── */
+.spacing-scale {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+}
+
+.spacing-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-16);
+}
+
+.spacing-bar-wrap {
+  flex: 1;
+  height: 24px;
+  background: var(--grey-100);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.spacing-bar {
+  height: 100%;
+  background: var(--gradient-hero);
+}
+
+.spacing-label {
+  font-family: monospace;
+  font-size: 12px;
+  color: var(--grey-700);
+  min-width: 40px;
+  text-align: right;
+}
+
+.spacing-token {
+  font-family: monospace;
+  font-size: 11px;
+  color: var(--grey-400);
+  min-width: 100px;
+}
+
+/* ── Triangle Motif ── */
+.tri-demo-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-24);
+}
+
+.tri-demo-panel {
+  border-radius: var(--radius);
+  overflow: hidden;
+  position: relative;
+}
+
+.tri-demo-label {
+  font-family: var(--font);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--grey-400);
+  margin-bottom: var(--space-12);
+}
+
+/* Hero formation */
+.formation-hero {
+  height: 200px;
+  background: var(--navy);
+  position: relative;
+  overflow: hidden;
+}
+
+.formation-hero .tri-f1 {
+  position: absolute;
+  top: 0; right: 0;
+  width: 160px; height: 160px;
+  background: var(--teal);
+  clip-path: polygon(100% 0, 100% 100%, 0 0);
+  opacity: 0.9;
+}
+
+.formation-hero .tri-f2 {
+  position: absolute;
+  top: 0; right: 0;
+  width: 100px; height: 100px;
+  background: var(--deep-navy);
+  clip-path: polygon(100% 0, 100% 100%, 0 0);
+  opacity: 0.7;
+}
+
+.formation-hero .tri-f3 {
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 64px; height: 64px;
+  background: var(--teal);
+  clip-path: polygon(0 0, 100% 100%, 0 100%);
+  opacity: 0.3;
+}
+
+.formation-hero-label {
+  position: absolute;
+  bottom: var(--space-16);
+  right: var(--space-16);
+  font-family: var(--font);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+}
+
+/* Section divider formation */
+.formation-divider {
+  height: 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.formation-divider .div-top {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 50%;
+  background: var(--grey-50);
+}
+
+.formation-divider .div-bottom {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 50%;
+  background: var(--navy);
+}
+
+.formation-divider .div-tri {
+  position: absolute;
+  bottom: 0; left: 0;
+  right: 0;
+  height: 100%;
+  background: var(--navy);
+  clip-path: polygon(0 100%, 100% 100%, 100% 0);
+}
+
+.formation-divider .div-accent {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: var(--tri-small);
+  height: var(--tri-small);
+  background: var(--teal);
+  clip-path: polygon(0 0, 100% 100%, 0 100%);
+}
+
+/* Minimal formation */
+.formation-minimal {
+  height: 80px;
+  background: var(--white);
+  border: 1px solid var(--grey-200);
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+
+.formation-minimal .min-tri {
+  position: absolute;
+  top: 0; right: 0;
+  width: var(--tri-medium);
+  height: var(--tri-medium);
+  background: var(--navy);
+  clip-path: polygon(100% 0, 100% 100%, 0 0);
+}
+
+.formation-minimal .min-label {
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--grey-400);
+  letter-spacing: 0.04em;
+}
+
+/* Pattern/texture formation */
+.formation-pattern {
+  height: 120px;
+  background: var(--navy);
+  position: relative;
+  overflow: hidden;
+}
+
+.tri-pattern {
+  position: absolute;
+  inset: 0;
+  background-image:
+    /* teal triangles */
+    linear-gradient(135deg, var(--teal) 25%, transparent 25%),
+    linear-gradient(315deg, var(--teal) 25%, transparent 25%),
+    linear-gradient(45deg, var(--navy) 25%, transparent 25%),
+    linear-gradient(225deg, var(--navy) 25%, transparent 25%);
+  background-size: 24px 24px;
+  background-position: 0 0, 12px 0, 12px -12px, 0 12px;
+  opacity: 0.15;
+}
+
+.tri-pattern-overlay {
+  position: absolute;
+  inset: 0;
+  background: repeating-conic-gradient(
+    var(--teal) 0% 25%, var(--navy) 0% 50%
+  ) 0 0 / 20px 20px;
+  opacity: 0.08;
+}
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-track { background: transparent; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--grey-700); border-radius: 2px; }
+
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     SIDEBAR
+     ============================================================ -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="wordmark">
+      log<span class="tri-mark"></span>c&nbsp;pursu<span class="tri-mark"></span>ts
+    </div>
+    <div class="kit-label">UI Kit v1.0</div>
+  </div>
+
+  <nav id="sidebar-nav">
+    <a href="#s1" class="active"><span class="nav-num">01</span> Foundations</a>
+    <a href="#s2"><span class="nav-num">02</span> Buttons</a>
+    <a href="#s3"><span class="nav-num">03</span> Form Elements</a>
+    <a href="#s4"><span class="nav-num">04</span> Navigation</a>
+    <a href="#s5"><span class="nav-num">05</span> Cards</a>
+    <a href="#s6"><span class="nav-num">06</span> Data & Tables</a>
+    <a href="#s7"><span class="nav-num">07</span> Tags & Badges</a>
+    <a href="#s8"><span class="nav-num">08</span> Dividers</a>
+    <a href="#s9"><span class="nav-num">09</span> Hero Example</a>
+    <a href="#s10"><span class="nav-num">10</span> Iconography</a>
+  </nav>
+
+  <div class="sidebar-toggle">
+    <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn">
+      ◑ Toggle Dark Preview
+    </button>
+  </div>
+</aside>
+
+<!-- ============================================================
+     MAIN
+     ============================================================ -->
+<main class="main" id="main">
+
+  <!-- ============================================================
+       SECTION 1 — FOUNDATIONS
+       ============================================================ -->
+  <section class="section" id="s1">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <span class="section-title">Foundations</span>
+    </div>
+
+    <!-- COLOR SWATCHES -->
+    <div class="subsection" id="s1-colors">
+      <div class="subsection-title">Color Swatches</div>
+
+      <div class="color-grid">
+
+        <!-- Teal -->
+        <div class="swatch">
+          <div class="swatch-color" style="background:#00C8B7;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Teal</div>
+            <div class="swatch-hex">#00C8B7</div>
+            <div class="swatch-values">RGB 0 200 183<br>CMYK 100 0 9 22</div>
+            <div class="swatch-warning">⚠ Not for body text — fails WCAG AA at normal sizes</div>
+          </div>
+        </div>
+
+        <!-- Navy -->
+        <div class="swatch">
+          <div class="swatch-color" style="background:#003B5E;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Navy</div>
+            <div class="swatch-hex">#003B5E</div>
+            <div class="swatch-values">RGB 0 59 94<br>CMYK 100 37 0 63</div>
+          </div>
+        </div>
+
+        <!-- Orange -->
+        <div class="swatch">
+          <div class="swatch-color" style="background:#EF6A00;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Orange</div>
+            <div class="swatch-hex">#EF6A00</div>
+            <div class="swatch-values">RGB 239 106 0<br>CMYK 0 56 100 6</div>
+          </div>
+        </div>
+
+        <!-- Sand -->
+        <div class="swatch">
+          <div class="swatch-color" style="background:#E9CEB2;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Sand</div>
+            <div class="swatch-hex">#E9CEB2</div>
+            <div class="swatch-values">RGB 233 206 178<br>CMYK 0 12 24 9</div>
+          </div>
+        </div>
+
+        <!-- Deep Navy -->
+        <div class="swatch">
+          <div class="swatch-color" style="background:#002B3C;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Deep Navy</div>
+            <div class="swatch-hex">#002B3C</div>
+            <div class="swatch-values">RGB 0 43 60<br>CMYK 100 28 0 76</div>
+          </div>
+        </div>
+
+        <!-- White -->
+        <div class="swatch">
+          <div class="swatch-color" style="background:#FFFFFF; border-bottom:1px solid var(--grey-200);"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">White</div>
+            <div class="swatch-hex">#FFFFFF</div>
+            <div class="swatch-values">RGB 255 255 255<br>CMYK 0 0 0 0</div>
+          </div>
+        </div>
+
+        <!-- Grey 50 -->
+        <div class="swatch">
+          <div class="swatch-color" style="background:#F8F9FA;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Grey 50</div>
+            <div class="swatch-hex">#F8F9FA</div>
+            <div class="swatch-values">RGB 248 249 250<br>CMYK 1 0 0 2</div>
+          </div>
+        </div>
+
+        <!-- Grey 100 -->
+        <div class="swatch">
+          <div class="swatch-color" style="background:#F0F2F4;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Grey 100</div>
+            <div class="swatch-hex">#F0F2F4</div>
+            <div class="swatch-values">RGB 240 242 244<br>CMYK 2 1 0 4</div>
+          </div>
+        </div>
+
+        <!-- Grey 200 -->
+        <div class="swatch">
+          <div class="swatch-color" style="background:#E2E6EA;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Grey 200</div>
+            <div class="swatch-hex">#E2E6EA</div>
+            <div class="swatch-values">RGB 226 230 234<br>CMYK 3 2 0 8</div>
+          </div>
+        </div>
+
+        <!-- Grey 400 -->
+        <div class="swatch">
+          <div class="swatch-color" style="background:#9AA5B1;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Grey 400</div>
+            <div class="swatch-hex">#9AA5B1</div>
+            <div class="swatch-values">RGB 154 165 177<br>CMYK 13 7 0 31</div>
+          </div>
+        </div>
+
+        <!-- Grey 700 -->
+        <div class="swatch">
+          <div class="swatch-color" style="background:#3D4F5C;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Grey 700</div>
+            <div class="swatch-hex">#3D4F5C</div>
+            <div class="swatch-values">RGB 61 79 92<br>CMYK 34 14 0 64</div>
+          </div>
+        </div>
+
+        <!-- Black -->
+        <div class="swatch">
+          <div class="swatch-color" style="background:#000000;"></div>
+          <div class="swatch-info">
+            <div class="swatch-name">Black</div>
+            <div class="swatch-hex">#000000</div>
+            <div class="swatch-values">RGB 0 0 0<br>CMYK 0 0 0 100</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Gradients -->
+      <div style="margin-top: var(--space-32);">
+        <div class="subsection-title">Gradients</div>
+        <div class="gradient-grid">
+          <div class="swatch gradient-swatch">
+            <div class="swatch-color" style="background: linear-gradient(135deg, #003B5E, #00C8B7);"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Gradient Hero</div>
+              <div class="swatch-hex">135° Navy → Teal</div>
+              <div class="swatch-values">--gradient-hero</div>
+            </div>
+          </div>
+          <div class="swatch gradient-swatch">
+            <div class="swatch-color" style="background: linear-gradient(135deg, #003B5E, #002B3C);"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Gradient Navy</div>
+              <div class="swatch-hex">135° Navy → Deep Navy</div>
+              <div class="swatch-values">--gradient-navy</div>
+            </div>
+          </div>
+          <div class="swatch gradient-swatch">
+            <div class="swatch-color" style="background: linear-gradient(135deg, #002B3C, #002B3C);"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">Gradient Deep</div>
+              <div class="swatch-hex">Deep Navy (flat)</div>
+              <div class="swatch-values">--gradient-deep</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TYPOGRAPHY SCALE -->
+    <div class="subsection" id="s1-type">
+      <div class="subsection-title">Typography Scale</div>
+      <div class="type-scale">
+
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-style-name">Display</div>
+            <div class="type-spec">Heavy 900 · 80px<br>tracking -0.02em</div>
+          </div>
+          <div class="type-preview"><span class="t-display" style="color:var(--deep-navy);">Logic</span></div>
+          <div class="type-preview navy-bg"><span class="t-display" style="color:var(--white);">Logic</span></div>
+        </div>
+
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-style-name">H1 / Heading 1</div>
+            <div class="type-spec">Heavy 900 · 64px<br>tracking -0.02em</div>
+          </div>
+          <div class="type-preview"><span class="t-h1" style="color:var(--deep-navy);">Precision Thinking</span></div>
+          <div class="type-preview navy-bg"><span class="t-h1" style="color:var(--white);">Precision Thinking</span></div>
+        </div>
+
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-style-name">H2 / Heading 2</div>
+            <div class="type-spec">ExtraBold 800 · 48px<br>tracking -0.01em</div>
+          </div>
+          <div class="type-preview"><span class="t-h2" style="color:var(--deep-navy);">Strategic Intelligence</span></div>
+          <div class="type-preview navy-bg"><span class="t-h2" style="color:var(--white);">Strategic Intelligence</span></div>
+        </div>
+
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-style-name">H3 / Heading 3</div>
+            <div class="type-spec">Bold 700 · 32px<br>tracking 0</div>
+          </div>
+          <div class="type-preview"><span class="t-h3" style="color:var(--deep-navy);">Systems that Scale</span></div>
+          <div class="type-preview navy-bg"><span class="t-h3" style="color:var(--white);">Systems that Scale</span></div>
+        </div>
+
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-style-name">H4 / Heading 4</div>
+            <div class="type-spec">SemiBold 600 · 24px<br>tracking 0</div>
+          </div>
+          <div class="type-preview"><span class="t-h4" style="color:var(--deep-navy);">Structured Problem Solving</span></div>
+          <div class="type-preview navy-bg"><span class="t-h4" style="color:var(--white);">Structured Problem Solving</span></div>
+        </div>
+
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-style-name">Body Large</div>
+            <div class="type-spec">Regular 400 · 18px<br>line-height 1.6</div>
+          </div>
+          <div class="type-preview"><span class="t-body-lg" style="color:var(--deep-navy);">We build rigorous frameworks for complex decisions.</span></div>
+          <div class="type-preview navy-bg"><span class="t-body-lg" style="color:var(--grey-200);">We build rigorous frameworks for complex decisions.</span></div>
+        </div>
+
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-style-name">Body</div>
+            <div class="type-spec">Regular 400 · 16px<br>line-height 1.6</div>
+          </div>
+          <div class="type-preview"><span class="t-body" style="color:var(--deep-navy);">Clear analysis leads to confident execution and measurable outcomes.</span></div>
+          <div class="type-preview navy-bg"><span class="t-body" style="color:var(--grey-200);">Clear analysis leads to confident execution and measurable outcomes.</span></div>
+        </div>
+
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-style-name">Body Small</div>
+            <div class="type-spec">Regular 400 · 14px<br>line-height 1.6</div>
+          </div>
+          <div class="type-preview"><span class="t-body-sm" style="color:var(--deep-navy);">Supporting detail text and supplementary information.</span></div>
+          <div class="type-preview navy-bg"><span class="t-body-sm" style="color:var(--grey-400);">Supporting detail text and supplementary information.</span></div>
+        </div>
+
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-style-name">Label / Overline</div>
+            <div class="type-spec">SemiBold 600 · 12px<br>tracking 0.08em · UPPERCASE</div>
+          </div>
+          <div class="type-preview"><span class="t-label" style="color:var(--grey-700);">Case Study — Services</span></div>
+          <div class="type-preview navy-bg"><span class="t-label" style="color:var(--grey-400);">Case Study — Services</span></div>
+        </div>
+
+        <div class="type-row">
+          <div class="type-meta">
+            <div class="type-style-name">Caption</div>
+            <div class="type-spec">Light 300 · 12px<br>line-height 1.5</div>
+          </div>
+          <div class="type-preview"><span class="t-caption" style="color:var(--grey-400);">Figure 1. Framework overview — Q4 2024</span></div>
+          <div class="type-preview navy-bg"><span class="t-caption" style="color:var(--grey-400);">Figure 1. Framework overview — Q4 2024</span></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- GRID & SPACING -->
+    <div class="subsection" id="s1-spacing">
+      <div class="subsection-title">Grid &amp; Spacing — 8pt Base</div>
+      <div class="spacing-scale">
+        <div class="spacing-row">
+          <div class="spacing-label">4px</div>
+          <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:4px;"></div></div>
+          <div class="spacing-token">--space-4</div>
+        </div>
+        <div class="spacing-row">
+          <div class="spacing-label">8px</div>
+          <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:8px;"></div></div>
+          <div class="spacing-token">--space-8</div>
+        </div>
+        <div class="spacing-row">
+          <div class="spacing-label">12px</div>
+          <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:12px;"></div></div>
+          <div class="spacing-token">--space-12</div>
+        </div>
+        <div class="spacing-row">
+          <div class="spacing-label">16px</div>
+          <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:16px;"></div></div>
+          <div class="spacing-token">--space-16</div>
+        </div>
+        <div class="spacing-row">
+          <div class="spacing-label">24px</div>
+          <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:24px;"></div></div>
+          <div class="spacing-token">--space-24</div>
+        </div>
+        <div class="spacing-row">
+          <div class="spacing-label">32px</div>
+          <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:32px;"></div></div>
+          <div class="spacing-token">--space-32</div>
+        </div>
+        <div class="spacing-row">
+          <div class="spacing-label">48px</div>
+          <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:48px;"></div></div>
+          <div class="spacing-token">--space-48</div>
+        </div>
+        <div class="spacing-row">
+          <div class="spacing-label">64px</div>
+          <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:64px;"></div></div>
+          <div class="spacing-token">--space-64</div>
+        </div>
+        <div class="spacing-row">
+          <div class="spacing-label">96px</div>
+          <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:96px;"></div></div>
+          <div class="spacing-token">--space-96</div>
+        </div>
+        <div class="spacing-row">
+          <div class="spacing-label">128px</div>
+          <div class="spacing-bar-wrap"><div class="spacing-bar" style="width:128px;"></div></div>
+          <div class="spacing-token">--space-128</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TRIANGLE MOTIF SYSTEM -->
+    <div class="subsection" id="s1-triangles">
+      <div class="subsection-title">Triangle Motif System</div>
+
+      <!-- Sizes reference -->
+      <div style="display:flex; align-items:flex-end; gap:var(--space-24); margin-bottom:var(--space-32); padding:var(--space-24); background:var(--grey-50); border:1px solid var(--grey-200); border-radius:var(--radius);">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+          <div class="tri tri-tl tri-teal" style="width:8px;height:8px;"></div>
+          <div class="t-caption" style="color:var(--grey-400);">8px Micro</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+          <div class="tri tri-tl tri-teal" style="width:16px;height:16px;"></div>
+          <div class="t-caption" style="color:var(--grey-400);">16px Small</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+          <div class="tri tri-tl tri-teal" style="width:32px;height:32px;"></div>
+          <div class="t-caption" style="color:var(--grey-400);">32px Medium</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+          <div class="tri tri-tl tri-teal" style="width:64px;height:64px;"></div>
+          <div class="t-caption" style="color:var(--grey-400);">64px Large</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+          <div class="tri tri-tl tri-navy" style="width:128px;height:128px;"></div>
+          <div class="t-caption" style="color:var(--grey-400);">128px Hero</div>
+        </div>
+      </div>
+
+      <div class="tri-demo-grid">
+
+        <!-- a) Hero formation -->
+        <div>
+          <div class="tri-demo-label">a) Hero Formation — multi-cell, teal + navy on navy</div>
+          <div class="formation-hero">
+            <div class="tri-f1"></div>
+            <div class="tri-f2"></div>
+            <div class="tri-f3"></div>
+            <div class="formation-hero-label">Hero Formation</div>
+          </div>
+        </div>
+
+        <!-- b) Section divider -->
+        <div>
+          <div class="tri-demo-label">b) Section Divider — diagonal page-width transition</div>
+          <div class="formation-divider">
+            <div class="div-top"></div>
+            <div class="div-bottom"></div>
+            <div class="div-tri"></div>
+            <div class="div-accent"></div>
+          </div>
+        </div>
+
+        <!-- c) Minimal formation -->
+        <div>
+          <div class="tri-demo-label">c) Minimal Formation — single triangle at grid intersection</div>
+          <div class="formation-minimal">
+            <div class="min-tri"></div>
+            <div class="min-label">Content area</div>
+          </div>
+        </div>
+
+        <!-- d) Pattern/texture -->
+        <div>
+          <div class="tri-demo-label">d) Pattern / Texture — repeating triangle grid for bg use</div>
+          <div class="formation-pattern">
+            <div class="tri-pattern"></div>
+            <div style="position:relative;z-index:1;padding:var(--space-24);color:rgba(255,255,255,0.5);font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;">Texture Formation</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Color combos -->
+      <div style="margin-top:var(--space-32);">
+        <div class="subsection-title" style="margin-bottom:var(--space-16);">Approved Color Combinations</div>
+        <div style="display:flex;gap:var(--space-16);flex-wrap:wrap;">
+          <div style="display:flex;align-items:center;gap:var(--space-12);padding:var(--space-16);background:var(--navy);border-radius:var(--radius);">
+            <div class="tri tri-tl tri-teal" style="width:32px;height:32px;"></div>
+            <div style="color:rgba(255,255,255,0.6);font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;">Teal on Navy</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:var(--space-12);padding:var(--space-16);background:var(--white);border:1px solid var(--grey-200);border-radius:var(--radius);">
+            <div class="tri tri-tl tri-navy" style="width:32px;height:32px;"></div>
+            <div style="color:var(--grey-700);font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;">Navy on White</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:var(--space-12);padding:var(--space-16);background:var(--deep-navy);border-radius:var(--radius);">
+            <div class="tri tri-tl tri-teal" style="width:32px;height:32px;"></div>
+            <div style="color:rgba(255,255,255,0.6);font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;">Teal on Deep Navy</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+  <!-- END SECTION 1 -->
+
+  <!-- ============================================================
+       SECTION 2 — BUTTONS
+       ============================================================ -->
+  <section class="section" id="s2">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <span class="section-title">Buttons</span>
+    </div>
+
+    <style>
+    /* ── Button Base ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: var(--font);
+      font-weight: 600;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-radius: var(--radius);
+      border: 1.5px solid transparent;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background var(--t-color), color var(--t-color), border-color var(--t-color), transform var(--t-transform);
+      white-space: nowrap;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn:active { transform: translateY(1px); }
+
+    /* Sizes */
+    .btn-lg { height: 48px; padding: 0 24px; font-size: 13px; }
+    .btn-md { height: 40px; padding: 0 20px; font-size: 12px; }
+    .btn-sm { height: 32px; padding: 0 16px; font-size: 11px; }
+
+    /* ── Primary ── */
+    .btn-primary {
+      background: var(--navy);
+      color: var(--white);
+      border-color: var(--navy);
+    }
+    .btn-primary:hover {
+      background: var(--teal);
+      color: var(--deep-navy);
+      border-color: var(--teal);
+    }
+    .btn-primary:active { background: var(--deep-navy); border-color: var(--deep-navy); }
+    .btn-primary:disabled,
+    .btn-primary.disabled {
+      background: var(--grey-200);
+      color: var(--grey-400);
+      border-color: var(--grey-200);
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    /* Primary on dark bg */
+    .btn-primary-dark {
+      background: var(--teal);
+      color: var(--deep-navy);
+      border-color: var(--teal);
+    }
+    .btn-primary-dark:hover {
+      background: var(--white);
+      color: var(--navy);
+      border-color: var(--white);
+    }
+
+    /* ── Secondary ── */
+    .btn-secondary {
+      background: transparent;
+      color: var(--navy);
+      border-color: var(--navy);
+    }
+    .btn-secondary:hover {
+      background: var(--navy);
+      color: var(--white);
+      border-color: var(--teal);
+    }
+    .btn-secondary:disabled,
+    .btn-secondary.disabled {
+      border-color: var(--grey-200);
+      color: var(--grey-400);
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    /* Secondary on dark bg */
+    .btn-secondary-dark {
+      background: transparent;
+      color: var(--white);
+      border-color: var(--white);
+    }
+    .btn-secondary-dark:hover {
+      color: var(--teal);
+      border-color: var(--teal);
+      background: transparent;
+    }
+
+    /* ── Tertiary ── */
+    .btn-tertiary {
+      background: transparent;
+      color: var(--teal);
+      border-color: transparent;
+      padding-left: 0;
+      padding-right: 0;
+      letter-spacing: 0.04em;
+      text-transform: none;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .btn-tertiary:hover {
+      text-decoration: underline;
+      opacity: 0.8;
+    }
+
+    /* Tertiary on dark */
+    .btn-tertiary-dark {
+      background: transparent;
+      color: var(--white);
+      border-color: transparent;
+      padding-left: 0;
+      padding-right: 0;
+      text-transform: none;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .btn-tertiary-dark:hover { color: var(--teal); }
+
+    /* ── Icon styles ── */
+    .btn-icon {
+      width: 16px; height: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* ── Button group layout ── */
+    .btn-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-12);
+      flex-wrap: wrap;
+      margin-bottom: var(--space-16);
+    }
+
+    .btn-state-label {
+      font-family: var(--font);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--grey-400);
+      min-width: 90px;
+    }
+
+    .btn-demo-panel {
+      padding: var(--space-32);
+      border-radius: var(--radius);
+      margin-bottom: var(--space-24);
+    }
+
+    .btn-demo-panel.on-white {
+      background: var(--white);
+      border: 1px solid var(--grey-200);
+    }
+    .btn-demo-panel.on-dark {
+      background: var(--navy);
+    }
+
+    .panel-context-label {
+      font-family: var(--font);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--grey-400);
+      margin-bottom: var(--space-24);
+    }
+    .on-dark .panel-context-label { color: rgba(255,255,255,0.3); }
+
+    /* Hover state preview note */
+    .hover-note {
+      font-family: var(--font);
+      font-size: 11px;
+      color: var(--grey-400);
+      margin-top: var(--space-8);
+      font-style: italic;
+    }
+    </style>
+
+    <!-- PRIMARY BUTTONS -->
+    <div class="subsection">
+      <div class="subsection-title">a) Primary — Filled</div>
+
+      <!-- On White -->
+      <div class="btn-demo-panel on-white">
+        <div class="panel-context-label">On White Background</div>
+
+        <div class="btn-row">
+          <div class="btn-state-label">Default</div>
+          <button class="btn btn-primary btn-lg">Large Button</button>
+          <button class="btn btn-primary btn-md">Medium Button</button>
+          <button class="btn btn-primary btn-sm">Small</button>
+        </div>
+
+        <div class="btn-row">
+          <div class="btn-state-label">Hover ↗</div>
+          <button class="btn btn-primary btn-lg" style="background:var(--teal);color:var(--deep-navy);border-color:var(--teal);">Large Button</button>
+          <button class="btn btn-primary btn-md" style="background:var(--teal);color:var(--deep-navy);border-color:var(--teal);">Medium</button>
+          <button class="btn btn-primary btn-sm" style="background:var(--teal);color:var(--deep-navy);border-color:var(--teal);">Small</button>
+        </div>
+
+        <div class="btn-row">
+          <div class="btn-state-label">With Icon →</div>
+          <button class="btn btn-primary btn-lg">
+            Get Started
+            <svg class="btn-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </button>
+          <button class="btn btn-primary btn-md">
+            <svg class="btn-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="4"/><path d="M11 11l2.5 2.5"/></svg>
+            Search
+          </button>
+        </div>
+
+        <div class="btn-row">
+          <div class="btn-state-label">Disabled</div>
+          <button class="btn btn-primary btn-lg disabled" disabled>Large Button</button>
+          <button class="btn btn-primary btn-md disabled" disabled>Medium</button>
+          <button class="btn btn-primary btn-sm disabled" disabled>Small</button>
+        </div>
+      </div>
+
+      <!-- On Dark -->
+      <div class="btn-demo-panel on-dark">
+        <div class="panel-context-label">On Dark (Navy) Background</div>
+
+        <div class="btn-row">
+          <div class="btn-state-label" style="color:rgba(255,255,255,0.3);">Default</div>
+          <button class="btn btn-primary-dark btn-lg">Large Button</button>
+          <button class="btn btn-primary-dark btn-md">Medium</button>
+          <button class="btn btn-primary-dark btn-sm">Small</button>
+        </div>
+
+        <div class="btn-row">
+          <div class="btn-state-label" style="color:rgba(255,255,255,0.3);">With Icon →</div>
+          <button class="btn btn-primary-dark btn-lg">
+            Get Started
+            <svg class="btn-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="component-meta">
+        <span class="meta-name">Primary Button</span>
+        <span class="meta-note">One primary action per view. Use navy default → teal hover.</span>
+        <span class="meta-token">--navy · --teal · --radius: 2px</span>
+      </div>
+    </div>
+
+    <!-- SECONDARY BUTTONS -->
+    <div class="subsection">
+      <div class="subsection-title">b) Secondary — Outline</div>
+
+      <div class="btn-demo-panel on-white">
+        <div class="panel-context-label">On White Background</div>
+
+        <div class="btn-row">
+          <div class="btn-state-label">Default</div>
+          <button class="btn btn-secondary btn-lg">Large Button</button>
+          <button class="btn btn-secondary btn-md">Medium</button>
+          <button class="btn btn-secondary btn-sm">Small</button>
+        </div>
+
+        <div class="btn-row">
+          <div class="btn-state-label">Hover ↗</div>
+          <button class="btn btn-secondary btn-lg" style="background:var(--navy);color:var(--white);border-color:var(--teal);">Large Button</button>
+          <button class="btn btn-secondary btn-md" style="background:var(--navy);color:var(--white);border-color:var(--teal);">Medium</button>
+        </div>
+
+        <div class="btn-row">
+          <div class="btn-state-label">With Icon</div>
+          <button class="btn btn-secondary btn-lg">
+            Learn More
+            <svg class="btn-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </button>
+        </div>
+
+        <div class="btn-row">
+          <div class="btn-state-label">Disabled</div>
+          <button class="btn btn-secondary btn-lg disabled" disabled>Disabled</button>
+          <button class="btn btn-secondary btn-md disabled" disabled>Disabled</button>
+        </div>
+      </div>
+
+      <div class="btn-demo-panel on-dark">
+        <div class="panel-context-label">On Dark (Navy) Background</div>
+
+        <div class="btn-row">
+          <div class="btn-state-label" style="color:rgba(255,255,255,0.3);">Default</div>
+          <button class="btn btn-secondary-dark btn-lg">Large Button</button>
+          <button class="btn btn-secondary-dark btn-md">Medium</button>
+          <button class="btn btn-secondary-dark btn-sm">Small</button>
+        </div>
+
+        <div class="btn-row">
+          <div class="btn-state-label" style="color:rgba(255,255,255,0.3);">Hover ↗</div>
+          <button class="btn btn-secondary-dark btn-lg" style="color:var(--teal);border-color:var(--teal);">Large Button</button>
+        </div>
+
+        <div class="btn-row">
+          <div class="btn-state-label" style="color:rgba(255,255,255,0.3);">With Icon</div>
+          <button class="btn btn-secondary-dark btn-lg">
+            View Work
+            <svg class="btn-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="component-meta">
+        <span class="meta-name">Secondary Button</span>
+        <span class="meta-note">Pairs with primary. Transparent fill, 1.5px border.</span>
+        <span class="meta-token">border: 1.5px · --navy · --teal on hover</span>
+      </div>
+    </div>
+
+    <!-- TERTIARY BUTTONS -->
+    <div class="subsection">
+      <div class="subsection-title">c) Tertiary — Text / Link</div>
+
+      <div class="btn-demo-panel on-white">
+        <div class="panel-context-label">On White Background</div>
+
+        <div class="btn-row">
+          <div class="btn-state-label">Default</div>
+          <button class="btn btn-tertiary btn-lg">Read Case Study</button>
+          <button class="btn btn-tertiary btn-md">Learn More</button>
+          <button class="btn btn-tertiary btn-sm">View All</button>
+        </div>
+
+        <div class="btn-row">
+          <div class="btn-state-label">With Arrow</div>
+          <button class="btn btn-tertiary btn-lg">
+            Read Case Study
+            <svg class="btn-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </button>
+        </div>
+
+        <div class="btn-row">
+          <div class="btn-state-label">Hover ↗</div>
+          <button class="btn btn-tertiary btn-lg" style="text-decoration:underline;opacity:0.8;">Read Case Study →</button>
+        </div>
+      </div>
+
+      <div class="btn-demo-panel on-dark">
+        <div class="panel-context-label">On Dark (Navy) Background</div>
+
+        <div class="btn-row">
+          <div class="btn-state-label" style="color:rgba(255,255,255,0.3);">Default</div>
+          <button class="btn btn-tertiary-dark btn-lg">Read Case Study</button>
+          <button class="btn btn-tertiary-dark btn-md">Learn More</button>
+        </div>
+
+        <div class="btn-row">
+          <div class="btn-state-label" style="color:rgba(255,255,255,0.3);">Hover → Teal</div>
+          <button class="btn btn-tertiary-dark btn-lg" style="color:var(--teal);">
+            Read Case Study
+            <svg class="btn-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="component-meta">
+        <span class="meta-name">Tertiary Button</span>
+        <span class="meta-note">Inline actions, list CTAs. No background or border. Teal label.</span>
+        <span class="meta-token">--teal · no border · no fill · 14px</span>
+      </div>
+    </div>
+  </section>
+  <!-- END SECTION 2 -->
+
+  <!-- ============================================================
+       SECTION 3 — FORM ELEMENTS
+       ============================================================ -->
+  <section class="section" id="s3">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <span class="section-title">Form Elements</span>
+    </div>
+
+    <style>
+    /* ── Form base ── */
+    .form-group {
+      margin-bottom: var(--space-24);
+    }
+
+    .form-label {
+      display: block;
+      font-family: var(--font);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--grey-700);
+      margin-bottom: var(--space-8);
+    }
+
+    .form-input {
+      display: block;
+      width: 100%;
+      max-width: 360px;
+      height: 40px;
+      padding: 0 var(--space-12);
+      font-family: var(--font);
+      font-size: var(--size-body);
+      font-weight: 400;
+      color: var(--deep-navy);
+      background: var(--white);
+      border: 1.5px solid var(--grey-200);
+      border-radius: var(--radius);
+      outline: none;
+      transition: border-color var(--t-color), box-shadow var(--t-color);
+      appearance: none;
+    }
+
+    .form-input::placeholder { color: var(--grey-400); }
+
+    .form-input:focus {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px rgba(0,200,183,0.12);
+    }
+
+    .form-input.error {
+      border-color: var(--orange);
+      box-shadow: 0 0 0 3px rgba(239,106,0,0.1);
+    }
+
+    .form-input.filled {
+      border-color: var(--grey-400);
+      background: var(--grey-50);
+    }
+
+    .form-input:disabled {
+      background: var(--grey-100);
+      color: var(--grey-400);
+      border-color: var(--grey-200);
+      cursor: not-allowed;
+    }
+
+    .form-textarea {
+      display: block;
+      width: 100%;
+      max-width: 360px;
+      padding: var(--space-12);
+      font-family: var(--font);
+      font-size: var(--size-body);
+      color: var(--deep-navy);
+      background: var(--white);
+      border: 1.5px solid var(--grey-200);
+      border-radius: var(--radius);
+      outline: none;
+      resize: vertical;
+      min-height: 96px;
+      transition: border-color var(--t-color), box-shadow var(--t-color);
+    }
+    .form-textarea::placeholder { color: var(--grey-400); }
+    .form-textarea:focus {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px rgba(0,200,183,0.12);
+    }
+
+    /* Select */
+    .form-select {
+      display: block;
+      width: 100%;
+      max-width: 360px;
+      height: 40px;
+      padding: 0 var(--space-32) 0 var(--space-12);
+      font-family: var(--font);
+      font-size: var(--size-body);
+      color: var(--deep-navy);
+      background: var(--white);
+      border: 1.5px solid var(--grey-200);
+      border-radius: var(--radius);
+      outline: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239AA5B1' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      cursor: pointer;
+      transition: border-color var(--t-color);
+    }
+    .form-select:focus {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px rgba(0,200,183,0.12);
+    }
+
+    /* Error + helper */
+    .form-error {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: var(--space-4);
+      font-family: var(--font);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--orange);
+    }
+
+    .form-helper {
+      margin-top: var(--space-4);
+      font-family: var(--font);
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--grey-400);
+    }
+
+    /* Search input */
+    .form-search-wrap {
+      position: relative;
+      max-width: 360px;
+    }
+    .form-search-wrap .search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--grey-400);
+      pointer-events: none;
+    }
+    .form-search-wrap .form-input {
+      padding-left: 38px;
+      max-width: 100%;
+    }
+
+    /* Checkbox / Radio */
+    .check-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-12);
+    }
+
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-12);
+      cursor: pointer;
+    }
+
+    .check-box {
+      width: 18px;
+      height: 18px;
+      border: 1.5px solid var(--grey-400);
+      border-radius: var(--radius);
+      background: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all var(--t-color);
+    }
+
+    .check-box.checked {
+      background: var(--teal);
+      border-color: var(--teal);
+    }
+
+    .check-box.indeterminate {
+      background: var(--white);
+      border-color: var(--teal);
+    }
+
+    .check-box.disabled {
+      background: var(--grey-100);
+      border-color: var(--grey-200);
+      cursor: not-allowed;
+    }
+
+    .check-label {
+      font-family: var(--font);
+      font-size: 14px;
+      color: var(--deep-navy);
+    }
+
+    .check-label.disabled { color: var(--grey-400); }
+
+    /* Radio */
+    .radio-box {
+      width: 18px;
+      height: 18px;
+      border: 1.5px solid var(--grey-400);
+      border-radius: 50%;
+      background: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all var(--t-color);
+    }
+
+    .radio-box.checked {
+      border-color: var(--teal);
+    }
+
+    .radio-box.checked::after {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--teal);
+    }
+
+    .radio-box.disabled {
+      background: var(--grey-100);
+      border-color: var(--grey-200);
+    }
+
+    /* Toggle */
+    .toggle-wrap {
+      display: flex;
+      align-items: center;
+      gap: var(--space-12);
+    }
+
+    .toggle {
+      position: relative;
+      width: 40px;
+      height: 22px;
+      flex-shrink: 0;
+    }
+
+    .toggle input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+      position: absolute;
+    }
+
+    .toggle-track {
+      position: absolute;
+      inset: 0;
+      background: var(--grey-200);
+      border-radius: 11px;
+      transition: background var(--t-color);
+      cursor: pointer;
+    }
+
+    .toggle-track::after {
+      content: '';
+      position: absolute;
+      left: 3px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      background: var(--white);
+      border-radius: 50%;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+      transition: transform var(--t-transform);
+    }
+
+    .toggle input:checked + .toggle-track {
+      background: var(--teal);
+    }
+
+    .toggle input:checked + .toggle-track::after {
+      transform: translateY(-50%) translateX(18px);
+    }
+
+    .toggle-label {
+      font-family: var(--font);
+      font-size: 14px;
+      color: var(--deep-navy);
+    }
+
+    /* Form grid */
+    .form-states-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: var(--space-24);
+    }
+
+    .form-state-card {
+      padding: var(--space-20, 20px);
+    }
+
+    .form-state-tag {
+      font-family: var(--font);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--grey-400);
+      margin-bottom: var(--space-12);
+    }
+    </style>
+
+    <!-- TEXT INPUTS -->
+    <div class="subsection">
+      <div class="subsection-title">Text Input — All States</div>
+      <div class="form-states-grid">
+
+        <div>
+          <div class="form-state-tag">Default</div>
+          <div class="form-group">
+            <label class="form-label">Company Name</label>
+            <input type="text" class="form-input" placeholder="Enter company name">
+          </div>
+        </div>
+
+        <div>
+          <div class="form-state-tag">Focus (click to see)</div>
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" class="form-input" style="border-color:var(--teal);box-shadow:0 0 0 3px rgba(0,200,183,0.12);" placeholder="you@company.com">
+          </div>
+        </div>
+
+        <div>
+          <div class="form-state-tag">Filled</div>
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input type="text" class="form-input filled" value="Alexandra Chen">
+            <div class="form-helper">As it appears on official documents</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="form-state-tag">Error</div>
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" class="form-input error" value="not-an-email">
+            <div class="form-error">⚠ Enter a valid email address</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="form-state-tag">Disabled</div>
+          <div class="form-group">
+            <label class="form-label">Account ID</label>
+            <input type="text" class="form-input" disabled value="LP-00482">
+            <div class="form-helper">Auto-assigned · cannot be changed</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TEXTAREA -->
+    <div class="subsection">
+      <div class="subsection-title">Textarea</div>
+      <div class="form-group">
+        <label class="form-label">Project Description</label>
+        <textarea class="form-textarea" placeholder="Describe your project goals and constraints…"></textarea>
+        <div class="form-helper">Max 500 characters</div>
+      </div>
+    </div>
+
+    <!-- SELECT -->
+    <div class="subsection">
+      <div class="subsection-title">Select / Dropdown</div>
+      <div class="form-group">
+        <label class="form-label">Service Area</label>
+        <select class="form-select">
+          <option value="">Select a service…</option>
+          <option>Strategic Advisory</option>
+          <option>Systems Design</option>
+          <option>Data Intelligence</option>
+          <option>Organisational Clarity</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- SEARCH -->
+    <div class="subsection">
+      <div class="subsection-title">Search Input</div>
+      <div class="form-group">
+        <label class="form-label">Search</label>
+        <div class="form-search-wrap">
+          <svg class="search-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="7" cy="7" r="4.5"/><path d="M11 11l2.5 2.5"/></svg>
+          <input type="search" class="form-input" placeholder="Search case studies…">
+        </div>
+      </div>
+    </div>
+
+    <!-- CHECKBOXES -->
+    <div class="subsection">
+      <div class="subsection-title">Checkbox</div>
+      <div class="check-group">
+        <label class="check-item">
+          <div class="check-box"></div>
+          <span class="check-label">Unchecked</span>
+        </label>
+        <label class="check-item">
+          <div class="check-box checked">
+            <svg width="10" height="8" viewBox="0 0 10 8" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4l3 3 5-6"/></svg>
+          </div>
+          <span class="check-label">Checked — teal fill, white tick</span>
+        </label>
+        <label class="check-item">
+          <div class="check-box indeterminate" style="border-color:var(--teal);">
+            <div style="width:8px;height:2px;background:var(--teal);border-radius:1px;"></div>
+          </div>
+          <span class="check-label">Indeterminate</span>
+        </label>
+        <label class="check-item">
+          <div class="check-box disabled"></div>
+          <span class="check-label disabled">Disabled</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- RADIO -->
+    <div class="subsection">
+      <div class="subsection-title">Radio Button</div>
+      <div class="check-group">
+        <label class="check-item">
+          <div class="radio-box"></div>
+          <span class="check-label">Option A — Unchecked</span>
+        </label>
+        <label class="check-item">
+          <div class="radio-box checked"></div>
+          <span class="check-label">Option B — Selected</span>
+        </label>
+        <label class="check-item">
+          <div class="radio-box disabled"></div>
+          <span class="check-label disabled">Option C — Disabled</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- TOGGLE -->
+    <div class="subsection">
+      <div class="subsection-title">Toggle Switch</div>
+      <div style="display:flex;flex-direction:column;gap:var(--space-16);">
+        <div class="toggle-wrap">
+          <label class="toggle">
+            <input type="checkbox">
+            <div class="toggle-track"></div>
+          </label>
+          <span class="toggle-label">Off — grey track</span>
+        </div>
+        <div class="toggle-wrap">
+          <label class="toggle">
+            <input type="checkbox" checked>
+            <div class="toggle-track"></div>
+          </label>
+          <span class="toggle-label">On — teal track</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="component-meta">
+      <span class="meta-name">Form Elements</span>
+      <span class="meta-note">Labels use Overline style. Error uses Body Small + --orange. Helper uses Caption + --grey-400.</span>
+      <span class="meta-token">focus: --teal border · error: --orange border · --radius: 2px</span>
+    </div>
+  </section>
+  <!-- END SECTION 3 -->
+
+  <!-- ============================================================
+       SECTION 4 — NAVIGATION
+       ============================================================ -->
+  <section class="section" id="s4">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <span class="section-title">Navigation</span>
+    </div>
+
+    <style>
+    /* ── Top Nav ── */
+    .topnav {
+      display: flex;
+      align-items: center;
+      height: 64px;
+      padding: 0 var(--space-32);
+      gap: var(--space-32);
+      border-radius: var(--radius);
+    }
+
+    .topnav.nav-light {
+      background: var(--white);
+      border: 1px solid var(--grey-200);
+    }
+
+    .topnav.nav-dark {
+      background: var(--navy);
+    }
+
+    .nav-logo {
+      font-family: var(--font);
+      font-weight: 900;
+      font-size: 14px;
+      letter-spacing: 0.01em;
+      text-transform: lowercase;
+      white-space: nowrap;
+      flex-shrink: 0;
+      text-decoration: none;
+    }
+
+    .nav-logo.light { color: var(--deep-navy); }
+    .nav-logo.dark  { color: var(--white); }
+
+    .nav-logo .tri-i {
+      display: inline-block;
+      width: 0; height: 0;
+      border-left: 4px solid var(--teal);
+      border-bottom: 4px solid transparent;
+      margin: 0 1px;
+      vertical-align: middle;
+      position: relative;
+      top: -1px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: var(--space-32);
+      flex: 1;
+      justify-content: center;
+      list-style: none;
+    }
+
+    .nav-link {
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      letter-spacing: 0.02em;
+      position: relative;
+      padding-bottom: 2px;
+      transition: color var(--t-color);
+    }
+
+    .nav-link.light { color: var(--grey-700); }
+    .nav-link.dark  { color: rgba(255,255,255,0.7); }
+
+    .nav-link.light:hover { color: var(--deep-navy); }
+    .nav-link.dark:hover  { color: var(--white); }
+
+    /* Active state — teal underline */
+    .nav-link.active-light {
+      color: var(--deep-navy);
+    }
+    .nav-link.active-light::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0; right: 0;
+      height: 2px;
+      background: var(--teal);
+      border-radius: 1px;
+    }
+
+    .nav-link.active-dark {
+      color: var(--white);
+    }
+    .nav-link.active-dark::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0; right: 0;
+      height: 2px;
+      background: var(--teal);
+      border-radius: 1px;
+    }
+
+    /* Active dot variant */
+    .nav-link.active-dot::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: -10px;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 4px;
+      background: var(--teal);
+      border-radius: 50%;
+    }
+
+    .nav-cta { flex-shrink: 0; }
+
+    /* Mobile nav */
+    .mobile-nav-demo {
+      border-radius: var(--radius);
+      overflow: hidden;
+      max-width: 375px;
+    }
+
+    .mobile-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+      padding: 0 var(--space-16);
+      background: var(--white);
+      border-bottom: 1px solid var(--grey-200);
+    }
+
+    .hamburger {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      width: 24px;
+      cursor: pointer;
+    }
+
+    .hamburger span {
+      display: block;
+      height: 1.5px;
+      background: var(--deep-navy);
+      border-radius: 1px;
+      transition: all var(--t-transform);
+    }
+
+    .hamburger.open span:nth-child(1) {
+      transform: rotate(45deg) translate(4px, 4px);
+    }
+    .hamburger.open span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.open span:nth-child(3) {
+      transform: rotate(-45deg) translate(4px, -4px);
+    }
+
+    .mobile-drawer {
+      background: var(--white);
+      border: 1px solid var(--grey-200);
+      border-top: none;
+    }
+
+    .mobile-nav-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-16);
+      border-bottom: 1px solid var(--grey-100);
+      font-family: var(--font);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--deep-navy);
+      text-decoration: none;
+    }
+
+    .mobile-nav-link.active {
+      color: var(--teal);
+    }
+
+    .mobile-nav-link svg { color: var(--grey-400); }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: var(--space-8);
+      flex-wrap: wrap;
+    }
+
+    .breadcrumb-item {
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--grey-400);
+      text-decoration: none;
+      transition: color var(--t-color);
+    }
+
+    .breadcrumb-item:hover { color: var(--deep-navy); }
+
+    .breadcrumb-item.current {
+      color: var(--deep-navy);
+    }
+
+    .breadcrumb-sep {
+      color: var(--grey-200);
+      font-size: 12px;
+      user-select: none;
+    }
+
+    /* Pagination */
+    .pagination {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+    }
+
+    .page-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 36px;
+      height: 36px;
+      padding: 0 var(--space-8);
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--grey-700);
+      background: var(--white);
+      border: 1.5px solid var(--grey-200);
+      border-radius: var(--radius);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all var(--t-color);
+    }
+
+    .page-btn:hover {
+      border-color: var(--navy);
+      color: var(--navy);
+    }
+
+    .page-btn.active {
+      background: var(--navy);
+      border-color: var(--navy);
+      color: var(--white);
+    }
+
+    .page-btn.nav-arrow {
+      color: var(--grey-400);
+    }
+
+    .page-btn.nav-arrow:hover {
+      color: var(--navy);
+      border-color: var(--navy);
+    }
+
+    .page-dots {
+      font-family: var(--font);
+      font-size: 13px;
+      color: var(--grey-400);
+      padding: 0 var(--space-4);
+      user-select: none;
+    }
+    </style>
+
+    <!-- TOP NAV LIGHT -->
+    <div class="subsection">
+      <div class="subsection-title">Top Navigation — Light</div>
+      <nav class="topnav nav-light">
+        <a class="nav-logo light" href="#">
+          log<span class="tri-i"></span>c&nbsp;pursu<span class="tri-i"></span>ts
+        </a>
+        <ul class="nav-links">
+          <li><a href="#" class="nav-link light active-light">Services</a></li>
+          <li><a href="#" class="nav-link light">Work</a></li>
+          <li><a href="#" class="nav-link light">Insights</a></li>
+          <li><a href="#" class="nav-link light">About</a></li>
+        </ul>
+        <div class="nav-cta">
+          <button class="btn btn-primary btn-md">Get in Touch</button>
+        </div>
+      </nav>
+      <div class="component-meta">
+        <span class="meta-name">Nav Light</span>
+        <span class="meta-note">White bg. Active link: teal 2px underline. CTA: primary button.</span>
+        <span class="meta-token">--white bg · --teal active indicator · 64px height</span>
+      </div>
+    </div>
+
+    <!-- TOP NAV DARK -->
+    <div class="subsection">
+      <div class="subsection-title">Top Navigation — Dark (Navy)</div>
+      <nav class="topnav nav-dark">
+        <a class="nav-logo dark" href="#">
+          log<span class="tri-i"></span>c&nbsp;pursu<span class="tri-i"></span>ts
+        </a>
+        <ul class="nav-links">
+          <li><a href="#" class="nav-link dark active-dark">Services</a></li>
+          <li><a href="#" class="nav-link dark">Work</a></li>
+          <li><a href="#" class="nav-link dark">Insights</a></li>
+          <li><a href="#" class="nav-link dark">About</a></li>
+        </ul>
+        <div class="nav-cta">
+          <button class="btn btn-primary-dark btn-md">Get in Touch</button>
+        </div>
+      </nav>
+      <div class="component-meta">
+        <span class="meta-name">Nav Dark</span>
+        <span class="meta-note">Navy bg variant. Links white at 70% opacity. Active: full white + teal underline.</span>
+        <span class="meta-token">--navy bg · --teal active indicator</span>
+      </div>
+    </div>
+
+    <!-- MOBILE NAV -->
+    <div class="subsection">
+      <div class="subsection-title">Mobile Hamburger State</div>
+      <div class="mobile-nav-demo">
+        <div class="mobile-topbar">
+          <a class="nav-logo light" href="#" style="font-size:13px;">
+            log<span class="tri-i"></span>c&nbsp;pursu<span class="tri-i"></span>ts
+          </a>
+          <div class="hamburger open" id="hamburger" onclick="toggleMenu(this)">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+        <div class="mobile-drawer">
+          <a href="#" class="mobile-nav-link active">
+            Services
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+          <a href="#" class="mobile-nav-link">
+            Work
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+          <a href="#" class="mobile-nav-link">
+            Insights
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+          <a href="#" class="mobile-nav-link">
+            About
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+          <div style="padding:var(--space-16);">
+            <button class="btn btn-primary btn-lg" style="width:100%;">Get in Touch</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BREADCRUMB -->
+    <div class="subsection">
+      <div class="subsection-title">Breadcrumb</div>
+      <nav class="breadcrumb">
+        <a href="#" class="breadcrumb-item">Home</a>
+        <span class="breadcrumb-sep">›</span>
+        <a href="#" class="breadcrumb-item">Services</a>
+        <span class="breadcrumb-sep">›</span>
+        <a href="#" class="breadcrumb-item">Strategic Advisory</a>
+        <span class="breadcrumb-sep">›</span>
+        <span class="breadcrumb-item current">Organisational Clarity</span>
+      </nav>
+      <div class="component-meta">
+        <span class="meta-name">Breadcrumb</span>
+        <span class="meta-note">Gilroy SemiBold 13px. Past items grey-400, current item deep-navy.</span>
+      </div>
+    </div>
+
+    <!-- PAGINATION -->
+    <div class="subsection">
+      <div class="subsection-title">Pagination</div>
+      <nav class="pagination">
+        <a href="#" class="page-btn nav-arrow">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 4L6 8l4 4"/></svg>
+        </a>
+        <a href="#" class="page-btn">1</a>
+        <a href="#" class="page-btn">2</a>
+        <a href="#" class="page-btn active">3</a>
+        <a href="#" class="page-btn">4</a>
+        <span class="page-dots">…</span>
+        <a href="#" class="page-btn">12</a>
+        <a href="#" class="page-btn nav-arrow">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4l4 4-4 4"/></svg>
+        </a>
+      </nav>
+      <div class="component-meta">
+        <span class="meta-name">Pagination</span>
+        <span class="meta-note">Active page: navy fill, white label. Hover: navy border. 36px height, 2px radius.</span>
+      </div>
+    </div>
+  </section>
+  <!-- END SECTION 4 -->
+
+  <!-- ============================================================
+       SECTION 5 — CARDS
+       ============================================================ -->
+  <section class="section" id="s5">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <span class="section-title">Cards</span>
+    </div>
+
+    <style>
+    /* ── Card Base ── */
+    .card {
+      border-radius: var(--radius);
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* ── Feature Card ── */
+    .feature-card {
+      background: var(--white);
+      border: 1px solid var(--grey-200);
+      padding: var(--space-32);
+      position: relative;
+      overflow: hidden;
+      transition: box-shadow var(--t-color), transform var(--t-transform);
+    }
+
+    .feature-card:hover {
+      box-shadow: 0 8px 32px rgba(0,43,60,0.10);
+      transform: translateY(-2px);
+    }
+
+    .feature-card .card-tri {
+      position: absolute;
+      top: 0; right: 0;
+      width: var(--tri-medium);
+      height: var(--tri-medium);
+      background: var(--teal);
+      clip-path: polygon(100% 0, 100% 100%, 0 0);
+    }
+
+    .feature-card .card-overline {
+      font-family: var(--font);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--grey-400);
+      margin-bottom: var(--space-12);
+    }
+
+    .feature-card .card-title {
+      font-family: var(--font);
+      font-size: var(--size-h4);
+      font-weight: 600;
+      color: var(--deep-navy);
+      margin-bottom: var(--space-12);
+      line-height: 1.3;
+    }
+
+    .feature-card .card-body {
+      font-family: var(--font);
+      font-size: var(--size-body-sm);
+      color: var(--grey-700);
+      line-height: 1.6;
+      margin-bottom: var(--space-24);
+    }
+
+    /* ── Stat Card ── */
+    .stat-card {
+      background: var(--white);
+      border: 1px solid var(--grey-200);
+      padding: var(--space-32);
+      text-align: center;
+    }
+
+    .stat-card .stat-num {
+      font-family: var(--font);
+      font-size: 56px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      color: var(--teal);
+      margin-bottom: var(--space-8);
+    }
+
+    .stat-card .stat-num.navy { color: var(--navy); }
+
+    .stat-card .stat-label {
+      font-family: var(--font);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--grey-400);
+      margin-bottom: var(--space-8);
+    }
+
+    .stat-card .stat-body {
+      font-family: var(--font);
+      font-size: var(--size-body-sm);
+      color: var(--grey-700);
+      line-height: 1.5;
+    }
+
+    /* ── Case Study Card ── */
+    .case-card {
+      background: var(--white);
+      border: 1px solid var(--grey-200);
+      overflow: hidden;
+    }
+
+    .case-card .case-img {
+      height: 180px;
+      background: var(--gradient-hero);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .case-card .case-img-tri {
+      position: absolute;
+      bottom: 0; right: 0;
+      width: 64px; height: 64px;
+      background: rgba(0,0,0,0.2);
+      clip-path: polygon(100% 0, 100% 100%, 0 100%);
+    }
+
+    .case-card .case-img-label {
+      position: absolute;
+      top: var(--space-16);
+      left: var(--space-16);
+      font-family: var(--font);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      background: rgba(0,0,0,0.2);
+      padding: 4px 8px;
+      border-radius: var(--radius);
+    }
+
+    .case-card .case-body {
+      background: var(--navy);
+      padding: var(--space-24) var(--space-24) var(--space-32);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .case-card .case-body-tri {
+      position: absolute;
+      top: 0; right: 0;
+      width: var(--tri-medium);
+      height: var(--tri-medium);
+      background: var(--teal);
+      clip-path: polygon(100% 0, 100% 100%, 0 0);
+      opacity: 0.5;
+    }
+
+    .case-card .case-overline {
+      font-family: var(--font);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: var(--space-8);
+    }
+
+    .case-card .case-title {
+      font-family: var(--font);
+      font-size: var(--size-h4);
+      font-weight: 600;
+      color: var(--white);
+      line-height: 1.3;
+      margin-bottom: var(--space-16);
+    }
+
+    .case-card .case-cta {
+      display: flex;
+      align-items: center;
+      gap: var(--space-8);
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--white);
+      text-decoration: none;
+      transition: color var(--t-color);
+    }
+    .case-card .case-cta:hover { color: var(--teal); }
+
+    /* ── Dark Card ── */
+    .dark-card {
+      background: var(--navy);
+      padding: var(--space-32);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dark-card .dark-card-tri {
+      position: absolute;
+      top: 0; right: 0;
+      width: var(--tri-large);
+      height: var(--tri-large);
+      background: var(--teal);
+      clip-path: polygon(100% 0, 100% 100%, 0 0);
+      opacity: 0.15;
+    }
+
+    .dark-card .dark-card-overline {
+      font-family: var(--font);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: var(--space-12);
+    }
+
+    .dark-card .dark-card-title {
+      font-family: var(--font);
+      font-size: var(--size-h3);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.25;
+      margin-bottom: var(--space-16);
+    }
+
+    .dark-card .dark-card-body {
+      font-family: var(--font);
+      font-size: var(--size-body);
+      color: var(--sand);
+      line-height: 1.6;
+      margin-bottom: var(--space-24);
+    }
+
+    /* ── Horizontal Card ── */
+    .horiz-card {
+      background: var(--white);
+      border: 1px solid var(--grey-200);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+      min-height: 200px;
+    }
+
+    .horiz-card .horiz-img {
+      background: var(--gradient-hero);
+      position: relative;
+      overflow: hidden;
+      min-height: 200px;
+    }
+
+    .horiz-card .horiz-img-tri {
+      position: absolute;
+      top: 0; right: 0;
+      width: 80px; height: 80px;
+      background: rgba(0,200,183,0.2);
+      clip-path: polygon(100% 0, 100% 100%, 0 0);
+    }
+
+    .horiz-card .horiz-content {
+      padding: var(--space-32);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: var(--space-12);
+    }
+
+    .horiz-card .horiz-overline {
+      font-family: var(--font);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--grey-400);
+    }
+
+    .horiz-card .horiz-title {
+      font-family: var(--font);
+      font-size: var(--size-h4);
+      font-weight: 600;
+      color: var(--deep-navy);
+      line-height: 1.3;
+    }
+
+    .horiz-card .horiz-body {
+      font-family: var(--font);
+      font-size: var(--size-body-sm);
+      color: var(--grey-700);
+      line-height: 1.6;
+    }
+
+    /* Card grids */
+    .card-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-24);
+    }
+
+    .card-grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-16);
+    }
+    </style>
+
+    <!-- FEATURE CARD -->
+    <div class="subsection">
+      <div class="subsection-title">Feature Card</div>
+      <div class="card-grid-3">
+        <div class="feature-card">
+          <div class="card-tri"></div>
+          <div class="card-overline">Strategic Advisory</div>
+          <div class="card-title">Organisational Clarity at Scale</div>
+          <div class="card-body">We help leadership teams navigate structural complexity with precision frameworks and measurable outcomes.</div>
+          <a href="#" class="btn btn-tertiary btn-md">
+            Read More
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+        </div>
+        <div class="feature-card">
+          <div class="card-tri"></div>
+          <div class="card-overline">Systems Design</div>
+          <div class="card-title">Data Infrastructure for Decision-Making</div>
+          <div class="card-body">Structured pipelines and intelligent dashboards that surface the signal from the noise.</div>
+          <a href="#" class="btn btn-tertiary btn-md">
+            Read More
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+        </div>
+        <div class="feature-card">
+          <div class="card-tri"></div>
+          <div class="card-overline">Research & Insights</div>
+          <div class="card-title">Evidence-Based Market Intelligence</div>
+          <div class="card-body">Rigorous research methods that turn qualitative observation into quantitative strategy.</div>
+          <a href="#" class="btn btn-tertiary btn-md">
+            Read More
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="component-meta">
+        <span class="meta-name">Feature Card</span>
+        <span class="meta-note">White bg, grey-200 border. Teal 32px corner triangle top-right. H4 title, body text, tertiary CTA.</span>
+        <span class="meta-token">--tri-medium (32px) · --teal · hover: lift + shadow</span>
+      </div>
+    </div>
+
+    <!-- STAT CARD -->
+    <div class="subsection">
+      <div class="subsection-title">Stat / Metric Card</div>
+      <div class="card-grid-4">
+        <div class="stat-card">
+          <div class="stat-num">94%</div>
+          <div class="stat-label">Client Retention</div>
+          <div class="stat-body">Across all service categories since 2019</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num navy">48</div>
+          <div class="stat-label">Engagements</div>
+          <div class="stat-body">Completed in the last 24 months</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">3.2×</div>
+          <div class="stat-label">Avg ROI</div>
+          <div class="stat-body">Measured across strategic advisory projects</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num navy">12</div>
+          <div class="stat-label">Industries</div>
+          <div class="stat-body">Spanning public and private sectors globally</div>
+        </div>
+      </div>
+      <div class="component-meta">
+        <span class="meta-name">Stat Card</span>
+        <span class="meta-note">Heavy numerals in --teal or --navy. Overline label. Body Small supporting text.</span>
+        <span class="meta-token">56px Gilroy Heavy · --teal or --navy numeral</span>
+      </div>
+    </div>
+
+    <!-- CASE STUDY CARD -->
+    <div class="subsection">
+      <div class="subsection-title">Case Study Card</div>
+      <div class="card-grid-3">
+        <div class="case-card">
+          <div class="case-img">
+            <div class="case-img-label">Finance</div>
+            <div class="case-img-tri"></div>
+          </div>
+          <div class="case-body">
+            <div class="case-body-tri"></div>
+            <div class="case-overline">Case Study · 2024</div>
+            <div class="case-title">Restructuring a $2B Asset Portfolio for Clarity</div>
+            <a href="#" class="case-cta">
+              Read Case Study
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            </a>
+          </div>
+        </div>
+        <div class="case-card">
+          <div class="case-img" style="background: linear-gradient(135deg, #002B3C, #003B5E);">
+            <div class="case-img-label">Technology</div>
+            <div class="case-img-tri"></div>
+          </div>
+          <div class="case-body">
+            <div class="case-body-tri"></div>
+            <div class="case-overline">Case Study · 2024</div>
+            <div class="case-title">Scaling an Engineering Org from 40 to 200</div>
+            <a href="#" class="case-cta">
+              Read Case Study
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            </a>
+          </div>
+        </div>
+        <div class="case-card">
+          <div class="case-img" style="background: linear-gradient(135deg, #003B5E, #00C8B7 180%);">
+            <div class="case-img-label">Government</div>
+            <div class="case-img-tri"></div>
+          </div>
+          <div class="case-body">
+            <div class="case-body-tri"></div>
+            <div class="case-overline">Case Study · 2023</div>
+            <div class="case-title">Policy Framework for Digital Infrastructure</div>
+            <a href="#" class="case-cta">
+              Read Case Study
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DARK CARD -->
+    <div class="subsection">
+      <div class="subsection-title">Dark Card — Featured Content</div>
+      <div style="max-width: 480px;">
+        <div class="dark-card">
+          <div class="dark-card-tri"></div>
+          <div class="dark-card-overline">Featured Insight</div>
+          <div class="dark-card-title">The Logic of Uncertainty: Decision Frameworks for 2025</div>
+          <div class="dark-card-body">How leading organisations are encoding resilience into their strategic planning cycles — and what it means for how decisions get made at scale.</div>
+          <button class="btn btn-primary-dark btn-md">
+            Read the Report
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="component-meta">
+        <span class="meta-name">Dark Card</span>
+        <span class="meta-note">Navy bg, teal accents. Sand for body text on dark. Large triangle corner at 15% opacity.</span>
+        <span class="meta-token">--navy bg · --teal overline · --sand body · --tri-large</span>
+      </div>
+    </div>
+
+    <!-- HORIZONTAL CARD -->
+    <div class="subsection">
+      <div class="subsection-title">Horizontal Card — 50/50 Split</div>
+      <div class="horiz-card">
+        <div class="horiz-img">
+          <div class="horiz-img-tri"></div>
+        </div>
+        <div class="horiz-content">
+          <div class="horiz-overline">Services</div>
+          <div class="horiz-title">Strategic Advisory for Complex Organisations</div>
+          <div class="horiz-body">We embed with leadership teams to build the frameworks, processes, and clarity that unlock forward movement.</div>
+          <div>
+            <a href="#" class="btn btn-tertiary btn-md">
+              Learn More
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="component-meta">
+        <span class="meta-name">Horizontal Card</span>
+        <span class="meta-note">Image left (gradient placeholder), content right, 50/50 grid split.</span>
+        <span class="meta-token">grid-template-columns: 1fr 1fr</span>
+      </div>
+    </div>
+  </section>
+  <!-- END SECTION 5 -->
+
+  <!-- SECTIONS 6–10 placeholder -->
+  <div id="sections-placeholder-3" style="padding:var(--space-96) var(--space-64); color:var(--grey-400); font-family:var(--font); font-size:14px;">
+    ⟳ Sections 06–10 loading…
+  </div>
+
+</main>
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+<script>
+// Active nav link on scroll
+const sections = document.querySelectorAll('.section');
+const navLinks = document.querySelectorAll('#sidebar-nav a');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      navLinks.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+      });
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+
+sections.forEach(s => observer.observe(s));
+
+// Theme toggle — preview components on navy background
+function toggleTheme() {
+  const html = document.documentElement;
+  const current = html.getAttribute('data-theme');
+  const next = current === 'light' ? 'dark' : 'light';
+  html.setAttribute('data-theme', next);
+  document.getElementById('theme-btn').textContent =
+    next === 'dark' ? '◑ Back to Light' : '◑ Toggle Dark Preview';
+}
+
+// Dark theme overrides — invert page bg for component preview
+const themeStyle = document.createElement('style');
+themeStyle.textContent = `
+  [data-theme="dark"] body { background: var(--deep-navy); }
+  [data-theme="dark"] .section { border-bottom-color: rgba(255,255,255,0.08); }
+  [data-theme="dark"] .section-title { color: var(--grey-400); }
+  [data-theme="dark"] .subsection-title { color: rgba(255,255,255,0.3); }
+  [data-theme="dark"] .subsection-title::after { background: rgba(255,255,255,0.08); }
+  [data-theme="dark"] .swatch-info { background: var(--grey-700); }
+  [data-theme="dark"] .swatch-name { color: var(--white); }
+  [data-theme="dark"] .swatch-hex { color: var(--grey-200); }
+  [data-theme="dark"] .swatch { border-color: rgba(255,255,255,0.1); }
+  [data-theme="dark"] .type-meta { border-right-color: rgba(255,255,255,0.08); }
+  [data-theme="dark"] .type-row { border-bottom-color: rgba(255,255,255,0.06); }
+  [data-theme="dark"] .type-row:first-child { border-top-color: rgba(255,255,255,0.06); }
+  [data-theme="dark"] .type-style-name { color: var(--grey-200); }
+  [data-theme="dark"] .type-spec { color: var(--grey-400); }
+  [data-theme="dark"] .type-preview { background: var(--deep-navy); }
+  [data-theme="dark"] .spacing-bar-wrap { background: rgba(255,255,255,0.08); }
+  [data-theme="dark"] .spacing-label { color: var(--grey-400); }
+  [data-theme="dark"] .component-meta { border-top-color: rgba(255,255,255,0.08); }
+  [data-theme="dark"] .meta-name { color: var(--grey-200); }
+  [data-theme="dark"] .context-panel.light { background: var(--grey-700); border-color: rgba(255,255,255,0.1); }
+`;
+document.head.appendChild(themeStyle);
+</script>
+
+</body>
+</html>

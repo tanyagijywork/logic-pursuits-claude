@@ -1,0 +1,1796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logic Pursuits — Accelerate decisions. Multiply outcomes.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       DESIGN TOKENS
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    :root {
+      --teal:      #00C8B7;
+      --navy:      #003B5E;
+      --orange:    #EF6A00;
+      --sand:      #E9CEB2;
+      --deep-navy: #002B3C;
+      --white:     #FFFFFF;
+      --grey-50:   #F8F9FA;
+      --grey-100:  #F0F2F4;
+      --grey-200:  #E2E6EA;
+      --grey-400:  #9AA5B1;
+      --grey-700:  #3D4F5C;
+
+      --max-w: 1440px;
+      --mx:    40px;
+      --gap:   24px;
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       BASE RESET
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Plus Jakarta Sans', 'Avenir Next', 'Nunito', sans-serif;
+      background: var(--white);
+      color: var(--deep-navy);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    a    { text-decoration: none; color: inherit; }
+    ul   { list-style: none; }
+    svg  { display: block; }
+    img  { display: block; max-width: 100%; }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       LAYOUT UTILITIES
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .wrap {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 var(--mx);
+    }
+    /* Section divider — structural 1px rule */
+    .rule {
+      height: 1px;
+      background: var(--grey-200);
+      border: none;
+      margin: 0;
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       TRIANGLE MOTIF
+       Right-angle anchored to top-right of containing block.
+       Hypotenuse runs top-left → bottom-right.
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .tri {
+      position: absolute;
+      top: 0;
+      right: 0;
+      pointer-events: none;
+      clip-path: polygon(100% 0, 100% 100%, 0 0);
+    }
+    .tri--teal  { background: var(--teal);  }
+    .tri--white { background: var(--white); }
+    .tri--navy  { background: var(--navy);  }
+    .tri--256   { width: 256px; height: 256px; }
+    .tri--128   { width: 128px; height: 128px; }
+    .tri--64    { width:  64px; height:  64px; }
+    .tri--32    { width:  32px; height:  32px; }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       SCROLL REVEAL
+       IntersectionObserver adds .in; transition fires.
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 400ms ease, transform 400ms ease;
+    }
+    .reveal.in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       TYPE SCALE
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .t-overline {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      line-height: 1.5;
+      text-transform: uppercase;
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       NAVIGATION
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      background: var(--white);
+      border-bottom: 1px solid var(--grey-200);
+    }
+    .nav .wrap {
+      display: flex;
+      align-items: stretch;
+      justify-content: space-between;
+      height: 72px;
+      padding: 0 0 0 var(--mx); /* left margin only — right side goes flush to edge */
+    }
+
+    /* Logo */
+    .logo {
+      display: flex;
+      align-items: center;
+      align-self: center;
+      flex-shrink: 0;
+    }
+    .logo__img {
+      display: block;
+      height: 30px;
+      width: auto;
+    }
+
+    /* Nav menu */
+    .nav__menu {
+      display: flex;
+      align-items: stretch;
+    }
+    .nav__item {
+      display: flex;
+      align-items: stretch;
+    }
+    .nav__link {
+      display: flex;
+      align-items: center;
+      padding: 0 18px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--grey-700);
+      white-space: nowrap;
+      border-left: 1px solid var(--grey-200);
+      transition: color 150ms ease;
+      line-height: 1;
+    }
+    .nav__link:hover { color: var(--deep-navy); }
+
+    .nav__link--cta {
+      background: var(--navy);
+      color: var(--white);
+      padding: 0 28px;
+      border-left-color: transparent;
+      transition: background 150ms ease;
+    }
+    .nav__link--cta:hover {
+      background: var(--deep-navy);
+      color: var(--white);
+    }
+
+    /* Hamburger (mobile only) */
+    .nav__burger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      align-self: center;
+    }
+    .nav__burger span {
+      display: block;
+      width: 22px;
+      height: 1.5px;
+      background: var(--deep-navy);
+      transition: opacity 150ms ease;
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       HERO / BANNER — split layout
+       Text left (55%) | Image right (45%), bleeds to container edge
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background: var(--navy);
+      min-height: 420px; /* 600px – 30% */
+    }
+    /* Teal triangle — top-right corner of the left (headline) column */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: calc(50% - 64px); /* right edge sits at the 50% midpoint */
+      width: 64px;
+      height: 64px;
+      background: var(--teal);
+      clip-path: polygon(100% 0, 100% 100%, 0 0);
+      pointer-events: none;
+      z-index: 2;
+    }
+    /* Centre divider — aligns with the overview image/content split below */
+    .hero::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: rgba(255, 255, 255, 0.18);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero__content {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 96px var(--mx) 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: var(--gap);
+      align-items: stretch;   /* both columns fill full row height */
+      min-height: 420px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Left half — heading, full height, text pushed to bottom */
+    .hero__headline {
+      grid-column: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      font-size: 64px;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      line-height: 1.0;
+      color: var(--white);
+    }
+
+    .hero__headline .line    { display: block; overflow: hidden; }
+    .hero__headline .line-in {
+      display: block;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    /* Right half — subline, aligns with overview content column */
+    .hero__sub {
+      grid-column: auto;
+      display: flex;
+      align-items: flex-end;
+      padding-left: calc(var(--mx) - var(--gap) / 2);
+      font-size: 18px;
+      line-height: 1.7;
+      color: rgba(255, 255, 255, 0.82);
+      padding-bottom: 6px;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       OVERVIEW — editorial split
+       Overline full-width, then text (left) | image (right),
+       pillars remain full-width below
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .section-eyebrow {
+      color: var(--grey-400);
+      margin-bottom: 32px;
+    }
+
+    /* Overview — image left flush to viewport edge, content right */
+    .overview {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+    }
+
+    /* Image panel — fills full section height, no padding */
+    .overview__img {
+      overflow: hidden;
+      min-height: 560px;
+    }
+    .overview__img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    /* Content column — left padding grows with viewport to keep text in the max-w box */
+    .overview__content {
+      padding: 96px max(var(--mx), calc((100vw - var(--max-w)) / 2 + var(--mx))) 96px var(--mx);
+    }
+
+    .overview__headline {
+      font-size: 40px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+      color: var(--deep-navy);
+      margin-bottom: 32px;
+    }
+
+    .overview__body {
+      font-size: 18px;
+      line-height: 1.7;
+      color: var(--grey-700);
+    }
+
+    /* 3-pillar grid — full-width row below overview */
+    .pillars-row { background: var(--white); }
+    .pillars {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid var(--grey-200);
+    }
+    .pillar {
+      padding: 40px 48px 40px 0;
+      border-right: 1px solid var(--grey-200);
+    }
+    .pillar:not(:first-child) { padding-left: 40px; }
+    .pillar:last-child        { border-right: none; padding-right: 0; }
+
+    .pillar__title {
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 1.4;
+      color: var(--deep-navy);
+      margin-bottom: 16px;
+    }
+    .pillar__copy {
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--grey-700);
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       WHAT WE DELIVER
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .deliver {
+      padding: 96px 0 96px;
+      position: relative;
+      background: var(--navy);
+    }
+
+    .deliver__headline {
+      font-size: 40px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+      color: var(--white);
+      max-width: 580px;
+      margin-bottom: 72px;
+    }
+
+    /* Eyebrow and arrow link overrides on navy */
+    .deliver .section-eyebrow { color: var(--teal); }
+    .deliver .arrow-link       { color: var(--teal); }
+    .deliver .arrow-link:hover { color: var(--white); }
+
+    /* ── Numbered row list — deliver section (navy bg) ── */
+    .deliver-list {
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    .deliver-row {
+      display: grid;
+      grid-template-columns: 148px 1fr 1.65fr;
+      column-gap: 64px;
+      padding: 52px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      align-items: start;
+      position: relative;
+    }
+
+    /* Big ghost number — white ghost on navy */
+    .deliver-row__num {
+      font-size: clamp(80px, 8.5vw, 152px);
+      font-weight: 600;
+      line-height: 0.85;
+      letter-spacing: -0.055em;
+      color: rgba(255, 255, 255, 0.1);
+      transition: color 350ms ease;
+      user-select: none;
+      display: block;
+    }
+    .deliver-row:hover .deliver-row__num {
+      color: rgba(0, 200, 183, 0.5);
+    }
+
+    /* Title column */
+    .deliver-row__title {
+      font-size: 26px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.3;
+      color: var(--white);
+      transition: color 200ms ease;
+    }
+    .deliver-row:hover .deliver-row__title {
+      color: var(--teal);
+    }
+
+    /* Body + link column */
+    .deliver-row__body {
+      font-size: 16px;
+      line-height: 1.75;
+      color: rgba(255, 255, 255, 0.82);
+      margin-bottom: 28px;
+    }
+
+    /* Arrow text link */
+    .arrow-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--navy);
+      transition: color 150ms ease, gap 200ms ease;
+      align-self: flex-start;
+    }
+    .arrow-link svg { flex-shrink: 0; }
+    .arrow-link:hover {
+      color: var(--teal);
+      gap: 14px;
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       SECTION 4 — HOW WE DELIVER
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .how-deliver { padding: 96px 0 0; }
+    .how-deliver__headline {
+      font-size: 40px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.2;
+      color: var(--deep-navy); max-width: 680px; margin-bottom: 72px;
+    }
+    .four-cols {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid var(--grey-200);
+    }
+    .four-col {
+      display: flex;
+      flex-direction: column;
+      padding: 96px 32px 48px 32px; /* equal horizontal padding — hover bg looks balanced on all cards */
+      border-right: 1px solid var(--grey-200);
+      border-bottom: 1px solid var(--grey-200);
+      position: relative;
+    }
+    .four-col:first-child { border-left: 1px solid var(--grey-200); }
+    .four-col:last-child  { border-right: 1px solid var(--grey-200); }
+
+    /* Icon box — stroke cell flush to top-right corner of card */
+    .four-col__icon {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 64px;
+      height: 64px;
+      border-left: 1px solid var(--grey-200);
+      border-bottom: 1px solid var(--grey-200);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    /* last card's icon box — card's own right border closes it, no extra needed */
+    .four-col__icon img {
+      width: 28px;
+      height: 28px;
+      display: block;
+    }
+
+    .four-col__title {
+      font-size: 18px; font-weight: 600; line-height: 1.4;
+      color: var(--deep-navy); margin-bottom: 16px;
+      transition: color 250ms ease;
+    }
+    .four-col__body {
+      font-size: 15px; line-height: 1.7;
+      color: var(--grey-700); flex: 1; margin-bottom: 32px;
+      transition: color 250ms ease;
+    }
+
+    /* Card hover — dark navy fill, icon box stays white */
+    .four-col {
+      transition: background 250ms ease;
+    }
+    .four-col:hover {
+      background: var(--navy);
+      border-color: var(--navy); /* blend borders into the dark bg on hover */
+    }
+    .four-col:hover .four-col__icon {
+      background: var(--white);
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+    .four-col:hover .four-col__title {
+      color: var(--white);
+    }
+    .four-col:hover .four-col__body {
+      color: rgba(255, 255, 255, 0.72);
+    }
+    .four-col:hover .arrow-link {
+      color: var(--teal);
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       SECTION 5 — AI OFFERINGS
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    /* ── AI Offerings — full-bleed slide with thumbnail peek ── */
+    .ai-offerings { padding: 96px 0 0; }
+
+    .ai-header { margin-bottom: 32px; }
+    .ai-offerings__headline {
+      font-size: 40px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.2;
+      color: var(--deep-navy); max-width: 600px; margin: 0;
+    }
+
+    /* Full-bleed slider block */
+    .ai-slider {
+      position: relative; width: 100%; height: 696px; overflow: hidden;
+    }
+
+    /* Background image layer */
+    .ai-bg { position: absolute; inset: 0; }
+    .ai-bg img {
+      width: 100%; height: 110%; object-fit: cover; display: block;
+      transition: opacity 350ms ease;
+    }
+    /* Dark overlay — top band + heavy bottom band. NO blur, NO glass. */
+    .ai-bg::after {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background:
+        linear-gradient(to bottom, rgba(0,18,36,0.55) 0%, transparent 26%),
+        linear-gradient(to top,    rgba(0,18,36,0.96) 0%, rgba(0,18,36,0.52) 40%, transparent 65%);
+    }
+
+    /* Content layer — sits above the gradient */
+    .ai-overlay {
+      position: absolute; inset: 0;
+      padding: 40px var(--mx) 44px;
+      display: flex; flex-direction: column; justify-content: flex-end;
+    }
+
+    /* Top: eyebrow label */
+    .ai-overlay__eyebrow {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--teal);
+    }
+
+    /* Bottom row: slide info left + side panel right */
+    .ai-overlay__bottom {
+      display: flex; align-items: flex-end;
+      justify-content: space-between; gap: 48px;
+    }
+
+    /* Left — current slide content */
+    .ai-slide-info { flex: 1; max-width: 480px; }
+    .ai-slide-info__num {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--teal);
+      display: block; margin-bottom: 12px;
+    }
+    .ai-slide-info__title {
+      font-size: 38px; font-weight: 600; letter-spacing: -0.025em; line-height: 1.1;
+      color: var(--white); margin-bottom: 16px;
+    }
+    .ai-slide-info__body {
+      font-size: 15px; line-height: 1.65;
+      color: rgba(255,255,255,0.82); margin-bottom: 24px;
+    }
+    .ai-slide-info .arrow-link { color: var(--teal); }
+    .ai-slide-info .arrow-link:hover { color: var(--white); }
+
+    /* Right — progress bar + thumbnail cards */
+    /* Width = 3 thumbs (172px) + 2 gaps (10px) = 536px */
+    .ai-side { display: flex; flex-direction: column; align-items: flex-end; gap: 18px; flex-shrink: 0; width: 536px; }
+
+    .ai-progress { display: flex; align-items: center; gap: 12px; width: 100%; }
+    .ai-progress__lbl {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.10em;
+      color: rgba(255,255,255,0.72); min-width: 20px;
+    }
+    .ai-progress__track {
+      flex: 1; height: 1px; background: rgba(255,255,255,0.22); position: relative;
+    }
+    .ai-progress__fill {
+      position: absolute; left: 0; top: 0; height: 100%; background: var(--teal);
+      transition: width 450ms cubic-bezier(0.16,1,0.3,1);
+    }
+
+    /* Thumbnail cards */
+    .ai-thumbs { display: flex; gap: 10px; }
+    .ai-thumb {
+      width: 172px; display: flex; align-items: stretch;
+      background: var(--deep-navy);
+      border: 1px solid rgba(255,255,255,0.08);
+      cursor: pointer; overflow: hidden;
+      transition: border-color 200ms;
+    }
+    .ai-thumb:hover { border-color: var(--teal); }
+    .ai-thumb__img { width: 76px; flex-shrink: 0; overflow: hidden; }
+    .ai-thumb__img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .ai-thumb__info { flex: 1; padding: 12px 14px; display: flex; flex-direction: column; justify-content: center; }
+    .ai-thumb__num {
+      font-size: 10px; font-weight: 600; letter-spacing: 0.11em;
+      text-transform: uppercase; color: var(--teal); display: block; margin-bottom: 5px;
+    }
+    .ai-thumb__title {
+      font-size: 12px; font-weight: 600; line-height: 1.35; color: var(--white);
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       SECTION 6 — PARTNERS LOGOS
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .partner-logos { padding: 96px 0 0; }
+    .partner-logos__headline {
+      font-size: 40px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.2;
+      color: var(--deep-navy); max-width: 680px; margin-bottom: 72px;
+    }
+    .logo-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      border-top: 1px solid var(--grey-200);
+      border-left: 1px solid var(--grey-200);
+    }
+    .logo-cell {
+      border-right: 1px solid var(--grey-200);
+      border-bottom: 1px solid var(--grey-200);
+      min-height: 128px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--white);
+    }
+    /* Placeholder text shown until real logos are placed */
+    .logo-cell__placeholder {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--grey-200);
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       SECTION 7 — CASE STUDIES — image card grid
+       3 columns, each card: image header + number + title + CTA
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .case-studies { padding: 96px 0 0; }
+    .case-studies__headline {
+      font-size: 40px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.2;
+      color: var(--deep-navy); max-width: 680px; margin-bottom: 72px;
+    }
+    /* Card grid */
+    .case-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid var(--grey-200);
+    }
+    .case-card {
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid var(--grey-200);
+    }
+    .case-card:last-child { border-right: none; }
+
+    /* Image header — 3:2 aspect, overflow hidden for hover zoom */
+    .case-card__img {
+      overflow: hidden;
+      aspect-ratio: 3 / 2;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .case-card__img img {
+      width: 100%;
+      height: 110%;
+      object-fit: cover;
+      display: block;
+      transition: transform 500ms ease;
+      /* Each card shows a different crop of the same image */
+    }
+    .case-card:nth-child(1) .case-card__img img { object-position: 20% center; }
+    .case-card:nth-child(2) .case-card__img img { object-position: 50% center; }
+    .case-card:nth-child(3) .case-card__img img { object-position: 80% center; }
+    .case-card:hover .case-card__img img        { transform: scale(1.04) translateY(-2%); }
+
+    /* Card body */
+    .case-card__body {
+      padding: 32px 32px 40px 0;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      border-top: 1px solid var(--grey-200);
+    }
+    .case-card:not(:first-child) .case-card__body { padding-left: 32px; }
+    .case-card__num {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--grey-400);
+      display: block; margin-bottom: 16px;
+    }
+    .case-card__title {
+      font-size: 18px; font-weight: 600; line-height: 1.45;
+      color: var(--deep-navy); flex: 1; margin-bottom: 28px;
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       SECTION 8 — TESTIMONIALS
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       TESTIMONIALS — dark navy
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .testimonials {
+      background: var(--navy);
+      padding: 96px 0 0;
+    }
+    /* Frame lives on the grid — starts from the quote line, not the heading */
+    .testimonials .section-eyebrow { color: var(--teal); }
+    .testimonials__headline {
+      font-size: 40px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.2;
+      color: var(--white); max-width: 680px; margin-bottom: 72px;
+    }
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      /* Four-sided frame — all borders on the grid so the frame starts at the quote line */
+      border: 1px solid rgba(255,255,255,0.12);
+      /* Pull edge-to-edge within the wrap */
+      margin-left: calc(-1 * var(--mx));
+      margin-right: calc(-1 * var(--mx));
+    }
+    .testimonial {
+      display: flex;
+      flex-direction: column;
+      padding: 56px 64px 56px var(--mx);
+      border-right: 1px solid rgba(255,255,255,0.12);
+    }
+    .testimonial:last-child {
+      border-right: none;
+      padding-left: 64px;
+      padding-right: var(--mx);
+    }
+    /* Opening quote mark */
+    .testimonial__mark {
+      font-size: 64px; line-height: 0.8; font-weight: 600;
+      color: var(--teal); margin-bottom: 24px; display: block;
+      font-family: Georgia, serif;
+    }
+    .testimonial__quote {
+      font-size: 17px; line-height: 1.8; color: rgba(255,255,255,0.82);
+      flex: 1; margin-bottom: 48px; font-style: italic;
+    }
+    /* Profile row — avatar + name/role */
+    .testimonial__profile {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .testimonial__avatar {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      overflow: hidden;
+      flex-shrink: 0;
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .testimonial__avatar img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+    .testimonial__name {
+      font-size: 15px; font-weight: 600; color: var(--white);
+      margin-bottom: 3px;
+    }
+    .testimonial__role {
+      font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.4;
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       SECTION 9 — FINAL CTA — half navy / half image
+       Left: dark navy text + button
+       Right: image panel, flush to container edge
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .final-cta {
+      position: relative;
+      overflow: hidden;
+      background: var(--teal); /* fills full viewport width, no white bleed */
+    }
+    .final-cta__inner {
+      /* Full-width grid — image column reaches the right viewport edge */
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 480px;
+    }
+    .final-cta__text {
+      background: var(--teal);
+      /* Left padding: grows with viewport so text stays inside the max-w box */
+      padding: 104px var(--gap) 104px max(var(--mx), calc((100vw - var(--max-w)) / 2 + var(--mx)));
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .final-cta__headline {
+      font-size: 40px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.15;
+      color: var(--deep-navy); margin-bottom: 48px;
+    }
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--deep-navy);
+      color: var(--white);
+      padding: 18px 36px;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0;
+      align-self: flex-start;
+      transition: background 150ms ease, gap 200ms ease;
+    }
+    .cta-btn svg { flex-shrink: 0; }
+    .cta-btn:hover {
+      background: var(--navy);
+      gap: 16px;
+    }
+    .final-cta__img {
+      overflow: hidden;
+      position: relative;
+    }
+    .final-cta__img img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       FOOTER
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .site-footer {
+      background: var(--navy);
+      position: relative;
+      overflow: hidden;
+    }
+
+
+    .footer__top {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 80px var(--mx) 72px;
+      display: grid;
+      /* Brand (col 1, spans 2 rows) | 3 nav cols | repeats for row 2 */
+      grid-template-columns: 240px repeat(3, 1fr);
+      gap: 56px 40px;
+    }
+    /* Brand spans both rows */
+    .footer__brand {
+      grid-row: 1 / span 2;
+      grid-column: 1;
+    }
+
+    /* Brand column */
+    .footer__logo {
+      height: 34px; width: auto; display: block; margin-bottom: 28px;
+      filter: brightness(0) invert(1);
+    }
+    .footer__tagline {
+      font-size: 14px; line-height: 1.65;
+      color: rgba(255,255,255,0.72); margin-bottom: 32px;
+    }
+    .footer__contact {
+      font-size: 13px; line-height: 1.8;
+      color: rgba(255,255,255,0.68);
+    }
+    .footer__contact a { color: var(--teal); transition: color 150ms; }
+    .footer__contact a:hover { color: var(--white); }
+
+    /* Nav columns */
+    .footer__col-title {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--white); margin-bottom: 20px; display: block;
+    }
+    .footer__links { display: flex; flex-direction: column; gap: 11px; }
+    .footer__links a {
+      font-size: 13px; line-height: 1.4;
+      color: rgba(255,255,255,0.70);
+      transition: color 150ms;
+    }
+    .footer__links a:hover { color: var(--teal); }
+
+    .footer__sub-label {
+      display: none; /* no longer used */
+      font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: rgba(255,255,255,0.45);
+      margin-top: 24px; margin-bottom: 10px; display: block;
+    }
+    .footer__sub-label:first-child { margin-top: 0; }
+
+    /* Bottom bar */
+    .footer__bottom {
+      border-top: 1px solid rgba(255,255,255,0.10);
+      max-width: var(--max-w); margin: 0 auto;
+      padding: 24px var(--mx);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .footer__copy {
+      font-size: 12px; color: rgba(255,255,255,0.48);
+    }
+    .footer__legal { display: flex; gap: 24px; }
+    .footer__legal a {
+      font-size: 12px; color: rgba(255,255,255,0.48);
+      transition: color 150ms;
+    }
+    .footer__legal a:hover { color: rgba(255,255,255,0.70); }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       RESPONSIVE — TABLET 1024px
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    @media (max-width: 1024px) {
+      :root { --mx: 48px; }
+
+      .hero                 { padding: 96px 0 80px; }
+      .hero__headline       { font-size: 52px; }
+      .hero__grid-rule      { display: none; }
+
+      .nav__link            { padding: 0 13px; font-size: 12px; }
+      .nav__link--cta       { padding: 0 20px; }
+
+      .tri--256             { width: 180px; height: 180px; }
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       RESPONSIVE — MOBILE 768px
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    @media (max-width: 768px) {
+      :root { --mx: 24px; }
+
+      /* Nav */
+      .nav__menu               { display: none; position: fixed; top: 72px; left: 0; right: 0;
+                                  flex-direction: column; background: var(--white);
+                                  border-bottom: 1px solid var(--grey-200); z-index: 199; }
+      .nav__menu.is-open        { display: flex; }
+      .nav__item                { width: 100%; }
+      .nav__link                { border-left: none; border-top: 1px solid var(--grey-200);
+                                  height: 56px; padding: 0 var(--mx); font-size: 14px; }
+      .nav__link--cta           { background: var(--navy); color: var(--white); }
+      .nav__burger              { display: flex; }
+
+      /* Hero — stack on mobile */
+      .hero__content           { padding: 72px var(--mx) 64px; min-height: auto; grid-template-columns: 1fr; align-items: start; }
+      .hero__headline          { font-size: 40px; justify-content: flex-start; }
+      .hero__sub               { align-items: flex-start; padding-left: 0; padding-top: 24px; }
+      .tri--256                { width: 120px; height: 120px; }
+
+      /* Sections */
+      .deliver                 { padding: 64px 0 64px; }
+      .deliver__headline       { margin-bottom: 48px; }
+      .pillar                  { border-right: none;
+                                  border-bottom: 1px solid var(--grey-200);
+                                  padding: 32px 0 !important; }
+      .pillar:last-child       { border-bottom: none; }
+
+      /* Deliver numbered rows — stack on mobile */
+      .deliver-row             { grid-template-columns: 1fr;
+                                  row-gap: 12px;
+                                  padding: 36px 0; }
+      .deliver-row__num        { font-size: 72px; line-height: 1; }
+      .deliver-row__title      { font-size: 22px; }
+      .deliver-row__body       { margin-bottom: 20px; }
+
+      /* Collapse 4-col grids to 1-col */
+      .four-cols               { grid-template-columns: 1fr; }
+      .four-col                { border-right: none;
+                                  border-bottom: 1px solid var(--grey-200);
+                                  padding: 32px 0 !important; }
+      .four-col:last-child     { border-bottom: none; }
+
+      /* Sections */
+      .how-deliver,
+      .ai-offerings,
+      .partner-logos,
+      .case-studies            { padding: 64px 0 0; }
+      .testimonials            { padding: 64px 0; }
+      .how-deliver__headline,
+      .ai-offerings__headline,
+      .partner-logos__headline,
+      .case-studies__headline,
+      .testimonials__headline  { font-size: 28px; margin-bottom: 0; }
+
+      /* AI carousel mobile */
+      .ai-header               { flex-direction: column; align-items: flex-start; gap: 24px; margin-bottom: 32px; }
+      .ai-card                 { flex: 0 0 calc(100vw - 32px - 40px); }
+      .ai-track                { padding-left: 24px; gap: 12px; }
+      .ai-card__overlay-text   { left: 24px; bottom: 24px; }
+      .ai-card__title          { font-size: 20px; }
+      .ai-progress__track      { width: 100px; }
+
+      /* Partners logo grid — 3 cols on mobile */
+      .logo-grid               { grid-template-columns: repeat(3, 1fr); }
+
+      /* Case studies */
+      .case-item               { flex-direction: column; align-items: flex-start; gap: 16px; }
+      .case-item__counter      { display: none; }
+      .case-item__title        { font-size: 18px; }
+
+      /* Testimonials */
+      .testimonial-grid        { grid-template-columns: 1fr; }
+      .testimonial             { border-right: none;
+                                  border-bottom: 1px solid rgba(255,255,255,0.12);
+                                  padding: 40px 0 !important; }
+      .testimonial:last-child  { border-bottom: none; }
+
+      /* Overview → stack image above, content below */
+      .overview                { grid-template-columns: 1fr; }
+      .overview__img           { min-height: auto; aspect-ratio: 16/9; }
+      .overview__content       { padding: 56px var(--mx); }
+
+      /* Pillars → stack vertically on mobile */
+      .pillars                 { grid-template-columns: 1fr; }
+      .pillar                  { border-right: none; border-bottom: 1px solid var(--grey-200);
+                                  padding: 32px 0 !important; }
+      .pillar:last-child       { border-bottom: none; }
+
+      /* Case cards → stack */
+      .case-grid               { grid-template-columns: 1fr; }
+      .case-card               { border-right: none; border-bottom: 1px solid var(--grey-200); }
+      .case-card:last-child    { border-bottom: none; }
+      .case-card__body         { padding: 24px 0 32px !important; }
+
+      /* Final CTA → stack, image below */
+      .final-cta__inner        { grid-template-columns: 1fr; }
+      .final-cta__text         { padding: 72px var(--mx); }
+      .final-cta__headline     { font-size: 28px; margin-bottom: 32px; }
+      .final-cta__img          { min-height: 260px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════
+       NAVIGATION
+  ═══════════════════════════════════════════════════════ -->
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <div class="wrap">
+
+      <!-- Brand mark -->
+      <a href="/" class="logo" aria-label="Logic Pursuits — home">
+        <img class="logo__img" src="Assets/logic-pursuits-logo-horizontal-30.svg" alt="Logic Pursuits">
+      </a>
+
+      <!-- Primary links -->
+      <ul class="nav__menu" id="nav-menu">
+        <li class="nav__item"><a class="nav__link" href="#">What we deliver</a></li>
+        <li class="nav__item"><a class="nav__link" href="#">How we work</a></li>
+        <li class="nav__item"><a class="nav__link" href="#">AI &amp; Data Science Services</a></li>
+        <li class="nav__item"><a class="nav__link" href="#">Who we serve</a></li>
+        <li class="nav__item"><a class="nav__link" href="#">What we think</a></li>
+        <li class="nav__item"><a class="nav__link" href="#">Who we are</a></li>
+        <li class="nav__item"><a class="nav__link nav__link--cta" href="#">Contact us</a></li>
+      </ul>
+
+      <!-- Mobile hamburger -->
+      <button class="nav__burger" id="nav-burger" aria-controls="nav-menu" aria-expanded="false" aria-label="Open navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+    </div>
+  </nav>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION 1 — HERO / BANNER
+       Split: text left | image right
+  ═══════════════════════════════════════════════════════ -->
+  <section class="hero" aria-labelledby="hero-headline">
+    <!-- Decorative triangles -->
+
+    <div class="hero__content">
+      <h1 class="hero__headline" id="hero-headline">
+        <span class="line"><span class="line-in">Accelerate decisions.</span></span>
+        <span class="line"><span class="line-in">Multiply outcomes.</span></span>
+      </h1>
+      <p class="hero__sub">
+        Enabling enterprises to turn data platform investments into trusted decisions, faster execution, and measurable business advantage.
+      </p>
+    </div>
+
+  </section>
+
+  <hr class="rule">
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION 2 — OVERVIEW
+  ═══════════════════════════════════════════════════════ -->
+  <section class="overview" aria-labelledby="overview-headline">
+
+    <!-- Image — left column, full section height -->
+    <div class="overview__img reveal" data-delay="120">
+      <img src="Assets/social.jpg" alt="">
+    </div>
+
+    <!-- Content — right column -->
+    <div class="overview__content">
+      <p class="t-overline section-eyebrow reveal">Overview</p>
+
+      <h2 class="overview__headline reveal" id="overview-headline">
+        Delivering outcomes that are strategic multipliers
+      </h2>
+      <p class="overview__body reveal">
+        Enterprises have invested heavily in data and AI platforms. But fragmented data, delayed insights, and disconnected execution slow down the business impact. At Logic Pursuits, we focus on delivering outcomes that act as strategic multiplier for your business by bridging the gap between platform investments and operational outcomes.
+      </p>
+    </div>
+
+  </section>
+
+  <!-- 3 pillars — full-width row below overview -->
+  <div class="pillars-row">
+    <div class="wrap">
+      <div class="pillars">
+
+        <div class="pillar reveal" data-delay="0">
+          <p class="pillar__title">Multiply decision confidence</p>
+          <p class="pillar__copy">By turning fragmented operational data into trusted business intelligence.</p>
+        </div>
+
+        <div class="pillar reveal" data-delay="80">
+          <p class="pillar__title">Multiply execution speed</p>
+          <p class="pillar__copy">By removing reporting bottlenecks and accelerating operational workflows.</p>
+        </div>
+
+        <div class="pillar reveal" data-delay="160">
+          <p class="pillar__title">Multiply organizational capability</p>
+          <p class="pillar__copy">By building long-term data and AI maturity alongside delivery.</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION 3 — WHAT WE DELIVER
+  ═══════════════════════════════════════════════════════ -->
+  <section class="deliver" aria-labelledby="deliver-headline">
+    <div class="wrap">
+
+      <p class="t-overline section-eyebrow reveal">What we deliver</p>
+
+      <h2 class="deliver__headline reveal" id="deliver-headline">
+        We help you turn data into outcomes
+      </h2>
+
+      <!-- Numbered rows -->
+      <div class="deliver-list">
+
+        <div class="deliver-row reveal" data-delay="0">
+          <span class="deliver-row__num" aria-hidden="true">01</span>
+          <h3 class="deliver-row__title">Build robust data foundations</h3>
+          <div>
+            <p class="deliver-row__body">Modernize enterprise data environments with scalable architecture, reliable engineering, and governance that improves trust, performance, and long-term usability.</p>
+            <a href="#" class="arrow-link">
+              Learn more
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <line x1="2" y1="8" x2="13" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <polyline points="9,4 13,8 9,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="deliver-row reveal" data-delay="100">
+          <span class="deliver-row__num" aria-hidden="true">02</span>
+          <h3 class="deliver-row__title">Gain deeper insights</h3>
+          <div>
+            <p class="deliver-row__body">Transform operational and customer data into connected intelligence that improves visibility, accelerates decisions, and drives business performance.</p>
+            <a href="#" class="arrow-link">
+              Learn more
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <line x1="2" y1="8" x2="13" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <polyline points="9,4 13,8 9,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="deliver-row reveal" data-delay="200">
+          <span class="deliver-row__num" aria-hidden="true">03</span>
+          <h3 class="deliver-row__title">Accelerate to outcomes</h3>
+          <div>
+            <p class="deliver-row__body">Operationalize analytics and AI solutions that solve high-impact business problems, reduce operational risk, and accelerate measurable outcomes.</p>
+            <a href="#" class="arrow-link">
+              Learn more
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <line x1="2" y1="8" x2="13" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <polyline points="9,4 13,8 9,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION 4 — HOW WE DELIVER
+  ═══════════════════════════════════════════════════════ -->
+  <section class="how-deliver" aria-labelledby="how-deliver-headline">
+    <div class="wrap">
+      <h2 class="how-deliver__headline reveal" id="how-deliver-headline">
+        Connecting cloud, analytics, and automation for business growth
+      </h2>
+      <div class="four-cols">
+
+        <div class="four-col reveal" data-delay="0">
+          <div class="four-col__icon" aria-hidden="true">
+            <img src="Assets/icon-cloud.svg" alt="">
+          </div>
+          <h3 class="four-col__title">Cloud Data Platform Consulting</h3>
+          <p class="four-col__body">Build scalable, modern cloud data environments that improve data accessibility, platform performance, and operational readiness across the enterprise.</p>
+          <a href="#" class="arrow-link">Learn more
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <line x1="2" y1="8" x2="13" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <polyline points="9,4 13,8 9,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
+          </a>
+        </div>
+
+        <div class="four-col reveal" data-delay="80">
+          <div class="four-col__icon" aria-hidden="true">
+            <img src="Assets/icon-data.svg" alt="">
+          </div>
+          <h3 class="four-col__title">Data &amp; Analytics Platform Consulting</h3>
+          <p class="four-col__body">Turn enterprise data into decision-ready intelligence through connected analytics, self-service reporting, and scalable insight platforms.</p>
+          <a href="#" class="arrow-link">Learn more
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <line x1="2" y1="8" x2="13" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <polyline points="9,4 13,8 9,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
+          </a>
+        </div>
+
+        <div class="four-col reveal" data-delay="160">
+          <div class="four-col__icon" aria-hidden="true">
+            <img src="Assets/icon-enterprise.svg" alt="">
+          </div>
+          <h3 class="four-col__title">Enterprise &amp; Automation Consulting</h3>
+          <p class="four-col__body">Strengthen governance, automate operational workflows, and improve enterprise efficiency through connected data and automation solutions.</p>
+          <a href="#" class="arrow-link">Learn more
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <line x1="2" y1="8" x2="13" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <polyline points="9,4 13,8 9,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
+          </a>
+        </div>
+
+        <div class="four-col reveal" data-delay="240">
+          <div class="four-col__icon" aria-hidden="true">
+            <img src="Assets/icon-partners.svg" alt="">
+          </div>
+          <h3 class="four-col__title">Our Partners</h3>
+          <p class="four-col__body">Leverage our deep expertise across leading cloud, data, analytics, governance, and automation ecosystems to accelerate platform adoption and business outcomes.</p>
+          <a href="#" class="arrow-link">Learn more
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <line x1="2" y1="8" x2="13" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <polyline points="9,4 13,8 9,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION 5 — AI OFFERINGS
+  ═══════════════════════════════════════════════════════ -->
+  <section class="ai-offerings" aria-labelledby="ai-headline">
+
+    <!-- Section header — above the image -->
+    <div class="wrap">
+      <p class="t-overline section-eyebrow reveal">AI &amp; Data Science Services</p>
+      <div class="ai-header">
+        <h2 class="ai-offerings__headline reveal" id="ai-headline">
+          Operationalizing AI for business impact
+        </h2>
+      </div>
+    </div>
+
+    <!-- Full-bleed slider -->
+    <div class="ai-slider">
+
+      <!-- Background image (JS swaps object-position per slide) -->
+      <div class="ai-bg">
+        <img src="Assets/social.jpg" alt="" id="ai-bg-img" style="object-position:20% center;">
+      </div>
+
+      <!-- Content overlay -->
+      <div class="ai-overlay">
+
+        <!-- Bottom: current slide info (left) + progress + thumbs (right) -->
+        <div class="ai-overlay__bottom">
+
+          <!-- Left: current slide text -->
+          <div class="ai-slide-info">
+            <span class="ai-slide-info__num" id="ai-slide-num">01</span>
+            <h3 class="ai-slide-info__title" id="ai-slide-title">Strategy &amp; Advisory</h3>
+            <p class="ai-slide-info__body" id="ai-slide-body">Build the right AI foundation with clear strategy, governance, and business-aligned roadmaps designed for scalable enterprise adoption.</p>
+            <a href="#" class="arrow-link" id="ai-slide-link">
+              Learn more
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <line x1="2" y1="8" x2="13" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <polyline points="9,4 13,8 9,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              </svg>
+            </a>
+          </div>
+
+          <!-- Right: progress bar + thumbnail cards (JS-rendered) -->
+          <div class="ai-side">
+            <div class="ai-progress">
+              <span class="ai-progress__lbl" id="ai-cur-lbl">01</span>
+              <div class="ai-progress__track">
+                <div class="ai-progress__fill" id="ai-fill"></div>
+              </div>
+              <span class="ai-progress__lbl">04</span>
+            </div>
+            <div class="ai-thumbs" id="ai-thumbs"></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <hr class="rule">
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION 6 — PARTNERS LOGOS
+  ═══════════════════════════════════════════════════════ -->
+  <section class="partner-logos" aria-labelledby="partners-headline">
+    <div class="wrap">
+      <h2 class="partner-logos__headline reveal" id="partners-headline">
+        Multiplying outcomes with our partners
+      </h2>
+      <div class="logo-grid reveal">
+        <div class="logo-cell"><span class="logo-cell__placeholder">Partner</span></div>
+        <div class="logo-cell"><span class="logo-cell__placeholder">Partner</span></div>
+        <div class="logo-cell"><span class="logo-cell__placeholder">Partner</span></div>
+        <div class="logo-cell"><span class="logo-cell__placeholder">Partner</span></div>
+        <div class="logo-cell"><span class="logo-cell__placeholder">Partner</span></div>
+        <div class="logo-cell"><span class="logo-cell__placeholder">Partner</span></div>
+        <div class="logo-cell"><span class="logo-cell__placeholder">Partner</span></div>
+        <div class="logo-cell"><span class="logo-cell__placeholder">Partner</span></div>
+        <div class="logo-cell"><span class="logo-cell__placeholder">Partner</span></div>
+        <div class="logo-cell"><span class="logo-cell__placeholder">Partner</span></div>
+        <div class="logo-cell"><span class="logo-cell__placeholder">Partner</span></div>
+        <div class="logo-cell"><span class="logo-cell__placeholder">Partner</span></div>
+        <div class="logo-cell"><span class="logo-cell__placeholder">Partner</span></div>
+        <div class="logo-cell"><span class="logo-cell__placeholder">Partner</span></div>
+        <div class="logo-cell"><span class="logo-cell__placeholder">Partner</span></div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION 7 — CASE STUDIES
+  ═══════════════════════════════════════════════════════ -->
+  <section class="case-studies" aria-labelledby="cases-headline">
+    <div class="wrap">
+      <h2 class="case-studies__headline reveal" id="cases-headline">
+        Delivering excellence for our customers
+      </h2>
+      <!-- Image card grid -->
+      <div class="case-grid">
+
+        <div class="case-card reveal" data-delay="0">
+          <div class="case-card__img">
+            <img src="Assets/social.jpg" alt="Case study 1">
+          </div>
+          <div class="case-card__body">
+            <span class="case-card__num">01</span>
+            <h3 class="case-card__title">Building a unified marketing data ecosystem for a leading destination marketing organization</h3>
+            <a href="#" class="arrow-link">Learn more
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <line x1="2" y1="8" x2="13" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <polyline points="9,4 13,8 9,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="case-card reveal" data-delay="80">
+          <div class="case-card__img">
+            <img src="Assets/social.jpg" alt="Case study 2">
+          </div>
+          <div class="case-card__body">
+            <span class="case-card__num">02</span>
+            <h3 class="case-card__title">Automating procure-to-pay insights from fragmented systems to unified reporting</h3>
+            <a href="#" class="arrow-link">Learn more
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <line x1="2" y1="8" x2="13" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <polyline points="9,4 13,8 9,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="case-card reveal" data-delay="160">
+          <div class="case-card__img">
+            <img src="Assets/social.jpg" alt="Case study 3">
+          </div>
+          <div class="case-card__body">
+            <span class="case-card__num">03</span>
+            <h3 class="case-card__title">Strengthening financial accuracy through automated revenue reconciliation</h3>
+            <a href="#" class="arrow-link">Learn more
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <line x1="2" y1="8" x2="13" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <polyline points="9,4 13,8 9,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION 8 — TESTIMONIALS (dark navy)
+  ═══════════════════════════════════════════════════════ -->
+  <section class="testimonials" aria-labelledby="testimonials-headline">
+    <div class="wrap">
+      <p class="t-overline section-eyebrow reveal">Client voices</p>
+      <h2 class="testimonials__headline reveal" id="testimonials-headline">
+        And earning their trust
+      </h2>
+      <div class="testimonial-grid">
+
+        <div class="testimonial reveal" data-delay="0">
+          <span class="testimonial__mark" aria-hidden="true">&ldquo;</span>
+          <p class="testimonial__quote">In addition to bringing technical expertise around data analytics, Logic Pursuits brings extremely valuable knowledge around the types of analytics that can be used to provide insights across various business processes. The team's expertise in internal audit functions was able to generate real value to our internal audit team.</p>
+          <div class="testimonial__profile">
+            <div class="testimonial__avatar">
+              <img src="https://i.pravatar.cc/104?img=11" alt="Kalyan Upadhyaya">
+            </div>
+            <div>
+              <p class="testimonial__name">Kalyan Upadhyaya</p>
+              <p class="testimonial__role">Director, Business Assurance Services (BAS)</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial reveal" data-delay="80">
+          <span class="testimonial__mark" aria-hidden="true">&ldquo;</span>
+          <p class="testimonial__quote">Logic Pursuits has augmented our Internal Audit's data analytics capabilities, enabling us to produce more work per same unit of time. Logic Pursuits has been a force multiplier for us. It brings a compelling value proposition. Their work quality is comparable to that found in top-tier consulting companies and they deliver it at a fraction of cost.</p>
+          <div class="testimonial__profile">
+            <div class="testimonial__avatar">
+              <img src="https://i.pravatar.cc/104?img=52" alt="Raymond Lopez">
+            </div>
+            <div>
+              <p class="testimonial__name">Raymond Lopez</p>
+              <p class="testimonial__role">Director of Internal Audit and Compliance</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION 9 — FINAL CTA
+  ═══════════════════════════════════════════════════════ -->
+  <section class="final-cta" aria-labelledby="cta-headline">
+    <div class="final-cta__inner">
+
+      <!-- Left: teal with dark text + button + navy triangle motif -->
+      <div class="final-cta__text">
+        <div class="tri tri--navy tri--64" aria-hidden="true"></div>
+        <h2 class="final-cta__headline reveal" id="cta-headline">
+          Ready to accelerate your decisions and multiply outcomes?
+        </h2>
+        <a href="#" class="cta-btn reveal" data-delay="80">
+          Contact us
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <line x1="2" y1="8" x2="13" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <polyline points="9,4 13,8 9,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Right: image panel -->
+      <div class="final-cta__img">
+        <img src="Assets/social.jpg" alt="">
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════════════════ -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="tri tri--teal tri--64" aria-hidden="true"></div>
+
+    <div class="footer__top">
+
+      <!-- Brand -->
+      <div class="footer__brand">
+        <img src="Assets/logic-pursuits-logo.svg" alt="Logic Pursuits" class="footer__logo">
+        <p class="footer__tagline">Accelerate decisions.<br>Multiply outcomes.</p>
+        <div class="footer__contact">
+          <a href="mailto:hello@logicpursuits.com">hello@logicpursuits.com</a><br>
+          LinkedIn &nbsp;·&nbsp; Twitter
+        </div>
+      </div>
+
+      <!-- What we deliver -->
+      <div>
+        <span class="footer__col-title">What we deliver</span>
+        <ul class="footer__links">
+          <li><a href="#">Build a trusted data platform</a></li>
+          <li><a href="#">Turn data into decisions</a></li>
+          <li><a href="#">Accelerate to outcomes</a></li>
+        </ul>
+      </div>
+
+      <!-- How we work -->
+      <div>
+        <span class="footer__col-title">How we work</span>
+        <ul class="footer__links">
+          <li><a href="#">Cloud data platform services</a></li>
+          <li><a href="#">Analytics &amp; BI platform services</a></li>
+          <li><a href="#">Delivery accelerators</a></li>
+          <li><a href="#">Technology partners</a></li>
+        </ul>
+      </div>
+
+      <!-- AI & Data Science -->
+      <div>
+        <span class="footer__col-title">AI &amp; Data Science</span>
+        <ul class="footer__links">
+          <li><a href="#">AI Strategy &amp; Readiness</a></li>
+          <li><a href="#">Building &amp; Deploying AI solutions</a></li>
+          <li><a href="#">AI Technology Ecosystem</a></li>
+          <li><a href="#">Ready-to-deploy AI solutions</a></li>
+        </ul>
+      </div>
+
+      <!-- Who we serve -->
+      <div>
+        <span class="footer__col-title">Who we serve</span>
+        <ul class="footer__links">
+          <li><a href="#">Banking &amp; Insurance</a></li>
+          <li><a href="#">Wealth &amp; Asset Management</a></li>
+          <li><a href="#">Travel &amp; Hospitality</a></li>
+          <li><a href="#">Media &amp; Entertainment</a></li>
+          <li><a href="#">Life Sciences &amp; Healthcare</a></li>
+          <li><a href="#">Manufacturing &amp; CPG</a></li>
+          <li><a href="#">Construction &amp; Infrastructure</a></li>
+        </ul>
+      </div>
+
+      <!-- What we think — col 3, row 2 -->
+      <div>
+        <span class="footer__col-title">What we think</span>
+        <ul class="footer__links">
+          <li><a href="#">Success Stories</a></li>
+          <li><a href="#">Perspectives</a></li>
+          <li><a href="#">Resources</a></li>
+        </ul>
+      </div>
+
+      <!-- Who we are — col 4, row 2 -->
+      <div>
+        <span class="footer__col-title">Who we are</span>
+        <ul class="footer__links">
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Our Approach</a></li>
+          <li><a href="#">Our Leadership</a></li>
+          <li><a href="#">Our Partners</a></li>
+          <li><a href="#">News and Events</a></li>
+          <li><a href="#">Careers</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="footer__bottom">
+      <p class="footer__copy">© 2025 Logic Pursuits. All rights reserved.</p>
+      <nav class="footer__legal" aria-label="Legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Cookie Settings</a>
+      </nav>
+    </div>
+
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════════════
+       JAVASCRIPT
+  ═══════════════════════════════════════════════════════ -->
+  <script>
+    (function () {
+      'use strict';
+
+      /* ── Hero animation — runs immediately on page load ── */
+      const EASE = 'cubic-bezier(0.16, 1, 0.3, 1)';
+      const T600 = `opacity 600ms ${EASE}, transform 600ms ${EASE}`;
+
+      document.querySelectorAll('.hero__headline .line-in').forEach(function (el, i) {
+        setTimeout(function () {
+          el.style.transition = T600;
+          el.style.opacity    = '1';
+          el.style.transform  = 'translateY(0)';
+        }, i * 100);
+      });
+
+      /* Hero sub-copy — 250ms after first line starts */
+      var sub = document.querySelector('.hero__sub');
+      if (sub) {
+        setTimeout(function () {
+          sub.style.transition = T600;
+          sub.style.opacity    = '1';
+          sub.style.transform  = 'translateY(0)';
+        }, 250);
+      }
+
+      /* ── Scroll reveals — IntersectionObserver ── */
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var delay = parseInt(entry.target.dataset.delay) || 0;
+          setTimeout(function () {
+            entry.target.classList.add('in');
+          }, delay);
+          io.unobserve(entry.target);
+        });
+      }, { threshold: 0.15 });
+
+      document.querySelectorAll('.reveal').forEach(function (el) {
+        io.observe(el);
+      });
+
+      /* ── AI Slider — full-bleed bg + thumbnail peek ── */
+      (function () {
+        var SLIDES = [
+          { num: '01', title: 'Strategy & Advisory',   body: 'Build the right AI foundation with clear strategy, governance, and business-aligned roadmaps designed for scalable enterprise adoption.',          pos: '20% center' },
+          { num: '02', title: 'AI & ML Capabilities',  body: 'Design, deploy, and operationalize AI and machine learning solutions that improve automation, intelligence, and decision-making across the enterprise.', pos: '45% center' },
+          { num: '03', title: 'Use Cases',              body: 'Apply AI to high-impact operational challenges — from fraud detection and predictive analytics to intelligent automation and real-time decision support.', pos: '70% center' },
+          { num: '04', title: 'Our Partners',           body: 'We leverage leading AI, machine learning, cloud, and automation ecosystems to accelerate enterprise AI adoption and operational impact.',               pos: '90% center' }
+        ];
+        var TOTAL = SLIDES.length;
+        var current = 0;
+
+        var bgImg   = document.getElementById('ai-bg-img');
+        var numEl   = document.getElementById('ai-slide-num');
+        var titleEl = document.getElementById('ai-slide-title');
+        var bodyEl  = document.getElementById('ai-slide-body');
+        var fill    = document.getElementById('ai-fill');
+        var curLbl  = document.getElementById('ai-cur-lbl');
+        var prevBtn = document.getElementById('ai-prev');
+        var nextBtn = document.getElementById('ai-next');
+        var thumbsEl= document.getElementById('ai-thumbs');
+
+        if (!bgImg) return;
+
+        function renderThumbs() {
+          if (!thumbsEl) return;
+          thumbsEl.innerHTML = '';
+          for (var i = 1; i <= 3; i++) {
+            var idx = (current + i) % TOTAL;
+            var s   = SLIDES[idx];
+            var t   = document.createElement('div');
+            t.className = 'ai-thumb';
+            t.setAttribute('data-idx', idx);
+            t.innerHTML =
+              '<div class="ai-thumb__img"><img src="Assets/social.jpg" alt="" style="object-position:' + s.pos + '"></div>' +
+              '<div class="ai-thumb__info">' +
+                '<span class="ai-thumb__num">' + s.num + '</span>' +
+                '<span class="ai-thumb__title">' + s.title + '</span>' +
+              '</div>';
+            (function (index) {
+              t.addEventListener('click', function () { goTo(index); resetAuto(); });
+            })(idx);
+            thumbsEl.appendChild(t);
+          }
+        }
+
+        function goTo(n) {
+          current = ((n % TOTAL) + TOTAL) % TOTAL;
+          var s = SLIDES[current];
+
+          /* Fade bg image */
+          if (bgImg) {
+            bgImg.style.opacity = '0';
+            setTimeout(function () {
+              bgImg.style.objectPosition = s.pos;
+              bgImg.style.opacity = '1';
+            }, 200);
+          }
+
+          /* Update slide text */
+          if (numEl)   numEl.textContent   = s.num;
+          if (titleEl) titleEl.textContent  = s.title;
+          if (bodyEl)  bodyEl.textContent   = s.body;
+
+          /* Progress */
+          if (fill)   fill.style.width = ((current + 1) / TOTAL * 100) + '%';
+          if (curLbl) curLbl.textContent = s.num;
+
+          /* Thumbs */
+          renderThumbs();
+
+          /* Nav buttons */
+          if (prevBtn) prevBtn.disabled = current === 0;
+          if (nextBtn) nextBtn.disabled = current === TOTAL - 1;
+        }
+
+        /* Auto-scroll — advances every 4 s, loops */
+        var autoTimer = null;
+        function startAuto() {
+          clearInterval(autoTimer);
+          autoTimer = setInterval(function () {
+            goTo((current + 1) % TOTAL);
+          }, 4000);
+        }
+        function resetAuto() { startAuto(); }
+
+        if (nextBtn) nextBtn.addEventListener('click', function () { goTo(current + 1); resetAuto(); });
+        if (prevBtn) prevBtn.addEventListener('click', function () { goTo(current - 1); resetAuto(); });
+
+        /* Swipe support */
+        var sx = 0;
+        var slider = document.querySelector('.ai-slider');
+        if (slider) {
+          slider.addEventListener('pointerdown', function (e) { sx = e.clientX; });
+          slider.addEventListener('pointerup',   function (e) {
+            var dx = e.clientX - sx;
+            if (Math.abs(dx) > 50) { goTo(dx < 0 ? current + 1 : current - 1); resetAuto(); }
+          });
+        }
+
+        goTo(0);
+        startAuto();
+      })();
+
+      /* ── Mobile nav toggle ── */
+      var burger = document.getElementById('nav-burger');
+      var menu   = document.getElementById('nav-menu');
+      if (burger && menu) {
+        burger.addEventListener('click', function () {
+          var open = menu.classList.toggle('is-open');
+          burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+      }
+
+    })();
+  </script>
+
+</body>
+</html>
