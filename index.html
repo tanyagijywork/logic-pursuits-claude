@@ -889,6 +889,7 @@
     .page-end {
       background: url('Assets/social.jpg') center / cover no-repeat;
       position: relative;
+      padding-bottom: 64px; /* space below floating footer — image shows here */
     }
     /* Dark overlay — keeps white text legible against the photo */
     .page-end::before {
@@ -903,8 +904,10 @@
     .page-end .final-cta,
     .page-end .site-footer { position: relative; z-index: 1; }
 
-    /* Gap between CTA bottom and footer top — lets background breathe */
-    .page-end .site-footer { margin-top: 48px; }
+    /* Floating footer — inset from all edges so background image shows around it */
+    .page-end .site-footer {
+      margin: 0 var(--mx);  /* sides only — top gap comes from .final-cta padding-bottom */
+    }
 
     /* CTA — no own background, text floats on the image */
     .final-cta {
