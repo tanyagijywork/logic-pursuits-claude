@@ -195,21 +195,25 @@
     }
 
     /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-       HERO / BANNER — split layout
-       Text left (55%) | Image right (45%), bleeds to container edge
+       HERO / BANNER — intersection triangle grid
+       Columns 62/38 · Rows 22/78
+       Teal triangle at top-right corner of bottom-left cell.
     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
     .hero {
+      background: var(--navy);
       position: relative;
       overflow: hidden;
-      background: var(--navy);
-      min-height: 420px; /* 600px – 30% */
     }
-    /* Teal triangle — top-right corner of the left (headline) column */
+
+    /* Triangle — right-angle at the crossing of the two grid lines.
+       top: 22%  = top edge sits on the horizontal line.
+       right: 38% = right edge sits on the vertical line.
+       Body fills top-right corner of the bottom-left cell. */
     .hero::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: calc(50% - 64px); /* right edge sits at the 50% midpoint */
+      top: 22%;
+      right: 38%;
       width: 64px;
       height: 64px;
       background: var(--teal);
@@ -217,45 +221,47 @@
       pointer-events: none;
       z-index: 2;
     }
-    /* Centre divider — aligns with the overview image/content split below */
-    .hero::after {
-      content: '';
-      position: absolute;
-      left: 50%;
-      top: 0;
-      bottom: 0;
-      width: 1px;
-      background: rgba(255, 255, 255, 0.18);
-      pointer-events: none;
-      z-index: 0;
-    }
+    .hero::after { content: none; } /* remove old centre divider */
 
-    .hero__content {
-      max-width: var(--max-w);
-      margin: 0 auto;
-      padding: 96px var(--mx) 80px;
+    /* 2 × 2 grid — full-width, lines extend to viewport edges */
+    .hero__grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      column-gap: var(--gap);
-      align-items: stretch;   /* both columns fill full row height */
-      min-height: 420px;
+      grid-template-columns: 62fr 38fr;
+      grid-template-rows: 22fr 78fr;
+      min-height: 500px;
       position: relative;
-      z-index: 1;
     }
 
-    /* Left half — heading, full height, text pushed to bottom */
-    .hero__headline {
-      grid-column: auto;
+    .hero__cell { position: relative; }
+
+    /* Borders ARE the two crossing grid lines */
+    .hero__cell--tl {
+      border-right:  1px solid rgba(255,255,255,0.14);
+      border-bottom: 1px solid rgba(255,255,255,0.14);
+    }
+    .hero__cell--tr {
+      border-bottom: 1px solid rgba(255,255,255,0.14);
+    }
+    .hero__cell--bl {
+      border-right: 1px solid rgba(255,255,255,0.14);
+      padding: 56px 64px 72px max(var(--mx), calc((100vw - var(--max-w)) / 2 + var(--mx)));
       display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
+      align-items: flex-start;
+    }
+    .hero__cell--br {
+      padding: 48px max(var(--mx), calc((100vw - var(--max-w)) / 2 + var(--mx))) 72px 56px;
+      display: flex;
+      align-items: flex-end;
+    }
+
+    /* Headline — large, bottom-aligned in bottom-left cell */
+    .hero__headline {
       font-size: 64px;
       font-weight: 600;
       letter-spacing: -0.03em;
       line-height: 1.0;
       color: var(--white);
     }
-
     .hero__headline .line    { display: block; overflow: hidden; }
     .hero__headline .line-in {
       display: block;
@@ -263,16 +269,11 @@
       transform: translateY(30px);
     }
 
-    /* Right half — subline, aligns with overview content column */
+    /* Subline — bottom-aligned in bottom-right cell */
     .hero__sub {
-      grid-column: auto;
-      display: flex;
-      align-items: flex-end;
-      padding-left: calc(var(--mx) - var(--gap) / 2);
-      font-size: 18px;
-      line-height: 1.7;
-      color: rgba(255, 255, 255, 0.82);
-      padding-bottom: 6px;
+      font-size: 17px;
+      line-height: 1.75;
+      color: rgba(255,255,255,0.72);
       opacity: 0;
       transform: translateY(30px);
     }
@@ -287,17 +288,14 @@
       margin-bottom: 32px;
     }
 
-    /* Overview — image left flush to viewport edge, content right */
-    .overview {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      overflow: hidden;
-    }
+    /* Overview — full-bleed image top, 2-col content below */
+    .overview { display: block; }
 
-    /* Image panel — fills full section height, no padding */
+    /* Full-bleed image strip */
     .overview__img {
+      width: 100%;
+      height: 480px;
       overflow: hidden;
-      min-height: 560px;
     }
     .overview__img img {
       width: 100%;
@@ -307,9 +305,17 @@
       display: block;
     }
 
-    /* Content column — left padding grows with viewport to keep text in the max-w box */
+    /* Two-column row: content left | pillars right */
+    .overview__lower {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-top: 1px solid var(--grey-200);
+    }
+
+    /* Left — overview text */
     .overview__content {
-      padding: 96px max(var(--mx), calc((100vw - var(--max-w)) / 2 + var(--mx))) 96px var(--mx);
+      padding: 80px 64px 80px max(var(--mx), calc((100vw - var(--max-w)) / 2 + var(--mx)));
+      border-right: 1px solid var(--grey-200);
     }
 
     .overview__headline {
@@ -327,26 +333,27 @@
       color: var(--grey-700);
     }
 
-    /* 3-pillar grid — full-width row below overview */
-    .pillars-row { background: var(--white); }
-    .pillars {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      border-top: 1px solid var(--grey-200);
+    /* Right — pillars stacked vertically */
+    .overview__pillars {
+      padding: 80px max(var(--mx), calc((100vw - var(--max-w)) / 2 + var(--mx))) 80px 64px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
+
     .pillar {
-      padding: 40px 48px 40px 0;
-      border-right: 1px solid var(--grey-200);
+      padding: 32px 0;
+      border-bottom: 1px solid var(--grey-200);
     }
-    .pillar:not(:first-child) { padding-left: 40px; }
-    .pillar:last-child        { border-right: none; padding-right: 0; }
+    .pillar:first-child { padding-top: 0; }
+    .pillar:last-child  { border-bottom: none; padding-bottom: 0; }
 
     .pillar__title {
       font-size: 20px;
       font-weight: 600;
       line-height: 1.4;
       color: var(--deep-navy);
-      margin-bottom: 16px;
+      margin-bottom: 10px;
     }
     .pillar__copy {
       font-size: 16px;
@@ -726,72 +733,130 @@
        SECTION 8 — TESTIMONIALS
     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
     /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-       TESTIMONIALS — dark navy
+       TESTIMONIALS — intersection triangle grid
+       Columns 60/40 · Rows 38/62
+       Teal triangle at top-right corner of bottom-left cell.
     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-    .testimonials {
-      background: var(--navy);
-      padding: 96px 0 0;
+    .testimonials { background: var(--navy); }
+
+    .testimonials__outer {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      position: relative;
     }
-    /* Frame lives on the grid — starts from the quote line, not the heading */
-    .testimonials .section-eyebrow { color: var(--teal); }
-    .testimonials__headline {
-      font-size: 40px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.2;
-      color: var(--white); max-width: 680px; margin-bottom: 72px;
-    }
-    .testimonial-grid {
+
+    /* 2×2 grid — the crossing borders ARE the two lines */
+    .testimonials__grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      /* Four-sided frame — all borders on the grid so the frame starts at the quote line */
-      border: 1px solid rgba(255,255,255,0.12);
-      /* Pull edge-to-edge within the wrap */
-      margin-left: calc(-1 * var(--mx));
-      margin-right: calc(-1 * var(--mx));
+      grid-template-columns: 60fr 40fr;
+      grid-template-rows: 38fr 62fr;
+      min-height: 640px;
     }
-    .testimonial {
+
+    /* Teal triangle — top-right corner of bottom-left quadrant.
+       top: 38% = sits on horizontal line.
+       right: 40% = right edge on vertical line.
+       Right angle (top-right of element) = exactly at the crossing. */
+    .testimonials__tri {
+      position: absolute;
+      width: 64px;
+      height: 64px;
+      top: 38%;
+      right: 40%;
+      background: var(--teal);
+      clip-path: polygon(100% 0, 100% 100%, 0 0);
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    /* Shared cell base */
+    .tsec { position: relative; }
+
+    /* Grid-line borders */
+    .tsec--tl {
+      border-right:  1px solid rgba(255,255,255,0.14);
+      border-bottom: 1px solid rgba(255,255,255,0.14);
+      padding: 72px 56px 48px var(--mx);
+    }
+    .tsec--tr {
+      border-bottom: 1px solid rgba(255,255,255,0.14);
+      padding: 72px var(--mx) 48px 56px;
+      display: flex;
+      align-items: flex-start;
+    }
+    .tsec--bl {
+      border-right: 1px solid rgba(255,255,255,0.14);
+      padding: 56px 56px 72px var(--mx);
       display: flex;
       flex-direction: column;
-      padding: 56px 64px 56px var(--mx);
-      border-right: 1px solid rgba(255,255,255,0.12);
+      justify-content: flex-start;
     }
-    .testimonial:last-child {
-      border-right: none;
-      padding-left: 64px;
-      padding-right: var(--mx);
-    }
-    /* Opening quote mark */
-    .testimonial__mark {
-      font-size: 64px; line-height: 0.8; font-weight: 600;
-      color: var(--teal); margin-bottom: 24px; display: block;
-      font-family: Georgia, serif;
-    }
-    .testimonial__quote {
-      font-size: 17px; line-height: 1.8; color: rgba(255,255,255,0.82);
-      flex: 1; margin-bottom: 48px; font-style: italic;
-    }
-    /* Profile row — avatar + name/role */
-    .testimonial__profile {
+    .tsec--br {
+      padding: 48px var(--mx) 72px 56px;
       display: flex;
-      align-items: center;
-      gap: 16px;
+      align-items: flex-end;
+      justify-content: flex-start;
     }
-    .testimonial__avatar {
-      width: 52px; height: 52px;
-      border-radius: 50%;
-      overflow: hidden;
+
+    /* TOP-LEFT — eyebrow + heading */
+    .testimonials__eyebrow {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--teal);
+      margin-bottom: 20px; display: block;
+    }
+    .testimonials__headline {
+      font-size: 40px; font-weight: 600; letter-spacing: -0.02em;
+      line-height: 1.2; color: var(--white); white-space: nowrap;
+    }
+
+    /* TOP-RIGHT — profile */
+    .tsec__profile {
+      display: flex; flex-direction: column; gap: 14px;
+      transition: opacity 260ms ease;
+    }
+    .tsec__avatar {
+      width: 56px; height: 56px; border-radius: 50%;
+      overflow: hidden; border: 2px solid rgba(255,255,255,0.18);
       flex-shrink: 0;
-      background: rgba(255,255,255,0.10);
-      border: 1px solid rgba(255,255,255,0.15);
     }
-    .testimonial__avatar img {
-      width: 100%; height: 100%; object-fit: cover; display: block;
-    }
-    .testimonial__name {
+    .tsec__avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .tsec__name {
       font-size: 15px; font-weight: 600; color: var(--white);
-      margin-bottom: 3px;
+      margin-bottom: 4px; line-height: 1.3;
     }
-    .testimonial__role {
-      font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.4;
+    .tsec__role { font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.5; }
+
+    /* BOTTOM-LEFT — quote */
+    .tsec__mark {
+      font-size: 52px; line-height: 1; font-family: Georgia, serif;
+      color: var(--teal); display: block; margin-bottom: 20px; flex-shrink: 0;
     }
+    .tsec__quote {
+      font-size: 17px; line-height: 1.85;
+      color: rgba(255,255,255,0.82); font-style: italic;
+      max-width: 640px; transition: opacity 260ms ease;
+    }
+
+    /* BOTTOM-RIGHT — navigation */
+    .tsec__nav { display: flex; flex-direction: column; align-items: flex-start; gap: 20px; }
+    .tsec__counter {
+      font-size: 13px; font-weight: 600; letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.35);
+    }
+    .tsec__arrows { display: flex; }
+    .tsec__btn {
+      width: 52px; height: 52px; background: none;
+      border: 1px solid rgba(255,255,255,0.16);
+      color: var(--white); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 150ms ease, border-color 150ms ease;
+    }
+    .tsec__btn + .tsec__btn { border-left: none; }
+    .tsec__btn:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.40); }
+    .tsec__btn svg { display: block; }
+
+    /* Fade out state (JS adds/removes) */
+    .tsec--fading { opacity: 0; }
 
     /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
        SECTION 9 — FINAL CTA — half navy / half image
@@ -940,9 +1005,9 @@
     @media (max-width: 1024px) {
       :root { --mx: 48px; }
 
-      .hero                 { padding: 96px 0 80px; }
       .hero__headline       { font-size: 52px; }
-      .hero__grid-rule      { display: none; }
+      .hero__cell--bl       { padding-top: 48px; padding-bottom: 56px; }
+      .hero__cell--br       { padding-top: 48px; padding-bottom: 56px; }
 
       .nav__link            { padding: 0 13px; font-size: 12px; }
       .nav__link--cta       { padding: 0 20px; }
@@ -968,9 +1033,13 @@
       .nav__burger              { display: flex; }
 
       /* Hero — stack on mobile */
-      .hero__content           { padding: 72px var(--mx) 64px; min-height: auto; grid-template-columns: 1fr; align-items: start; }
-      .hero__headline          { font-size: 40px; justify-content: flex-start; }
-      .hero__sub               { align-items: flex-start; padding-left: 0; padding-top: 24px; }
+      .hero__grid              { grid-template-columns: 1fr; grid-template-rows: auto; min-height: unset; }
+      .hero::before            { display: none; }
+      .hero__cell--tl,
+      .hero__cell--tr          { display: none; }
+      .hero__cell--bl          { border-right: none; padding: 64px var(--mx) 40px; align-items: flex-start; }
+      .hero__cell--br          { padding: 24px var(--mx) 64px; }
+      .hero__headline          { font-size: 40px; }
       .tri--256                { width: 120px; height: 120px; }
 
       /* Sections */
@@ -1001,12 +1070,12 @@
       .ai-offerings,
       .partner-logos,
       .case-studies            { padding: 64px 0 0; }
-      .testimonials            { padding: 64px 0; }
+      .testimonials            { }
       .how-deliver__headline,
       .ai-offerings__headline,
       .partner-logos__headline,
       .case-studies__headline,
-      .testimonials__headline  { font-size: 28px; margin-bottom: 0; }
+      .testimonials__headline  { font-size: 22px; white-space: normal; }
 
       /* AI carousel mobile */
       .ai-header               { flex-direction: column; align-items: flex-start; gap: 24px; margin-bottom: 32px; }
@@ -1024,23 +1093,21 @@
       .case-item__counter      { display: none; }
       .case-item__title        { font-size: 18px; }
 
-      /* Testimonials */
-      .testimonial-grid        { grid-template-columns: 1fr; }
-      .testimonial             { border-right: none;
-                                  border-bottom: 1px solid rgba(255,255,255,0.12);
-                                  padding: 40px 0 !important; }
-      .testimonial:last-child  { border-bottom: none; }
+      /* Testimonials — stack to single column */
+      .testimonials__grid      { grid-template-columns: 1fr; grid-template-rows: auto; min-height: unset; }
+      .testimonials__tri       { display: none; }
+      .tsec--tl  { border-right: none; padding: 48px var(--mx) 32px; }
+      .tsec--tr  { border-bottom: none; border-top: 1px solid rgba(255,255,255,0.14); padding: 40px var(--mx); }
+      .tsec--bl  { border-right: none; border-top: 1px solid rgba(255,255,255,0.14); padding: 40px var(--mx); }
+      .tsec--br  { border-top: 1px solid rgba(255,255,255,0.14); padding: 32px var(--mx) 48px; }
 
-      /* Overview → stack image above, content below */
-      .overview                { grid-template-columns: 1fr; }
-      .overview__img           { min-height: auto; aspect-ratio: 16/9; }
-      .overview__content       { padding: 56px var(--mx); }
-
-      /* Pillars → stack vertically on mobile */
-      .pillars                 { grid-template-columns: 1fr; }
-      .pillar                  { border-right: none; border-bottom: 1px solid var(--grey-200);
-                                  padding: 32px 0 !important; }
-      .pillar:last-child       { border-bottom: none; }
+      /* Overview → stack on mobile */
+      .overview__img           { height: auto; aspect-ratio: 16/9; }
+      .overview__lower         { grid-template-columns: 1fr; }
+      .overview__content       { padding: 56px var(--mx); border-right: none; border-bottom: 1px solid var(--grey-200); }
+      .overview__pillars       { padding: 48px var(--mx) 56px; }
+      .pillar                  { padding: 28px 0; }
+      .pillar:first-child      { padding-top: 0; }
 
       /* Case cards → stack */
       .case-grid               { grid-template-columns: 1fr; }
@@ -1097,21 +1164,22 @@
        Split: text left | image right
   ═══════════════════════════════════════════════════════ -->
   <section class="hero" aria-labelledby="hero-headline">
-    <!-- Decorative triangles -->
-
-    <div class="hero__content">
-      <h1 class="hero__headline" id="hero-headline">
-        <span class="line"><span class="line-in">Accelerate decisions.</span></span>
-        <span class="line"><span class="line-in">Multiply outcomes.</span></span>
-      </h1>
-      <p class="hero__sub">
-        Enabling enterprises to turn data platform investments into trusted decisions, faster execution, and measurable business advantage.
-      </p>
+    <div class="hero__grid">
+      <div class="hero__cell hero__cell--tl"></div>
+      <div class="hero__cell hero__cell--tr"></div>
+      <div class="hero__cell hero__cell--bl">
+        <h1 class="hero__headline" id="hero-headline">
+          <span class="line"><span class="line-in">Accelerate decisions.</span></span>
+          <span class="line"><span class="line-in">Multiply outcomes.</span></span>
+        </h1>
+      </div>
+      <div class="hero__cell hero__cell--br">
+        <p class="hero__sub">
+          Enabling enterprises to turn data platform investments into trusted decisions, faster execution, and measurable business advantage.
+        </p>
+      </div>
     </div>
-
   </section>
-
-  <hr class="rule">
 
 
   <!-- ═══════════════════════════════════════════════════════
@@ -1119,48 +1187,48 @@
   ═══════════════════════════════════════════════════════ -->
   <section class="overview" aria-labelledby="overview-headline">
 
-    <!-- Image — left column, full section height -->
-    <div class="overview__img reveal" data-delay="120">
+    <!-- Full-bleed image -->
+    <div class="overview__img reveal">
       <img src="Assets/social.jpg" alt="">
     </div>
 
-    <!-- Content — right column -->
-    <div class="overview__content">
-      <p class="t-overline section-eyebrow reveal">Overview</p>
+    <!-- Two-column lower row -->
+    <div class="overview__lower">
 
-      <h2 class="overview__headline reveal" id="overview-headline">
-        Delivering outcomes that are strategic multipliers
-      </h2>
-      <p class="overview__body reveal">
-        Enterprises have invested heavily in data and AI platforms. But fragmented data, delayed insights, and disconnected execution slow down the business impact. At Logic Pursuits, we focus on delivering outcomes that act as strategic multiplier for your business by bridging the gap between platform investments and operational outcomes.
-      </p>
-    </div>
+      <!-- Left — overview text -->
+      <div class="overview__content">
+        <p class="t-overline section-eyebrow reveal">Overview</p>
+        <h2 class="overview__headline reveal" id="overview-headline">
+          Delivering outcomes that are strategic multipliers
+        </h2>
+        <p class="overview__body reveal">
+          Enterprises have invested heavily in data and AI platforms. But fragmented data, delayed insights, and disconnected execution slow down the business impact. At Logic Pursuits, we focus on delivering outcomes that act as strategic multiplier for your business by bridging the gap between platform investments and operational outcomes.
+        </p>
+      </div>
 
-  </section>
-
-  <!-- 3 pillars — full-width row below overview -->
-  <div class="pillars-row">
-    <div class="wrap">
-      <div class="pillars">
+      <!-- Right — pillars stacked vertically, staggered reveal -->
+      <div class="overview__pillars">
 
         <div class="pillar reveal" data-delay="0">
           <p class="pillar__title">Multiply decision confidence</p>
           <p class="pillar__copy">By turning fragmented operational data into trusted business intelligence.</p>
         </div>
 
-        <div class="pillar reveal" data-delay="80">
+        <div class="pillar reveal" data-delay="180">
           <p class="pillar__title">Multiply execution speed</p>
           <p class="pillar__copy">By removing reporting bottlenecks and accelerating operational workflows.</p>
         </div>
 
-        <div class="pillar reveal" data-delay="160">
+        <div class="pillar reveal" data-delay="360">
           <p class="pillar__title">Multiply organizational capability</p>
           <p class="pillar__copy">By building long-term data and AI maturity alongside delivery.</p>
         </div>
 
       </div>
+
     </div>
-  </div>
+
+  </section>
 
   <hr class="rule">
 
@@ -1459,42 +1527,60 @@
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
-       SECTION 8 — TESTIMONIALS (dark navy)
+       SECTION 8 — TESTIMONIALS (intersection triangle grid)
   ═══════════════════════════════════════════════════════ -->
   <section class="testimonials" aria-labelledby="testimonials-headline">
-    <div class="wrap">
-      <p class="t-overline section-eyebrow reveal">Client voices</p>
-      <h2 class="testimonials__headline reveal" id="testimonials-headline">
-        And earning their trust
-      </h2>
-      <div class="testimonial-grid">
+    <div class="testimonials__outer">
 
-        <div class="testimonial reveal" data-delay="0">
-          <span class="testimonial__mark" aria-hidden="true">&ldquo;</span>
-          <p class="testimonial__quote">In addition to bringing technical expertise around data analytics, Logic Pursuits brings extremely valuable knowledge around the types of analytics that can be used to provide insights across various business processes. The team's expertise in internal audit functions was able to generate real value to our internal audit team.</p>
-          <div class="testimonial__profile">
-            <div class="testimonial__avatar">
-              <img src="https://i.pravatar.cc/104?img=11" alt="Kalyan Upadhyaya">
+      <!-- Triangle — top-right corner of the bottom-left quadrant -->
+      <div class="testimonials__tri" aria-hidden="true"></div>
+
+      <div class="testimonials__grid">
+
+        <!-- TOP-LEFT: eyebrow + heading -->
+        <div class="tsec tsec--tl reveal">
+          <span class="testimonials__eyebrow">Client voices</span>
+          <h2 class="testimonials__headline" id="testimonials-headline">And earning their trust</h2>
+        </div>
+
+        <!-- TOP-RIGHT: profile (swapped by JS) -->
+        <div class="tsec tsec--tr">
+          <div class="tsec__profile" id="tsec-profile">
+            <div class="tsec__avatar">
+              <img id="tsec-avatar" src="https://i.pravatar.cc/104?img=11" alt="Kalyan Upadhyaya">
             </div>
             <div>
-              <p class="testimonial__name">Kalyan Upadhyaya</p>
-              <p class="testimonial__role">Director, Business Assurance Services (BAS)</p>
+              <p class="tsec__name" id="tsec-name">Kalyan Upadhyaya</p>
+              <p class="tsec__role" id="tsec-role">Director, Business Assurance Services (BAS)</p>
             </div>
           </div>
         </div>
 
-        <div class="testimonial reveal" data-delay="80">
-          <span class="testimonial__mark" aria-hidden="true">&ldquo;</span>
-          <p class="testimonial__quote">Logic Pursuits has augmented our Internal Audit's data analytics capabilities, enabling us to produce more work per same unit of time. Logic Pursuits has been a force multiplier for us. It brings a compelling value proposition. Their work quality is comparable to that found in top-tier consulting companies and they deliver it at a fraction of cost.</p>
-          <div class="testimonial__profile">
-            <div class="testimonial__avatar">
-              <img src="https://i.pravatar.cc/104?img=52" alt="Raymond Lopez">
+        <!-- BOTTOM-LEFT: quote (swapped by JS) -->
+        <div class="tsec tsec--bl">
+          <span class="tsec__mark" aria-hidden="true">&ldquo;</span>
+          <p class="tsec__quote" id="tsec-quote">In addition to bringing technical expertise around data analytics, Logic Pursuits brings extremely valuable knowledge around the types of analytics that can be used to provide insights across various business processes. The team's expertise in internal audit functions was able to generate real value to our internal audit team.</p>
+        </div>
+
+        <!-- BOTTOM-RIGHT: navigation -->
+        <div class="tsec tsec--br">
+          <nav class="tsec__nav" aria-label="Testimonial navigation">
+            <span class="tsec__counter" id="tsec-counter">01 / 02</span>
+            <div class="tsec__arrows">
+              <button class="tsec__btn" id="tsec-prev" aria-label="Previous testimonial">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                  <line x1="14" y1="9" x2="4" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  <polyline points="8,5 4,9 8,13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                </svg>
+              </button>
+              <button class="tsec__btn" id="tsec-next" aria-label="Next testimonial">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                  <line x1="4" y1="9" x2="14" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  <polyline points="10,5 14,9 10,13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                </svg>
+              </button>
             </div>
-            <div>
-              <p class="testimonial__name">Raymond Lopez</p>
-              <p class="testimonial__role">Director of Internal Audit and Compliance</p>
-            </div>
-          </div>
+          </nav>
         </div>
 
       </div>
@@ -1780,6 +1866,55 @@
       })();
 
       /* ── Mobile nav toggle ── */
+      /* ── Testimonial slider ── */
+      var tsecData = [
+        {
+          name:   'Kalyan Upadhyaya',
+          role:   'Director, Business Assurance Services (BAS)',
+          avatar: 'https://i.pravatar.cc/104?img=11',
+          quote:  'In addition to bringing technical expertise around data analytics, Logic Pursuits brings extremely valuable knowledge around the types of analytics that can be used to provide insights across various business processes. The team’s expertise in internal audit functions was able to generate real value to our internal audit team.'
+        },
+        {
+          name:   'Raymond Lopez',
+          role:   'Director of Internal Audit and Compliance',
+          avatar: 'https://i.pravatar.cc/104?img=52',
+          quote:  'Logic Pursuits has augmented our Internal Audit’s data analytics capabilities, enabling us to produce more work per same unit of time. Logic Pursuits has been a force multiplier for us. It brings a compelling value proposition. Their work quality is comparable to that found in top-tier consulting companies and they deliver it at a fraction of cost.'
+        }
+      ];
+      var tsecIdx     = 0;
+      var tsecQuote   = document.getElementById('tsec-quote');
+      var tsecProfile = document.getElementById('tsec-profile');
+      var tsecAvatar  = document.getElementById('tsec-avatar');
+      var tsecName    = document.getElementById('tsec-name');
+      var tsecRole    = document.getElementById('tsec-role');
+      var tsecCounter = document.getElementById('tsec-counter');
+
+      function tsecGo(idx) {
+        var faders = [tsecQuote, tsecProfile];
+        faders.forEach(function(el) { el.classList.add('tsec--fading'); });
+        setTimeout(function () {
+          var d = tsecData[idx];
+          tsecQuote.textContent   = d.quote;
+          tsecAvatar.src          = d.avatar;
+          tsecAvatar.alt          = d.name;
+          tsecName.textContent    = d.name;
+          tsecRole.textContent    = d.role;
+          tsecCounter.textContent = (idx + 1 < 10 ? '0' : '') + (idx + 1) + ' / 0' + tsecData.length;
+          faders.forEach(function(el) { el.classList.remove('tsec--fading'); });
+        }, 260);
+      }
+
+      var tsecPrev = document.getElementById('tsec-prev');
+      var tsecNext = document.getElementById('tsec-next');
+      if (tsecPrev) tsecPrev.addEventListener('click', function () {
+        tsecIdx = (tsecIdx - 1 + tsecData.length) % tsecData.length;
+        tsecGo(tsecIdx);
+      });
+      if (tsecNext) tsecNext.addEventListener('click', function () {
+        tsecIdx = (tsecIdx + 1) % tsecData.length;
+        tsecGo(tsecIdx);
+      });
+
       var burger = document.getElementById('nav-burger');
       var menu   = document.getElementById('nav-menu');
       if (burger && menu) {

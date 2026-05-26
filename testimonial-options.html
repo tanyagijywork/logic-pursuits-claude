@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Testimonial Design Options — Logic Pursuits</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --teal:      #00C8B7;
+      --navy:      #003B5E;
+      --deep-navy: #002B3C;
+      --white:     #FFFFFF;
+      --grey-50:   #F8F9FA;
+      --grey-100:  #F0F2F4;
+      --grey-200:  #E2E6EA;
+      --grey-400:  #9AA5B1;
+      --grey-700:  #3D4F5C;
+      --max-w:     1440px;
+      --mx:        40px;
+      --gap:       24px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--grey-50);
+      color: var(--deep-navy);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+
+    /* ── Sticky nav ── */
+    .options-nav {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      background: var(--navy);
+      border-bottom: 1px solid rgba(255,255,255,0.10);
+    }
+    .options-nav__inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 var(--mx);
+      display: flex;
+      align-items: center;
+      gap: 0;
+      height: 56px;
+    }
+    .options-nav__brand {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin-right: 40px;
+      white-space: nowrap;
+    }
+    .options-nav__links {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      height: 100%;
+    }
+    .options-nav__link {
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.55);
+      border-left: 1px solid rgba(255,255,255,0.10);
+      transition: color 150ms ease, background 150ms ease;
+      white-space: nowrap;
+    }
+    .options-nav__link:hover { color: var(--white); background: rgba(255,255,255,0.05); }
+    .options-nav__link.active { color: var(--teal); }
+
+    /* ── Section wrapper ── */
+    .option-block {
+      padding: 80px 0;
+    }
+    .option-label {
+      max-width: var(--max-w);
+      margin: 0 auto 24px;
+      padding: 0 var(--mx);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .option-label__tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--grey-400);
+    }
+    .option-label__rule {
+      flex: 1;
+      height: 1px;
+      background: var(--grey-200);
+    }
+    .option-label__name {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: var(--grey-400);
+    }
+
+    /* ── Scroll reveal ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 450ms ease, transform 450ms ease;
+    }
+    .reveal.in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       OPTION 1 — NUMBERED ROWS
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .t1 {
+      background: var(--white);
+      padding: 96px 0;
+    }
+    .t1__wrap {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 var(--mx);
+    }
+    .t1__eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 56px;
+    }
+
+    /* Grid header */
+    .t1__header {
+      display: grid;
+      grid-template-columns: 80px 1fr 280px;
+      gap: 0;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--grey-200);
+      margin-bottom: 0;
+    }
+    .t1__header-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--grey-400);
+    }
+    .t1__header-label:last-child { text-align: right; }
+
+    /* Row */
+    .t1__row {
+      display: grid;
+      grid-template-columns: 80px 1fr 280px;
+      gap: 0;
+      align-items: center;
+      border-bottom: 1px solid var(--grey-200);
+      padding: 48px 0;
+      transition: background 200ms ease;
+    }
+    .t1__row:hover { background: var(--grey-50); }
+
+    .t1__num {
+      font-size: 36px;
+      font-weight: 300;
+      color: var(--teal);
+      line-height: 1;
+      align-self: flex-start;
+      padding-top: 4px;
+    }
+    .t1__quote-col {
+      padding-right: 64px;
+    }
+    .t1__quote {
+      font-size: 18px;
+      line-height: 1.75;
+      color: var(--grey-700);
+      font-style: italic;
+    }
+    .t1__profile {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 12px;
+      border-left: 1px solid var(--grey-200);
+      padding-left: 40px;
+    }
+    .t1__avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid var(--grey-200);
+    }
+    .t1__avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .t1__name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--deep-navy);
+      text-align: right;
+    }
+    .t1__role {
+      font-size: 12px;
+      color: var(--grey-400);
+      text-align: right;
+      line-height: 1.5;
+      max-width: 200px;
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       OPTION 2 — SPLIT PANEL
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .t2 {
+      background: var(--navy);
+      overflow: hidden;
+    }
+    .t2__grid {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 40fr 60fr;
+      min-height: 640px;
+    }
+
+    /* Left panel */
+    .t2__left {
+      border-left: 3px solid var(--teal);
+      padding: 96px 64px 0 var(--mx);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      border-right: 1px solid rgba(255,255,255,0.10);
+    }
+    .t2__eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 32px;
+    }
+    .t2__heading {
+      font-size: 40px;
+      font-weight: 600;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: var(--white);
+      max-width: 340px;
+      flex: 1;
+    }
+    .t2__deco-quote {
+      font-size: 240px;
+      line-height: 0.7;
+      font-family: Georgia, serif;
+      color: var(--teal);
+      opacity: 0.15;
+      position: absolute;
+      bottom: 0;
+      left: calc(var(--mx) - 16px);
+      pointer-events: none;
+      user-select: none;
+      line-height: 1;
+    }
+
+    /* Right panel */
+    .t2__right {
+      display: flex;
+      flex-direction: column;
+    }
+    .t2__card {
+      flex: 1;
+      padding: 72px 64px 72px 56px;
+      border-bottom: 1px solid rgba(255,255,255,0.10);
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      transition: background 250ms ease;
+    }
+    .t2__card:last-child { border-bottom: none; }
+    .t2__card:hover { background: rgba(255,255,255,0.04); }
+
+    .t2__mark {
+      font-size: 48px;
+      line-height: 0.8;
+      font-family: Georgia, serif;
+      color: var(--teal);
+      display: block;
+      margin-bottom: -8px;
+    }
+    .t2__quote {
+      font-size: 17px;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.80);
+      font-style: italic;
+      flex: 1;
+    }
+    .t2__profile {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding-top: 32px;
+      border-top: 1px solid rgba(255,255,255,0.10);
+    }
+    .t2__avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 1.5px solid rgba(255,255,255,0.25);
+      flex-shrink: 0;
+    }
+    .t2__avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .t2__name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 3px;
+    }
+    .t2__role {
+      font-size: 12px;
+      color: rgba(255,255,255,0.45);
+      line-height: 1.4;
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       OPTION 3 — 3-COLUMN CARD GRID
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .t3 {
+      background: var(--deep-navy);
+      padding-top: 96px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .t3__wrap {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 var(--mx);
+    }
+    .t3__eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--teal);
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .t3__heading {
+      font-size: 40px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--white);
+      text-align: center;
+      max-width: 580px;
+      margin: 0 auto 72px;
+    }
+
+    /* Card grid */
+    .t3__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid rgba(255,255,255,0.10);
+    }
+    .t3__card {
+      display: flex;
+      flex-direction: column;
+      padding: 56px 48px 0;
+      border-right: 1px solid rgba(255,255,255,0.10);
+      transition: background 250ms ease;
+    }
+    .t3__card:last-child { border-right: none; }
+    .t3__card:hover { background: var(--navy); }
+
+    .t3__mark {
+      font-size: 56px;
+      line-height: 0.8;
+      font-family: Georgia, serif;
+      color: var(--teal);
+      display: block;
+      margin-bottom: 28px;
+    }
+    .t3__quote {
+      font-size: 16px;
+      line-height: 1.85;
+      color: rgba(255,255,255,0.75);
+      font-style: italic;
+      flex: 1;
+      margin-bottom: 48px;
+    }
+    .t3__profile {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      border-top: 1px solid rgba(255,255,255,0.10);
+      padding: 28px 0 48px;
+      margin-top: auto;
+    }
+    .t3__avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 1.5px solid rgba(255,255,255,0.20);
+      flex-shrink: 0;
+    }
+    .t3__avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .t3__name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 3px;
+    }
+    .t3__role {
+      font-size: 12px;
+      color: rgba(255,255,255,0.40);
+      line-height: 1.4;
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       OPTION 4 — INTERSECTION TRIANGLE GRID
+       Columns 60/40 · Rows 38/62
+       Teal triangle sits with its corner exactly at the crossing.
+       Section label → top-left  | Profile  → top-right
+       Quote         → bottom-left| Nav      → bottom-right
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .t4 { background: var(--navy); }
+
+    /* Outer wrapper constrains to max-width */
+    .t4__outer {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      position: relative; /* triangle is anchored here */
+    }
+
+    /* 2 × 2 grid — columns 60 / 40, rows 38 / 62 */
+    .t4__grid {
+      display: grid;
+      grid-template-columns: 60fr 40fr;
+      grid-template-rows: 38fr 62fr;
+      min-height: 640px;
+    }
+
+    /*
+      Triangle — sits with its bottom-left corner exactly at the crossing.
+      The crossing is at left: 60%  top: 38%  of the outer wrapper.
+      clip-path polygon(100% 0, 100% 100%, 0 0) = right angle at top-right
+      → the body of the triangle extends into the top-right cell.
+    */
+    .t4__intersect {
+      position: absolute;
+      width: 64px;
+      height: 64px;
+      top: 38%;   /* top edge sits on the horizontal grid line */
+      right: 40%; /* right edge sits on the vertical grid line */
+      /* right angle at top-right = sits exactly at the intersection corner */
+      background: var(--teal);
+      clip-path: polygon(100% 0, 100% 100%, 0 0);
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    /* Cell shared styles */
+    .t4__cell { position: relative; }
+
+    /* Grid-line borders — these ARE the two crossing lines */
+    .t4__cell--tl {
+      border-right:  1px solid rgba(255,255,255,0.14);
+      border-bottom: 1px solid rgba(255,255,255,0.14);
+      padding: 64px 48px 48px var(--mx);
+    }
+    .t4__cell--tr {
+      border-bottom: 1px solid rgba(255,255,255,0.14);
+      /* extra left padding so content clears the triangle */
+      padding: 64px var(--mx) 48px 56px;
+      display: flex;
+      align-items: flex-start;
+      padding-top: 72px;
+    }
+    .t4__cell--bl {
+      border-right: 1px solid rgba(255,255,255,0.14);
+      padding: 56px 48px 64px var(--mx);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+    .t4__cell--br {
+      padding: 48px var(--mx) 64px 56px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-start;
+    }
+
+    /* TOP-LEFT — section label */
+    .t4__eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 20px;
+      display: block;
+    }
+    .t4__section-label {
+      font-size: 30px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      color: var(--white);
+      white-space: nowrap;
+    }
+
+    /* TOP-RIGHT — profile */
+    .t4__profile {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .t4__avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid rgba(255,255,255,0.18);
+      flex-shrink: 0;
+    }
+    .t4__avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .t4__name {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+    .t4__role {
+      font-size: 13px;
+      color: rgba(255,255,255,0.45);
+      line-height: 1.5;
+    }
+
+    /* BOTTOM-LEFT — quote */
+    .t4__mark {
+      font-size: 52px;
+      line-height: 1;
+      font-family: Georgia, serif;
+      color: var(--teal);
+      display: block;
+      margin-bottom: 20px;
+      flex-shrink: 0;
+    }
+    .t4__quote {
+      font-size: 17px;
+      line-height: 1.85;
+      color: rgba(255,255,255,0.82);
+      font-style: italic;
+      max-width: 640px;
+    }
+
+    /* BOTTOM-RIGHT — navigation */
+    .t4__nav {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 24px;
+    }
+    .t4__counter {
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 0.08em;
+    }
+    .t4__arrows {
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+    .t4__btn {
+      width: 52px;
+      height: 52px;
+      background: none;
+      border: 1px solid rgba(255,255,255,0.16);
+      color: var(--white);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 150ms ease, border-color 150ms ease;
+      flex-shrink: 0;
+    }
+    .t4__btn + .t4__btn { border-left: none; }
+    .t4__btn:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.40); }
+    .t4__btn svg { display: block; }
+
+    /* Fade transition */
+    .t4__fade { transition: opacity 260ms ease; }
+    .t4__fade.t4--out { opacity: 0; }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .t4__grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        min-height: unset;
+      }
+      .t4__intersect { display: none; }
+      .t4__cell--tl { order: 1; border-right: none; padding: 48px var(--mx) 32px; }
+      .t4__cell--tr { order: 2; border-bottom: none; border-top: 1px solid rgba(255,255,255,0.14); padding: 40px var(--mx); }
+      .t4__cell--bl { order: 3; border-right: none; border-top: 1px solid rgba(255,255,255,0.14); padding: 40px var(--mx); }
+      .t4__cell--br { order: 4; border-top: 1px solid rgba(255,255,255,0.14); padding: 32px var(--mx) 48px; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- ── Sticky nav ── -->
+  <nav class="options-nav">
+    <div class="options-nav__inner">
+      <span class="options-nav__brand">Testimonial Options</span>
+      <div class="options-nav__links">
+        <a class="options-nav__link" href="#option-1">Option 1 — Numbered Rows</a>
+        <a class="options-nav__link" href="#option-2">Option 2 — Split Panel</a>
+        <a class="options-nav__link" href="#option-3">Option 3 — Card Grid</a>
+        <a class="options-nav__link" href="#option-4">Option 4 — Triangle Grid</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- ══════════════════════════════════════════
+       OPTION 1 — NUMBERED ROWS
+  ══════════════════════════════════════════ -->
+  <div class="option-block" id="option-1">
+    <div class="option-label">
+      <span class="option-label__tag">Option 1</span>
+      <div class="option-label__rule"></div>
+      <span class="option-label__name">Numbered Rows — White Background</span>
+    </div>
+
+    <section class="t1">
+      <div class="t1__wrap">
+
+        <p class="t1__eyebrow reveal">Client Voices</p>
+
+        <div class="t1__header reveal">
+          <span class="t1__header-label">#</span>
+          <span class="t1__header-label">Testimonial</span>
+          <span class="t1__header-label">Client</span>
+        </div>
+
+        <!-- Row 1 -->
+        <div class="t1__row reveal" data-delay="0">
+          <div class="t1__num">01</div>
+          <div class="t1__quote-col">
+            <p class="t1__quote">"In addition to bringing technical expertise, Logic Pursuits brought a structured way of thinking about data governance that transformed how our teams collaborate and make decisions."</p>
+          </div>
+          <div class="t1__profile">
+            <div class="t1__avatar">
+              <img src="https://i.pravatar.cc/104?img=11" alt="Kalyan Upadhyaya">
+            </div>
+            <p class="t1__name">Kalyan Upadhyaya</p>
+            <p class="t1__role">Director, Business Assurance Services</p>
+          </div>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="t1__row reveal" data-delay="80">
+          <div class="t1__num">02</div>
+          <div class="t1__quote-col">
+            <p class="t1__quote">"Logic Pursuits has augmented our Internal Audit function in ways we didn't expect — their AI tooling and data literacy work has made us significantly more effective."</p>
+          </div>
+          <div class="t1__profile">
+            <div class="t1__avatar">
+              <img src="https://i.pravatar.cc/104?img=52" alt="Raymond Lopez">
+            </div>
+            <p class="t1__name">Raymond Lopez</p>
+            <p class="t1__role">Director of Internal Audit and Compliance</p>
+          </div>
+        </div>
+
+        <!-- Row 3 -->
+        <div class="t1__row reveal" data-delay="160">
+          <div class="t1__num">03</div>
+          <div class="t1__quote-col">
+            <p class="t1__quote">"The team didn't just implement a solution — they built our internal capability. We now own the platform and the thinking behind it."</p>
+          </div>
+          <div class="t1__profile">
+            <div class="t1__avatar">
+              <img src="https://i.pravatar.cc/104?img=47" alt="Sarah Chen">
+            </div>
+            <p class="t1__name">Sarah Chen</p>
+            <p class="t1__role">VP Data Strategy</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════
+       OPTION 2 — SPLIT PANEL
+  ══════════════════════════════════════════ -->
+  <div class="option-block" id="option-2">
+    <div class="option-label">
+      <span class="option-label__tag">Option 2</span>
+      <div class="option-label__rule"></div>
+      <span class="option-label__name">Split Panel — Navy Background</span>
+    </div>
+
+    <section class="t2">
+      <div class="t2__grid">
+
+        <!-- Left panel -->
+        <div class="t2__left">
+          <p class="t2__eyebrow reveal">Client Voices</p>
+          <h2 class="t2__heading reveal">What our clients say</h2>
+          <div class="t2__deco-quote" aria-hidden="true">&ldquo;</div>
+        </div>
+
+        <!-- Right panel -->
+        <div class="t2__right">
+
+          <div class="t2__card reveal" data-delay="0">
+            <div>
+              <span class="t2__mark" aria-hidden="true">&ldquo;</span>
+              <p class="t2__quote">"In addition to bringing technical expertise, Logic Pursuits brought a structured way of thinking about data governance that transformed how our teams collaborate and make decisions."</p>
+            </div>
+            <div class="t2__profile">
+              <div class="t2__avatar">
+                <img src="https://i.pravatar.cc/104?img=11" alt="Kalyan Upadhyaya">
+              </div>
+              <div>
+                <p class="t2__name">Kalyan Upadhyaya</p>
+                <p class="t2__role">Director, Business Assurance Services</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="t2__card reveal" data-delay="100">
+            <div>
+              <span class="t2__mark" aria-hidden="true">&ldquo;</span>
+              <p class="t2__quote">"Logic Pursuits has augmented our Internal Audit function in ways we didn't expect — their AI tooling and data literacy work has made us significantly more effective."</p>
+            </div>
+            <div class="t2__profile">
+              <div class="t2__avatar">
+                <img src="https://i.pravatar.cc/104?img=52" alt="Raymond Lopez">
+              </div>
+              <div>
+                <p class="t2__name">Raymond Lopez</p>
+                <p class="t2__role">Director of Internal Audit and Compliance</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════
+       OPTION 3 — 3-COLUMN CARD GRID
+  ══════════════════════════════════════════ -->
+  <div class="option-block" id="option-3">
+    <div class="option-label">
+      <span class="option-label__tag">Option 3</span>
+      <div class="option-label__rule"></div>
+      <span class="option-label__name">Card Grid — Deep Navy Background</span>
+    </div>
+
+    <section class="t3">
+      <div class="t3__wrap">
+        <p class="t3__eyebrow reveal">Client Voices</p>
+        <h2 class="t3__heading reveal">Earning their trust, every engagement</h2>
+      </div>
+
+      <div class="t3__wrap">
+        <div class="t3__grid">
+
+          <div class="t3__card reveal" data-delay="0">
+            <span class="t3__mark" aria-hidden="true">&ldquo;</span>
+            <p class="t3__quote">"In addition to bringing technical expertise, Logic Pursuits brought a structured way of thinking about data governance that transformed how our teams collaborate and make decisions."</p>
+            <div class="t3__profile">
+              <div class="t3__avatar">
+                <img src="https://i.pravatar.cc/104?img=11" alt="Kalyan Upadhyaya">
+              </div>
+              <div>
+                <p class="t3__name">Kalyan Upadhyaya</p>
+                <p class="t3__role">Director, Business Assurance Services</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="t3__card reveal" data-delay="80">
+            <span class="t3__mark" aria-hidden="true">&ldquo;</span>
+            <p class="t3__quote">"Logic Pursuits has augmented our Internal Audit function in ways we didn't expect — their AI tooling and data literacy work has made us significantly more effective."</p>
+            <div class="t3__profile">
+              <div class="t3__avatar">
+                <img src="https://i.pravatar.cc/104?img=52" alt="Raymond Lopez">
+              </div>
+              <div>
+                <p class="t3__name">Raymond Lopez</p>
+                <p class="t3__role">Director of Internal Audit and Compliance</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="t3__card reveal" data-delay="160">
+            <span class="t3__mark" aria-hidden="true">&ldquo;</span>
+            <p class="t3__quote">"The team didn't just implement a solution — they built our internal capability. We now own the platform and the thinking behind it."</p>
+            <div class="t3__profile">
+              <div class="t3__avatar">
+                <img src="https://i.pravatar.cc/104?img=47" alt="Sarah Chen">
+              </div>
+              <div>
+                <p class="t3__name">Sarah Chen</p>
+                <p class="t3__role">VP Data Strategy</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════
+       OPTION 4 — INTERSECTION TRIANGLE GRID
+  ══════════════════════════════════════════ -->
+  <div class="option-block" id="option-4">
+    <div class="option-label">
+      <span class="option-label__tag">Option 4</span>
+      <div class="option-label__rule"></div>
+      <span class="option-label__name">Intersection Triangle Grid — one quote at a time</span>
+    </div>
+
+    <section class="t4">
+      <div class="t4__outer">
+
+        <!-- Triangle corner — bottom-left anchored exactly at the crossing (left:60%, top:38%) -->
+        <div class="t4__intersect" aria-hidden="true"></div>
+
+        <div class="t4__grid">
+
+          <!-- TOP-LEFT: section label -->
+          <div class="t4__cell t4__cell--tl">
+            <span class="t4__eyebrow">Client Voices</span>
+            <p class="t4__section-label">And earning their trust</p>
+          </div>
+
+          <!-- TOP-RIGHT: profile (swapped by JS) -->
+          <div class="t4__cell t4__cell--tr">
+            <div class="t4__profile t4__fade" id="t4-profile">
+              <div class="t4__avatar">
+                <img id="t4-avatar" src="https://i.pravatar.cc/104?img=11" alt="Kalyan Upadhyaya">
+              </div>
+              <div>
+                <p class="t4__name" id="t4-name">Kalyan Upadhyaya</p>
+                <p class="t4__role" id="t4-role">Director, Business Assurance Services (BAS)</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- BOTTOM-LEFT: quote (swapped by JS) -->
+          <div class="t4__cell t4__cell--bl">
+            <span class="t4__mark" aria-hidden="true">&ldquo;</span>
+            <p class="t4__quote t4__fade" id="t4-quote">In addition to bringing technical expertise around data analytics, Logic Pursuits brings extremely valuable knowledge around the types of analytics that can be used to provide insights across various business processes. The team's expertise in internal audit functions was able to generate real value to our internal audit team.</p>
+          </div>
+
+          <!-- BOTTOM-RIGHT: navigation -->
+          <div class="t4__cell t4__cell--br">
+            <nav class="t4__nav" aria-label="Testimonial navigation">
+              <span class="t4__counter" id="t4-counter">01 / 02</span>
+              <div class="t4__arrows">
+                <button class="t4__btn" id="t4-prev" aria-label="Previous">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                    <line x1="14" y1="9" x2="4" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    <polyline points="8,5 4,9 8,13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                  </svg>
+                </button>
+                <button class="t4__btn" id="t4-next" aria-label="Next">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                    <line x1="4" y1="9" x2="14" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    <polyline points="10,5 14,9 10,13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                  </svg>
+                </button>
+              </div>
+            </nav>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </div>
+
+
+  <script>
+    /* ── Scroll reveal ── */
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const delay = entry.target.dataset.delay || 0;
+          setTimeout(() => entry.target.classList.add('in'), Number(delay));
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => observer.observe(el));
+
+    /* ── Option 4 — Intersection grid slider ── */
+    const t4Data = [
+      {
+        name: 'Kalyan Upadhyaya',
+        role: 'Director, Business Assurance Services (BAS)',
+        avatar: 'https://i.pravatar.cc/104?img=11',
+        quote: 'In addition to bringing technical expertise around data analytics, Logic Pursuits brings extremely valuable knowledge around the types of analytics that can be used to provide insights across various business processes. The team\'s expertise in internal audit functions was able to generate real value to our internal audit team.'
+      },
+      {
+        name: 'Raymond Lopez',
+        role: 'Director of Internal Audit and Compliance',
+        avatar: 'https://i.pravatar.cc/104?img=52',
+        quote: 'Logic Pursuits has augmented our Internal Audit\'s data analytics capabilities, enabling us to produce more work per same unit of time. Logic Pursuits has been a force multiplier for us. It brings a compelling value proposition. Their work quality is comparable to that found in top-tier consulting companies and they deliver it at a fraction of cost.'
+      }
+    ];
+
+    let t4Idx = 0;
+    const t4Quote   = document.getElementById('t4-quote');
+    const t4Profile = document.getElementById('t4-profile');
+    const t4Avatar  = document.getElementById('t4-avatar');
+    const t4Name    = document.getElementById('t4-name');
+    const t4Role    = document.getElementById('t4-role');
+    const t4Counter = document.getElementById('t4-counter');
+
+    function t4Go(idx) {
+      const faders = [t4Quote, t4Profile];
+      // Fade out
+      faders.forEach(el => el.classList.add('t4--out'));
+      setTimeout(() => {
+        const d = t4Data[idx];
+        t4Quote.textContent  = d.quote;
+        t4Avatar.src         = d.avatar;
+        t4Avatar.alt         = d.name;
+        t4Name.textContent   = d.name;
+        t4Role.textContent   = d.role;
+        t4Counter.textContent = String(idx + 1).padStart(2, '0') + ' / 0' + t4Data.length;
+        // Fade in
+        faders.forEach(el => el.classList.remove('t4--out'));
+      }, 280);
+    }
+
+    document.getElementById('t4-prev').addEventListener('click', () => {
+      t4Idx = (t4Idx - 1 + t4Data.length) % t4Data.length;
+      t4Go(t4Idx);
+    });
+    document.getElementById('t4-next').addEventListener('click', () => {
+      t4Idx = (t4Idx + 1) % t4Data.length;
+      t4Go(t4Idx);
+    });
+
+    /* ── Active nav link on scroll ── */
+    const sections = document.querySelectorAll('[id^="option-"]');
+    const navLinks = document.querySelectorAll('.options-nav__link');
+    const navObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(l => l.classList.remove('active'));
+          const link = document.querySelector(`.options-nav__link[href="#${entry.target.id}"]`);
+          if (link) link.classList.add('active');
+        }
+      });
+    }, { threshold: 0.3 });
+    sections.forEach(s => navObserver.observe(s));
+  </script>
+
+</body>
+</html>
