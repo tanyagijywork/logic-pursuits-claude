@@ -664,11 +664,11 @@
     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
     .partner-logos {
       padding: 96px 0 0;
-      background: var(--deep-navy);
+      background: var(--white);
     }
     .partner-logos__headline {
       font-size: 40px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.2;
-      color: var(--white); max-width: 680px; margin-bottom: 0;
+      color: var(--deep-navy); max-width: 680px; margin-bottom: 0;
     }
 
     /* Mesh canvas area */
@@ -699,18 +699,19 @@
     }
     .partners-mesh-wrap::before {
       top: 0;
-      background: linear-gradient(to bottom, var(--deep-navy) 0%, transparent 100%);
+      background: linear-gradient(to bottom, var(--white) 0%, transparent 100%);
     }
     .partners-mesh-wrap::after {
       bottom: 0;
-      background: linear-gradient(to top, var(--deep-navy) 0%, transparent 100%);
+      background: linear-gradient(to top, var(--white) 0%, transparent 100%);
     }
 
-    /* Logo pills — white frosted cards floating on mesh */
+    /* Logo pills — white cards with subtle border, floating on light mesh */
     .partner-logo-pill {
       position: absolute;
-      background: rgba(255, 255, 255, 0.93);
-      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: var(--white);
+      border: 1px solid var(--grey-200);
+      box-shadow: 0 2px 16px rgba(0, 59, 94, 0.07);
       padding: 14px 26px;
       display: flex;
       align-items: center;
@@ -721,7 +722,7 @@
       will-change: transform;
     }
     .partner-logo-pill:hover {
-      box-shadow: 0 0 0 1px var(--teal), 0 10px 36px rgba(0, 200, 183, 0.28);
+      box-shadow: 0 0 0 1px var(--teal), 0 10px 36px rgba(0, 200, 183, 0.22);
       border-color: var(--teal);
       z-index: 4;
     }
@@ -2094,8 +2095,11 @@
                 ctx.beginPath();
                 ctx.moveTo(nd.x, nd.y);
                 ctx.lineTo(nr.x, nr.y);
-                ctx.strokeStyle = 'rgba(0,200,183,' + (0.10 + glow * 0.55) + ')';
-                ctx.lineWidth   = 0.5 + glow * 1.2;
+                var lineAlpha = glow > 0 ? (0.12 + glow * 0.60) : 0.10;
+                ctx.strokeStyle = glow > 0
+                  ? 'rgba(0,200,183,' + lineAlpha + ')'
+                  : 'rgba(0,59,94,'   + lineAlpha + ')';
+                ctx.lineWidth = 0.5 + glow * 1.2;
                 ctx.stroke();
               }
               /* vertical line */
@@ -2104,16 +2108,19 @@
                 ctx.beginPath();
                 ctx.moveTo(nd.x, nd.y);
                 ctx.lineTo(nb.x, nb.y);
-                ctx.strokeStyle = 'rgba(0,200,183,' + (0.10 + glow * 0.55) + ')';
-                ctx.lineWidth   = 0.5 + glow * 1.2;
+                var lineAlpha2 = glow > 0 ? (0.12 + glow * 0.60) : 0.10;
+                ctx.strokeStyle = glow > 0
+                  ? 'rgba(0,200,183,' + lineAlpha2 + ')'
+                  : 'rgba(0,59,94,'   + lineAlpha2 + ')';
+                ctx.lineWidth = 0.5 + glow * 1.2;
                 ctx.stroke();
               }
               /* node dot */
               ctx.beginPath();
               ctx.arc(nd.x, nd.y, glow > 0.35 ? 2.2 : 1, 0, Math.PI * 2);
               ctx.fillStyle = glow > 0.2
-                ? 'rgba(0,200,183,' + (0.55 + glow * 0.45) + ')'
-                : 'rgba(0,200,183,0.18)';
+                ? 'rgba(0,200,183,' + (0.60 + glow * 0.40) + ')'
+                : 'rgba(0,59,94,0.18)';
               ctx.fill();
             }
           }
