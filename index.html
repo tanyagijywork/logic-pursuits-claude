@@ -387,32 +387,57 @@
 
     /* ── Numbered row list — deliver section (navy bg) ── */
     .deliver-list {
-      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      /* no border-top — each row carries its own absolute top line */
     }
+
+    /* Row shell — defines height, holds the always-visible border line */
     .deliver-row {
-      display: grid;
-      grid-template-columns: 148px 1fr 1.65fr;
-      column-gap: 64px;
-      padding: 52px 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-      align-items: start;
       position: relative;
     }
 
-    /* Big ghost number — white ghost on navy */
+    /* Always-visible hairline — not affected by the slide animation */
+    .deliver-row__line {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.12);
+      pointer-events: none;
+    }
+
+    /* Bottom line after the last row */
+    .deliver-bottom-line {
+      height: 1px;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    /* Inner content — this is what GSAP animates (slide up + fade in) */
+    .deliver-row__inner {
+      display: grid;
+      grid-template-columns: 1fr 1.65fr 148px;
+      column-gap: 64px;
+      padding: 52px 0;
+      align-items: start;
+    }
+
+    /* Big ghost number — right column */
     .deliver-row__num {
-      font-size: clamp(80px, 8.5vw, 152px);
-      font-weight: 600;
+      order: 3;
+      font-size: clamp(96px, 10.2vw, 182px);
+      font-weight: 200;
       line-height: 0.85;
       letter-spacing: -0.055em;
       color: rgba(255, 255, 255, 0.1);
       transition: color 350ms ease;
       user-select: none;
       display: block;
+      text-align: right;
+      justify-self: end;
     }
-    .deliver-row:hover .deliver-row__num {
-      color: rgba(0, 200, 183, 0.5);
-    }
+    .deliver-row__title          { order: 1; }
+    .deliver-row__inner > div   { order: 2; }
+
+    .deliver-row:hover .deliver-row__num   { color: rgba(0, 200, 183, 0.5); }
+    .deliver-row:hover .deliver-row__title { color: var(--teal); }
 
     /* Title column */
     .deliver-row__title {
@@ -422,9 +447,6 @@
       line-height: 1.3;
       color: var(--white);
       transition: color 200ms ease;
-    }
-    .deliver-row:hover .deliver-row__title {
-      color: var(--teal);
     }
 
     /* Body + link column */
@@ -859,65 +881,65 @@
     .tsec--fading { opacity: 0; }
 
     /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-       SECTION 9 — FINAL CTA — half navy / half image
-       Left: dark navy text + button
-       Right: image panel, flush to container edge
+       PAGE END — background image wraps CTA + footer
+       CTA text floats on the image.
+       Footer box (navy) sits below as a solid block — the gap
+       between CTA and footer lets the background image breathe.
     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .page-end {
+      background: url('Assets/social.jpg') center / cover no-repeat;
+      position: relative;
+    }
+    /* Dark overlay — keeps white text legible against the photo */
+    .page-end::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 27, 46, 0.62);
+      pointer-events: none;
+      z-index: 0;
+    }
+    /* Lift CTA and footer above the overlay */
+    .page-end .final-cta,
+    .page-end .site-footer { position: relative; z-index: 1; }
+
+    /* Gap between CTA bottom and footer top — lets background breathe */
+    .page-end .site-footer { margin-top: 48px; }
+
+    /* CTA — no own background, text floats on the image */
     .final-cta {
-      position: relative;
-      overflow: hidden;
-      background: var(--teal); /* fills full viewport width, no white bleed */
-    }
-    .final-cta__inner {
-      /* Full-width grid — image column reaches the right viewport edge */
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      min-height: 480px;
-    }
-    .final-cta__text {
-      background: var(--teal);
-      /* Left padding: grows with viewport so text stays inside the max-w box */
-      padding: 104px var(--gap) 104px max(var(--mx), calc((100vw - var(--max-w)) / 2 + var(--mx)));
       display: flex;
-      flex-direction: column;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 48px;
+      padding: 96px max(var(--mx), calc((100vw - var(--max-w)) / 2 + var(--mx))) 80px;
     }
+
     .final-cta__headline {
-      font-size: 40px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.15;
-      color: var(--deep-navy); margin-bottom: 48px;
+      font-size: 56px;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      line-height: 1.08;
+      color: var(--white);
+      max-width: 640px;
     }
+
+    /* CTA button — dark navy box, stays top-right */
     .cta-btn {
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      background: var(--deep-navy);
+      background: var(--navy);
       color: var(--white);
-      padding: 18px 36px;
-      font-size: 15px;
+      padding: 20px 36px;
+      font-size: 14px;
       font-weight: 600;
-      letter-spacing: 0;
+      flex-shrink: 0;
       align-self: flex-start;
       transition: background 150ms ease, gap 200ms ease;
     }
     .cta-btn svg { flex-shrink: 0; }
-    .cta-btn:hover {
-      background: var(--navy);
-      gap: 16px;
-    }
-    .final-cta__img {
-      overflow: hidden;
-      position: relative;
-    }
-    .final-cta__img img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
+    .cta-btn:hover { background: var(--deep-navy); gap: 16px; }
 
     /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
        FOOTER
@@ -1051,10 +1073,10 @@
       .pillar:last-child       { border-bottom: none; }
 
       /* Deliver numbered rows — stack on mobile */
-      .deliver-row             { grid-template-columns: 1fr;
+      .deliver-row__inner      { grid-template-columns: 1fr;
                                   row-gap: 12px;
                                   padding: 36px 0; }
-      .deliver-row__num        { font-size: 72px; line-height: 1; }
+      .deliver-row__num        { display: none; }
       .deliver-row__title      { font-size: 22px; }
       .deliver-row__body       { margin-bottom: 20px; }
 
@@ -1115,11 +1137,9 @@
       .case-card:last-child    { border-bottom: none; }
       .case-card__body         { padding: 24px 0 32px !important; }
 
-      /* Final CTA → stack, image below */
-      .final-cta__inner        { grid-template-columns: 1fr; }
-      .final-cta__text         { padding: 72px var(--mx); }
-      .final-cta__headline     { font-size: 28px; margin-bottom: 32px; }
-      .final-cta__img          { min-height: 260px; }
+      /* Final CTA → stack on mobile */
+      .final-cta { flex-direction: column; padding: 64px var(--mx) 56px; gap: 32px; }
+      .final-cta__headline { font-size: 32px; }
     }
   </style>
 </head>
@@ -1248,50 +1268,61 @@
       <!-- Numbered rows -->
       <div class="deliver-list">
 
-        <div class="deliver-row reveal" data-delay="0">
-          <span class="deliver-row__num" aria-hidden="true">01</span>
-          <h3 class="deliver-row__title">Build robust data foundations</h3>
-          <div>
-            <p class="deliver-row__body">Modernize enterprise data environments with scalable architecture, reliable engineering, and governance that improves trust, performance, and long-term usability.</p>
-            <a href="#" class="arrow-link">
-              Learn more
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <line x1="2" y1="8" x2="13" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                <polyline points="9,4 13,8 9,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-              </svg>
-            </a>
+        <div class="deliver-row">
+          <div class="deliver-row__line" aria-hidden="true"></div>
+          <div class="deliver-row__inner">
+            <span class="deliver-row__num" aria-hidden="true">01</span>
+            <h3 class="deliver-row__title">Build robust data foundations</h3>
+            <div>
+              <p class="deliver-row__body">Modernize enterprise data environments with scalable architecture, reliable engineering, and governance that improves trust, performance, and long-term usability.</p>
+              <a href="#" class="arrow-link">
+                Learn more
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <line x1="2" y1="8" x2="13" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  <polyline points="9,4 13,8 9,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                </svg>
+              </a>
+            </div>
           </div>
         </div>
 
-        <div class="deliver-row reveal" data-delay="100">
-          <span class="deliver-row__num" aria-hidden="true">02</span>
-          <h3 class="deliver-row__title">Gain deeper insights</h3>
-          <div>
-            <p class="deliver-row__body">Transform operational and customer data into connected intelligence that improves visibility, accelerates decisions, and drives business performance.</p>
-            <a href="#" class="arrow-link">
-              Learn more
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <line x1="2" y1="8" x2="13" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                <polyline points="9,4 13,8 9,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-              </svg>
-            </a>
+        <div class="deliver-row">
+          <div class="deliver-row__line" aria-hidden="true"></div>
+          <div class="deliver-row__inner">
+            <span class="deliver-row__num" aria-hidden="true">02</span>
+            <h3 class="deliver-row__title">Gain deeper insights</h3>
+            <div>
+              <p class="deliver-row__body">Transform operational and customer data into connected intelligence that improves visibility, accelerates decisions, and drives business performance.</p>
+              <a href="#" class="arrow-link">
+                Learn more
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <line x1="2" y1="8" x2="13" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  <polyline points="9,4 13,8 9,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                </svg>
+              </a>
+            </div>
           </div>
         </div>
 
-        <div class="deliver-row reveal" data-delay="200">
-          <span class="deliver-row__num" aria-hidden="true">03</span>
-          <h3 class="deliver-row__title">Accelerate to outcomes</h3>
-          <div>
-            <p class="deliver-row__body">Operationalize analytics and AI solutions that solve high-impact business problems, reduce operational risk, and accelerate measurable outcomes.</p>
-            <a href="#" class="arrow-link">
-              Learn more
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <line x1="2" y1="8" x2="13" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                <polyline points="9,4 13,8 9,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-              </svg>
-            </a>
+        <div class="deliver-row">
+          <div class="deliver-row__line" aria-hidden="true"></div>
+          <div class="deliver-row__inner">
+            <span class="deliver-row__num" aria-hidden="true">03</span>
+            <h3 class="deliver-row__title">Accelerate to outcomes</h3>
+            <div>
+              <p class="deliver-row__body">Operationalize analytics and AI solutions that solve high-impact business problems, reduce operational risk, and accelerate measurable outcomes.</p>
+              <a href="#" class="arrow-link">
+                Learn more
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <line x1="2" y1="8" x2="13" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  <polyline points="9,4 13,8 9,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                </svg>
+              </a>
+            </div>
           </div>
         </div>
+
+        <div class="deliver-bottom-line" aria-hidden="true"></div>
 
       </div>
     </div>
@@ -1588,39 +1619,27 @@
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
-       SECTION 9 — FINAL CTA
+       PAGE END — background image wraps CTA + footer
   ═══════════════════════════════════════════════════════ -->
-  <section class="final-cta" aria-labelledby="cta-headline">
-    <div class="final-cta__inner">
+  <div class="page-end">
 
-      <!-- Left: teal with dark text + button + navy triangle motif -->
-      <div class="final-cta__text">
-        <div class="tri tri--navy tri--64" aria-hidden="true"></div>
-        <h2 class="final-cta__headline reveal" id="cta-headline">
-          Ready to accelerate your decisions and multiply outcomes?
-        </h2>
-        <a href="#" class="cta-btn reveal" data-delay="80">
-          Contact us
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <line x1="2" y1="8" x2="13" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            <polyline points="9,4 13,8 9,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-          </svg>
-        </a>
-      </div>
+    <!-- SECTION 9 — FINAL CTA (floats on background image) -->
+    <section class="final-cta" aria-labelledby="cta-headline">
+      <h2 class="final-cta__headline reveal" id="cta-headline">
+        Ready to accelerate your decisions and multiply outcomes?
+      </h2>
+      <a href="#" class="cta-btn reveal" data-delay="80">
+        Contact us
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <line x1="2" y1="8" x2="13" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <polyline points="9,4 13,8 9,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+      </a>
+    </section>
 
-      <!-- Right: image panel -->
-      <div class="final-cta__img">
-        <img src="Assets/social.jpg" alt="">
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════════════════════════════════
-       FOOTER
-  ═══════════════════════════════════════════════════════ -->
-  <footer class="site-footer" role="contentinfo">
-    <div class="tri tri--teal tri--64" aria-hidden="true"></div>
+    <!-- FOOTER — navy box sitting on background image -->
+    <footer class="site-footer" role="contentinfo">
+      <div class="tri tri--teal tri--64" aria-hidden="true"></div>
 
     <div class="footer__top">
 
@@ -1715,7 +1734,9 @@
       </nav>
     </div>
 
-  </footer>
+    </footer>
+
+  </div><!-- /.page-end -->
 
   <!-- ═══════════════════════════════════════════════════════
        JAVASCRIPT
@@ -1926,6 +1947,7 @@
 
     })();
   </script>
+
 
 </body>
 </html>

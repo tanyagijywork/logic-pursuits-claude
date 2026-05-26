@@ -1,3 +1,13 @@
 .DS_Store
+**/.DS_Store
 Assets/.DS_Store
 .claude/
+
+# Brief / brand source files (large binaries, not needed on remote)
+Brief/
+Reference/
+
+# Large binary formats
+*.ai
+*.psd
+*.indd
