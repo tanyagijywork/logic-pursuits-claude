@@ -1422,9 +1422,9 @@
     <!-- Full-bleed slider -->
     <div class="ai-slider">
 
-      <!-- Background image (JS swaps object-position per slide) -->
+      <!-- Background image (JS swaps src + object-position per slide) -->
       <div class="ai-bg">
-        <img src="Assets/social.jpg" alt="" id="ai-bg-img" style="object-position:20% center;">
+        <img src="Assets/strategy-final.jpg" alt="" id="ai-bg-img" style="object-position:center center;">
       </div>
 
       <!-- Content overlay -->
@@ -1789,10 +1789,10 @@
       /* ── AI Slider — full-bleed bg + thumbnail peek ── */
       (function () {
         var SLIDES = [
-          { num: '01', title: 'Strategy & Advisory',   body: 'Build the right AI foundation with clear strategy, governance, and business-aligned roadmaps designed for scalable enterprise adoption.',          pos: '20% center' },
-          { num: '02', title: 'AI & ML Capabilities',  body: 'Design, deploy, and operationalize AI and machine learning solutions that improve automation, intelligence, and decision-making across the enterprise.', pos: '45% center' },
-          { num: '03', title: 'Use Cases',              body: 'Apply AI to high-impact operational challenges — from fraud detection and predictive analytics to intelligent automation and real-time decision support.', pos: '70% center' },
-          { num: '04', title: 'Our Partners',           body: 'We leverage leading AI, machine learning, cloud, and automation ecosystems to accelerate enterprise AI adoption and operational impact.',               pos: '90% center' }
+          { num: '01', title: 'Strategy & Advisory',   body: 'Build the right AI foundation with clear strategy, governance, and business-aligned roadmaps designed for scalable enterprise adoption.',          img: 'Assets/strategy-final.jpg', pos: 'center center' },
+          { num: '02', title: 'AI & ML Capabilities',  body: 'Design, deploy, and operationalize AI and machine learning solutions that improve automation, intelligence, and decision-making across the enterprise.', img: 'Assets/aiml-final.jpg',     pos: 'center center' },
+          { num: '03', title: 'Use Cases',              body: 'Apply AI to high-impact operational challenges — from fraud detection and predictive analytics to intelligent automation and real-time decision support.', img: 'Assets/usecase-final.jpg',  pos: 'center center' },
+          { num: '04', title: 'Our Partners',           body: 'We leverage leading AI, machine learning, cloud, and automation ecosystems to accelerate enterprise AI adoption and operational impact.',               img: 'Assets/partner-final.jpg',  pos: 'center center' }
         ];
         var TOTAL = SLIDES.length;
         var current = 0;
@@ -1819,7 +1819,7 @@
             t.className = 'ai-thumb';
             t.setAttribute('data-idx', idx);
             t.innerHTML =
-              '<div class="ai-thumb__img"><img src="Assets/social.jpg" alt="" style="object-position:' + s.pos + '"></div>' +
+              '<div class="ai-thumb__img"><img src="' + s.img + '" alt="" style="object-position:' + s.pos + '"></div>' +
               '<div class="ai-thumb__info">' +
                 '<span class="ai-thumb__num">' + s.num + '</span>' +
                 '<span class="ai-thumb__title">' + s.title + '</span>' +
@@ -1835,10 +1835,11 @@
           current = ((n % TOTAL) + TOTAL) % TOTAL;
           var s = SLIDES[current];
 
-          /* Fade bg image */
+          /* Fade bg image, swap src and position */
           if (bgImg) {
             bgImg.style.opacity = '0';
             setTimeout(function () {
+              bgImg.src = s.img;
               bgImg.style.objectPosition = s.pos;
               bgImg.style.opacity = '1';
             }, 200);
