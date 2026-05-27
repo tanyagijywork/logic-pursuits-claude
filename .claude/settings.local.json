@@ -65,7 +65,8 @@
       "Bash(git commit -m 'Delivering Excellence card 02: update image to delivering-excellence-card-02.jpeg *)",
       "Bash(git commit -m 'Add index-v01.html — versioned snapshot *)",
       "Bash(git commit -m 'Hero: animate grid lines drawing on page load *)",
-      "Bash(git commit -m 'Add scroll-triggered line-draw animations across all sections *)"
+      "Bash(git commit -m 'Add scroll-triggered line-draw animations across all sections *)",
+      "Bash(git commit -m 'Revert: remove line-draw animations from all sections except banner *)"
     ]
   }
 }
