@@ -46,7 +46,8 @@
       "Bash(git commit -m 'Deliver: image framed 20px inside both gridlines via column padding *)",
       "Bash(git commit -m 'Final CTA: teal background, hover to navy *)",
       "Bash(git commit -m 'Teal buttons: text + icon color #003B5E \\(navy\\) in default state *)",
-      "Bash(git commit -m 'Fix: white text+icon on hover for .cta-btn \\(pre-footer section\\) *)"
+      "Bash(git commit -m 'Fix: white text+icon on hover for .cta-btn \\(pre-footer section\\) *)",
+      "Bash(git commit -m 'Update page-end scrim to black at 62% opacity *)"
     ]
   }
 }
