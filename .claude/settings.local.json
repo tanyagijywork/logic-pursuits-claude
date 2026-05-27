@@ -48,7 +48,8 @@
       "Bash(git commit -m 'Teal buttons: text + icon color #003B5E \\(navy\\) in default state *)",
       "Bash(git commit -m 'Fix: white text+icon on hover for .cta-btn \\(pre-footer section\\) *)",
       "Bash(git commit -m 'Update page-end scrim to black at 62% opacity *)",
-      "Bash(git commit -m 'Add top-right corner triangle to all teal CTA buttons *)"
+      "Bash(git commit -m 'Add top-right corner triangle to all teal CTA buttons *)",
+      "Bash(git commit -m 'Increase corner triangles to 12px on both CTA buttons *)"
     ]
   }
 }
