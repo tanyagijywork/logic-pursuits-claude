@@ -632,8 +632,9 @@
       left: 0;
       opacity: 0;
     }
-    .four-col:hover .icon-default { opacity: 0; }
-    .four-col:hover .icon-hover   { opacity: 1; }
+    /* Icon swap on hover — Our Partners only (already dark by default) */
+    .four-col:last-child:hover .icon-default { opacity: 0; }
+    .four-col:last-child:hover .icon-hover   { opacity: 1; }
 
     .four-col__title {
       font-size: 18px; font-weight: 600; line-height: 1.4;
@@ -646,21 +647,21 @@
       transition: color 250ms ease;
     }
 
-    /* Card hover — dark navy fill */
+    /* Card hover — light grey fill for first three cards */
     .four-col {
-      transition: background 250ms ease;
+      transition: background 250ms ease, border-color 250ms ease;
     }
-    .four-col:hover {
-      background: var(--navy);
-      border-color: var(--navy);
+    .four-col:not(:last-child):hover {
+      background: var(--grey-50);
+      border-color: var(--grey-200);
     }
-    .four-col:hover .four-col__title {
-      color: var(--white);
+    .four-col:not(:last-child):hover .four-col__title {
+      color: var(--deep-navy);
     }
-    .four-col:hover .four-col__body {
-      color: rgba(255, 255, 255, 0.72);
+    .four-col:not(:last-child):hover .four-col__body {
+      color: var(--grey-700);
     }
-    .four-col:hover .arrow-link {
+    .four-col:not(:last-child):hover .arrow-link {
       color: var(--teal);
     }
 
