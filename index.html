@@ -2226,13 +2226,12 @@
                 ctx.lineWidth = 0.5 + glow * 1.2;
                 ctx.stroke();
               }
-              /* node dot */
-              ctx.beginPath();
-              ctx.arc(nd.x, nd.y, glow > 0.35 ? 2.2 : 1, 0, Math.PI * 2);
+              /* node square */
+              var ns = glow > 0.35 ? 2.2 : 1; /* half-side */
               ctx.fillStyle = glow > 0.2
                 ? 'rgba(0,200,183,' + (0.60 + glow * 0.40) + ')'
                 : 'rgba(0,59,94,0.18)';
-              ctx.fill();
+              ctx.fillRect(nd.x - ns, nd.y - ns, ns * 2, ns * 2);
             }
           }
         }

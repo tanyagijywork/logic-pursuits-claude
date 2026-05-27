@@ -58,7 +58,8 @@
       "Bash(git commit -m 'Restore full-bleed video as standalone section between hero and overview *)",
       "Bash(git commit -m 'How We Deliver: icon left-aligned above heading, no box, bg-aware swap on hover *)",
       "Bash(git commit -m 'Remove 01/04 labels from AI services progress bar *)",
-      "Bash(git commit -m 'Our Partners card: permanent dark navy default state *)"
+      "Bash(git commit -m 'Our Partners card: permanent dark navy default state *)",
+      "Bash(git commit -m 'Mesh nodes: circles → squares \\(ctx.arc → ctx.fillRect\\) *)"
     ]
   }
 }
