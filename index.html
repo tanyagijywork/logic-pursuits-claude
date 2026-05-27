@@ -392,41 +392,50 @@
     .deliver .arrow-link:hover { color: var(--white); }
 
     /* Accordion container */
-    .deliver-accordion {
-      position: relative;
-      border-top: 1px solid rgba(255, 255, 255, 0.12);
-    }
+    /* Tab height — the visible strip of each "filed" row */
+    .deliver { --tab-h: 52px; }
 
-    /* Each sticky row */
+    .deliver-accordion { position: relative; }
+
+    /* Each sticky row — flex column so tab sits above main body */
     .deliver-item {
       position: sticky;
-      top: 72px; /* height of nav */
       height: 37.5vh;
       background: var(--navy);
-      display: grid;
-      grid-template-columns: 110px 2fr 3fr;
+      display: flex;
+      flex-direction: column;
       border-bottom: 1px solid rgba(255, 255, 255, 0.12);
       overflow: hidden;
     }
-    /* Later rows stack on top — this IS the accordion effect */
-    .deliver-item:nth-child(1) { z-index: 10; }
-    .deliver-item:nth-child(2) { z-index: 20; }
-    .deliver-item:nth-child(3) { z-index: 30; }
+    /* Staggered tops: each row's tab stays visible above the row that covers it */
+    .deliver-item:nth-child(1) { top: 72px;                           z-index: 10; }
+    .deliver-item:nth-child(2) { top: calc(72px + var(--tab-h));      z-index: 20; }
+    .deliver-item:nth-child(3) { top: calc(72px + var(--tab-h) * 2); z-index: 30; }
 
-    /* Number column */
-    .deliver-item__num {
-      border-right: 1px solid rgba(255, 255, 255, 0.12);
-      padding: 48px 0 48px max(var(--mx), calc((100vw - var(--max-w)) / 2 + var(--mx)));
+    /* Tab strip — the "file folder top" that always shows when a row is filed away */
+    .deliver-item__tab {
+      height: var(--tab-h);
+      flex-shrink: 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.18);
       display: flex;
-      align-items: flex-start;
-      gap: 3px;
+      align-items: center;
+      padding: 0 max(var(--mx), calc((100vw - var(--max-w)) / 2 + var(--mx)));
+      gap: 4px;
       font-size: 12px;
       font-weight: 600;
       letter-spacing: 0.08em;
       color: rgba(255, 255, 255, 0.38);
-      white-space: nowrap;
     }
-    .deliver-item__num .slash { color: var(--teal); }
+    .deliver-item__tab .slash { color: var(--teal); }
+
+    /* Main body row: image | content */
+    .deliver-item__main {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 2fr 3fr;
+      min-height: 0;
+      overflow: hidden;
+    }
 
     /* Image column */
     .deliver-item__img {
@@ -448,7 +457,7 @@
 
     /* Content column */
     .deliver-item__content {
-      padding: 48px max(var(--mx), calc((100vw - var(--max-w)) / 2 + var(--mx))) 40px 72px;
+      padding: 40px max(var(--mx), calc((100vw - var(--max-w)) / 2 + var(--mx))) 36px 64px;
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
@@ -1144,12 +1153,12 @@
       .pillar:last-child       { border-bottom: none; }
 
       /* Deliver sticky accordion — single column on mobile */
-      .deliver-item            { position: static; height: auto; grid-template-columns: 1fr; }
-      .deliver-item__num       { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.12);
-                                  padding: 20px var(--mx); }
-      .deliver-item__img       { border-right: none; height: 160px; position: relative; }
-      .deliver-item__content   { padding: 40px var(--mx) 56px; }
-      .deliver-item__title     { font-size: 26px; }
+      .deliver-item            { position: static; height: auto; }
+      .deliver-item__tab       { height: 44px; }
+      .deliver-item__main      { grid-template-columns: 1fr; }
+      .deliver-item__img       { border-right: none; height: 160px; }
+      .deliver-item__content   { padding: 32px var(--mx) 48px; }
+      .deliver-item__title     { font-size: 22px; }
 
       /* Collapse 4-col grids to 1-col */
       .four-cols               { grid-template-columns: 1fr; }
@@ -1342,58 +1351,64 @@
 
       <!-- Row 01 -->
       <div class="deliver-item">
-        <div class="deliver-item__num"><span>01</span><span class="slash"> /</span></div>
-        <div class="deliver-item__img">
-          <img src="Assets/AdobeStock_268916410.jpeg" alt="Data foundations placeholder">
-        </div>
-        <div class="deliver-item__content">
-          <h3 class="deliver-item__title">Build robust data foundations</h3>
-          <p class="deliver-item__body">Modernize enterprise data environments with scalable architecture, reliable engineering, and governance that improves trust, performance, and long-term usability.</p>
-          <a href="#" class="arrow-link">
-            Learn more
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <line x1="2" y1="8" x2="13" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-              <polyline points="9,4 13,8 9,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-            </svg>
-          </a>
+        <div class="deliver-item__tab"><span>01</span><span class="slash"> /</span></div>
+        <div class="deliver-item__main">
+          <div class="deliver-item__img">
+            <img src="Assets/AdobeStock_268916410.jpeg" alt="Data foundations">
+          </div>
+          <div class="deliver-item__content">
+            <h3 class="deliver-item__title">Build robust data foundations</h3>
+            <p class="deliver-item__body">Modernize enterprise data environments with scalable architecture, reliable engineering, and governance that improves trust, performance, and long-term usability.</p>
+            <a href="#" class="arrow-link">
+              Learn more
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <line x1="2" y1="8" x2="13" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <polyline points="9,4 13,8 9,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              </svg>
+            </a>
+          </div>
         </div>
       </div>
 
       <!-- Row 02 -->
       <div class="deliver-item">
-        <div class="deliver-item__num"><span>02</span><span class="slash"> /</span></div>
-        <div class="deliver-item__img">
-          <img src="Assets/AdobeStock_671441977.png" alt="Business insights placeholder">
-        </div>
-        <div class="deliver-item__content">
-          <h3 class="deliver-item__title">Gain deeper insights</h3>
-          <p class="deliver-item__body">Transform operational and customer data into connected intelligence that improves visibility, accelerates decisions, and drives business performance.</p>
-          <a href="#" class="arrow-link">
-            Learn more
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <line x1="2" y1="8" x2="13" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-              <polyline points="9,4 13,8 9,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-            </svg>
-          </a>
+        <div class="deliver-item__tab"><span>02</span><span class="slash"> /</span></div>
+        <div class="deliver-item__main">
+          <div class="deliver-item__img">
+            <img src="Assets/AdobeStock_671441977.png" alt="Business insights">
+          </div>
+          <div class="deliver-item__content">
+            <h3 class="deliver-item__title">Gain deeper insights</h3>
+            <p class="deliver-item__body">Transform operational and customer data into connected intelligence that improves visibility, accelerates decisions, and drives business performance.</p>
+            <a href="#" class="arrow-link">
+              Learn more
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <line x1="2" y1="8" x2="13" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <polyline points="9,4 13,8 9,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              </svg>
+            </a>
+          </div>
         </div>
       </div>
 
       <!-- Row 03 -->
       <div class="deliver-item">
-        <div class="deliver-item__num"><span>03</span><span class="slash"> /</span></div>
-        <div class="deliver-item__img">
-          <img src="Assets/AdobeStock_1144658303.jpeg" alt="AI and outcomes placeholder">
-        </div>
-        <div class="deliver-item__content">
-          <h3 class="deliver-item__title">Accelerate to outcomes</h3>
-          <p class="deliver-item__body">Operationalize analytics and AI solutions that solve high-impact business problems, reduce operational risk, and accelerate measurable outcomes.</p>
-          <a href="#" class="arrow-link">
-            Learn more
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <line x1="2" y1="8" x2="13" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-              <polyline points="9,4 13,8 9,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-            </svg>
-          </a>
+        <div class="deliver-item__tab"><span>03</span><span class="slash"> /</span></div>
+        <div class="deliver-item__main">
+          <div class="deliver-item__img">
+            <img src="Assets/AdobeStock_1144658303.jpeg" alt="AI and outcomes">
+          </div>
+          <div class="deliver-item__content">
+            <h3 class="deliver-item__title">Accelerate to outcomes</h3>
+            <p class="deliver-item__body">Operationalize analytics and AI solutions that solve high-impact business problems, reduce operational risk, and accelerate measurable outcomes.</p>
+            <a href="#" class="arrow-link">
+              Learn more
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <line x1="2" y1="8" x2="13" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <polyline points="9,4 13,8 9,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              </svg>
+            </a>
+          </div>
         </div>
       </div>
 
