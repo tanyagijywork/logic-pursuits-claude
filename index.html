@@ -606,13 +606,13 @@
       transition: color 250ms ease;
     }
 
-    /* Card hover — dark navy fill, icon box stays white */
+    /* Card hover — dark navy fill */
     .four-col {
       transition: background 250ms ease;
     }
     .four-col:hover {
       background: var(--navy);
-      border-color: var(--navy); /* blend borders into the dark bg on hover */
+      border-color: var(--navy);
     }
     .four-col:hover .four-col__title {
       color: var(--white);
@@ -623,6 +623,18 @@
     .four-col:hover .arrow-link {
       color: var(--teal);
     }
+
+    /* Our Partners card — permanently dark navy */
+    .four-col:last-child {
+      background: var(--navy);
+      border-color: var(--navy);
+    }
+    .four-col:last-child .four-col__title { color: var(--white); }
+    .four-col:last-child .four-col__body  { color: rgba(255, 255, 255, 0.72); }
+    .four-col:last-child .arrow-link      { color: var(--teal); }
+    /* Show blue-bg icon by default on dark card */
+    .four-col:last-child .icon-default    { opacity: 0; }
+    .four-col:last-child .icon-hover      { opacity: 1; }
 
     /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
        SECTION 5 — AI OFFERINGS
