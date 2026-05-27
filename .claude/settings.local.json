@@ -50,7 +50,8 @@
       "Bash(git commit -m 'Update page-end scrim to black at 62% opacity *)",
       "Bash(git commit -m 'Add top-right corner triangle to all teal CTA buttons *)",
       "Bash(git commit -m 'Increase corner triangles to 12px on both CTA buttons *)",
-      "Bash(git commit -m 'Increase nav CTA corner triangle to 16px *)"
+      "Bash(git commit -m 'Increase nav CTA corner triangle to 16px *)",
+      "Bash(git commit -m 'CTA corner triangles: navy on teal, teal on navy hover *)"
     ]
   }
 }
