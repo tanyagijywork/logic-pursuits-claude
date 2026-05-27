@@ -67,7 +67,8 @@
       "Bash(git commit -m 'Hero: animate grid lines drawing on page load *)",
       "Bash(git commit -m 'Add scroll-triggered line-draw animations across all sections *)",
       "Bash(git commit -m 'Revert: remove line-draw animations from all sections except banner *)",
-      "Bash(git commit -m 'index-v01: dark navy nav with adapted element colours *)"
+      "Bash(git commit -m 'index-v01: dark navy nav with adapted element colours *)",
+      "Bash(git commit -m 'index.html: dark navy nav + LP-logo-inverse.svg *)"
     ]
   }
 }
