@@ -129,8 +129,8 @@
       position: sticky;
       top: 0;
       z-index: 200;
-      background: var(--white);
-      border-bottom: 1px solid var(--grey-200);
+      background: var(--navy);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
     .nav .wrap {
       display: flex;
@@ -151,6 +151,7 @@
       display: block;
       height: 30px;
       width: auto;
+      filter: brightness(0) invert(1); /* white logo on dark nav */
     }
 
     /* Nav menu */
@@ -168,13 +169,13 @@
       padding: 0 18px;
       font-size: 13px;
       font-weight: 600;
-      color: var(--grey-700);
+      color: rgba(255, 255, 255, 0.72);
       white-space: nowrap;
-      border-left: 1px solid var(--grey-200);
+      border-left: 1px solid rgba(255, 255, 255, 0.12);
       transition: color 150ms ease;
       line-height: 1;
     }
-    .nav__link:hover { color: var(--deep-navy); }
+    .nav__link:hover { color: var(--white); }
 
     .nav__link--cta {
       background: var(--teal);
@@ -219,7 +220,7 @@
       display: block;
       width: 22px;
       height: 1.5px;
-      background: var(--deep-navy);
+      background: var(--white);
       transition: opacity 150ms ease;
     }
 
@@ -1188,12 +1189,12 @@
 
       /* Nav */
       .nav__menu               { display: none; position: fixed; top: 72px; left: 0; right: 0;
-                                  flex-direction: column; background: var(--white);
-                                  border-bottom: 1px solid var(--grey-200); z-index: 199; }
+                                  flex-direction: column; background: var(--navy);
+                                  border-bottom: 1px solid rgba(255,255,255,0.1); z-index: 199; }
       .nav__menu.is-open        { display: flex; }
       .nav__item                { width: 100%; }
-      .nav__link                { border-left: none; border-top: 1px solid var(--grey-200);
-                                  height: 56px; padding: 0 var(--mx); font-size: 14px; }
+      .nav__link                { border-left: none; border-top: 1px solid rgba(255,255,255,0.12);
+                                  height: 56px; padding: 0 var(--mx); font-size: 14px; color: rgba(255,255,255,0.72); }
       .nav__link--cta           { background: var(--teal); color: #003B5E; }
       .nav__burger              { display: flex; }
 
