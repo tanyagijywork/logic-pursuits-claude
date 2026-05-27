@@ -563,7 +563,7 @@
     .four-col {
       display: flex;
       flex-direction: column;
-      padding: 96px 32px 48px 32px; /* equal horizontal padding — hover bg looks balanced on all cards */
+      padding: 48px 32px 48px 32px;
       border-right: 1px solid var(--grey-200);
       border-bottom: 1px solid var(--grey-200);
       position: relative;
@@ -571,26 +571,29 @@
     .four-col:first-child { border-left: 1px solid var(--grey-200); }
     .four-col:last-child  { border-right: 1px solid var(--grey-200); }
 
-    /* Icon box — stroke cell flush to top-right corner of card */
+    /* Icon — left-aligned, above heading, no box or border */
     .four-col__icon {
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 64px;
-      height: 64px;
-      border-left: 1px solid var(--grey-200);
-      border-bottom: 1px solid var(--grey-200);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      position: relative;
+      width: 40px;
+      height: 40px;
+      margin-bottom: 24px;
       flex-shrink: 0;
     }
-    /* last card's icon box — card's own right border closes it, no extra needed */
     .four-col__icon img {
-      width: 28px;
-      height: 28px;
+      width: 40px;
+      height: 40px;
       display: block;
+      transition: opacity 250ms ease;
     }
+    /* Hover icon stacked on top, fades in */
+    .four-col__icon .icon-hover {
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+    }
+    .four-col:hover .icon-default { opacity: 0; }
+    .four-col:hover .icon-hover   { opacity: 1; }
 
     .four-col__title {
       font-size: 18px; font-weight: 600; line-height: 1.4;
@@ -610,10 +613,6 @@
     .four-col:hover {
       background: var(--navy);
       border-color: var(--navy); /* blend borders into the dark bg on hover */
-    }
-    .four-col:hover .four-col__icon {
-      background: var(--white);
-      border-color: rgba(255, 255, 255, 0.15);
     }
     .four-col:hover .four-col__title {
       color: var(--white);
@@ -1488,7 +1487,8 @@
 
         <div class="four-col reveal" data-delay="0">
           <div class="four-col__icon" aria-hidden="true">
-            <img src="Assets/icon-cloud.svg" alt="">
+            <img class="icon-default" src="Assets/icon-cloud-data-platform-consulting-white-bg.svg" alt="">
+            <img class="icon-hover"   src="Assets/icon-cloud-data-platform-consulting-blue-bg.svg" alt="">
           </div>
           <h3 class="four-col__title">Cloud Data Platform Consulting</h3>
           <p class="four-col__body">Build scalable, modern cloud data environments that improve data accessibility, platform performance, and operational readiness across the enterprise.</p>
@@ -1502,7 +1502,8 @@
 
         <div class="four-col reveal" data-delay="80">
           <div class="four-col__icon" aria-hidden="true">
-            <img src="Assets/icon-data.svg" alt="">
+            <img class="icon-default" src="Assets/icon-data-analytics-platform-consulting-white-bg.svg" alt="">
+            <img class="icon-hover"   src="Assets/icon-data-analytics-platform-consulting-blue-bg.svg" alt="">
           </div>
           <h3 class="four-col__title">Data &amp; Analytics Platform Consulting</h3>
           <p class="four-col__body">Turn enterprise data into decision-ready intelligence through connected analytics, self-service reporting, and scalable insight platforms.</p>
@@ -1516,7 +1517,8 @@
 
         <div class="four-col reveal" data-delay="160">
           <div class="four-col__icon" aria-hidden="true">
-            <img src="Assets/icon-enterprise.svg" alt="">
+            <img class="icon-default" src="Assets/icon-enterprise-automation-white-bg.svg" alt="">
+            <img class="icon-hover"   src="Assets/icon-enterprise-automation-blue-bg.svg" alt="">
           </div>
           <h3 class="four-col__title">Enterprise &amp; Automation Consulting</h3>
           <p class="four-col__body">Strengthen governance, automate operational workflows, and improve enterprise efficiency through connected data and automation solutions.</p>
@@ -1530,7 +1532,8 @@
 
         <div class="four-col reveal" data-delay="240">
           <div class="four-col__icon" aria-hidden="true">
-            <img src="Assets/icon-partners.svg" alt="">
+            <img class="icon-default" src="Assets/icon-our-partners-white-bg.svg" alt="">
+            <img class="icon-hover"   src="Assets/icon-our-partners-blue-bg.svg" alt="">
           </div>
           <h3 class="four-col__title">Our Partners</h3>
           <p class="four-col__body">Leverage our deep expertise across leading cloud, data, analytics, governance, and automation ecosystems to accelerate platform adoption and business outcomes.</p>

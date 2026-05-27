@@ -55,7 +55,8 @@
       "Bash(git commit -m 'Rebuild overview section: blank-left + teal triangle, horizontal 3-col pillars *)",
       "Bash(git commit -m 'Overview: unified 4-col grid \\(30% blank | 3×23.3% content\\) *)",
       "Bash(git commit -m 'Overview triangle: top-right of bottom-left quadrant, same logic as banner *)",
-      "Bash(git commit -m 'Restore full-bleed video as standalone section between hero and overview *)"
+      "Bash(git commit -m 'Restore full-bleed video as standalone section between hero and overview *)",
+      "Bash(git commit -m 'How We Deliver: icon left-aligned above heading, no box, bg-aware swap on hover *)"
     ]
   }
 }
