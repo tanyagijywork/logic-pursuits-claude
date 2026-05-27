@@ -392,57 +392,40 @@
     .deliver .arrow-link:hover { color: var(--white); }
 
     /* Accordion container */
-    /* Tab height — the visible strip of each "filed" row */
-    .deliver { --tab-h: 52px; }
+    /* Stagger = height of the visible strip when a row is "filed" behind the next */
+    .deliver { --tab-h: 60px; }
 
     .deliver-accordion { position: relative; }
 
-    /* Each sticky row — flex column so tab sits above main body */
+    /* Each sticky row — direct 3-column grid: number | image | content
+       All three columns visible in the collapsed strip (number, image crop, eyebrow+title) */
     .deliver-item {
       position: sticky;
       height: 37.5vh;
       background: var(--navy);
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 2.5fr;
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
       border-bottom: 1px solid rgba(255, 255, 255, 0.12);
       overflow: hidden;
     }
-    /* Staggered tops: each row's tab stays visible above the row that covers it */
+    /* Staggered tops: when row N+1 slides up, it covers row N leaving a strip visible */
     .deliver-item:nth-child(1) { top: 72px;                           z-index: 10; }
     .deliver-item:nth-child(2) { top: calc(72px + var(--tab-h));      z-index: 20; }
     .deliver-item:nth-child(3) { top: calc(72px + var(--tab-h) * 2); z-index: 30; }
 
-    /* Tab strip — the "file folder top" that always shows when a row is filed away */
-    .deliver-item__tab {
-      height: var(--tab-h);
-      flex-shrink: 0;
-      border-top: 1px solid rgba(255, 255, 255, 0.18);
+    /* Number column — wide left column, number sits at top aligned with eyebrow */
+    .deliver-item__num {
+      border-right: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 20px 40px 20px max(var(--mx), calc((100vw - var(--max-w)) / 2 + var(--mx)));
       display: flex;
-      align-items: center;
-      padding: 0 max(var(--mx), calc((100vw - var(--max-w)) / 2 + var(--mx)));
-      gap: 4px;
+      align-items: flex-start;
       font-size: 12px;
       font-weight: 600;
       letter-spacing: 0.08em;
       color: rgba(255, 255, 255, 0.38);
     }
-    .deliver-item__tab .slash { color: var(--teal); }
-
-    /* Main body row: gutter | image | content
-       Gutter width = same as tab/section left padding → left gridline lines up
-       Image 3fr + Content 2fr → content starts at ~62% matching overview 62/38 split */
-    .deliver-item__main {
-      flex: 1;
-      display: grid;
-      grid-template-columns: max(var(--mx), calc((100vw - var(--max-w)) / 2 + var(--mx))) 3fr 2fr;
-      min-height: 0;
-      overflow: hidden;
-    }
-
-    /* Empty gutter — creates the left vertical gridline stroke */
-    .deliver-item__gutter {
-      border-right: 1px solid rgba(255, 255, 255, 0.15);
-    }
+    .deliver-item__num .slash { color: var(--teal); }
 
     /* Image column */
     .deliver-item__img {
@@ -462,22 +445,23 @@
     }
     .deliver-item:hover .deliver-item__img img { transform: scale(1.03); }
 
-    /* Content column — left edge aligns with overview right panel start */
+    /* Content column */
     .deliver-item__content {
-      padding: 40px max(var(--mx), calc((100vw - var(--max-w)) / 2 + var(--mx))) 36px 48px;
+      padding: 20px max(var(--mx), calc((100vw - var(--max-w)) / 2 + var(--mx))) 32px 48px;
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
     }
 
-    .deliver-item__label {
+    /* Eyebrow — sits at top of content column, aligned with number */
+    .deliver-item__eyebrow {
       font-size: 11px;
       font-weight: 600;
       letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--teal);
       display: block;
-      margin-bottom: 28px;
+      margin-bottom: 16px;
     }
 
     .deliver-item__title {
@@ -1160,12 +1144,11 @@
       .pillar:last-child       { border-bottom: none; }
 
       /* Deliver sticky accordion — single column on mobile */
-      .deliver-item            { position: static; height: auto; }
-      .deliver-item__tab       { height: 44px; }
-      .deliver-item__main      { grid-template-columns: 1fr; }
-      .deliver-item__gutter    { display: none; }
+      .deliver-item            { position: static; height: auto; grid-template-columns: 1fr; }
+      .deliver-item__num       { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.12);
+                                  padding: 16px var(--mx); }
       .deliver-item__img       { border-right: none; height: 160px; }
-      .deliver-item__content   { padding: 32px var(--mx) 48px; }
+      .deliver-item__content   { padding: 28px var(--mx) 44px; }
       .deliver-item__title     { font-size: 22px; }
 
       /* Collapse 4-col grids to 1-col */
@@ -1359,67 +1342,61 @@
 
       <!-- Row 01 -->
       <div class="deliver-item">
-        <div class="deliver-item__tab"><span>01</span><span class="slash"> /</span></div>
-        <div class="deliver-item__main">
-          <div class="deliver-item__gutter" aria-hidden="true"></div>
-          <div class="deliver-item__img">
-            <img src="Assets/AdobeStock_268916410.jpeg" alt="Data foundations">
-          </div>
-          <div class="deliver-item__content">
-            <h3 class="deliver-item__title">Build robust data foundations</h3>
-            <p class="deliver-item__body">Modernize enterprise data environments with scalable architecture, reliable engineering, and governance that improves trust, performance, and long-term usability.</p>
-            <a href="#" class="arrow-link">
-              Learn more
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <line x1="2" y1="8" x2="13" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                <polyline points="9,4 13,8 9,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-              </svg>
-            </a>
-          </div>
+        <div class="deliver-item__num"><span>01</span><span class="slash"> /</span></div>
+        <div class="deliver-item__img">
+          <img src="Assets/AdobeStock_268916410.jpeg" alt="Data foundations">
+        </div>
+        <div class="deliver-item__content">
+          <span class="deliver-item__eyebrow">Trusted Data</span>
+          <h3 class="deliver-item__title">Build robust data foundations</h3>
+          <p class="deliver-item__body">Modernize enterprise data environments with scalable architecture, reliable engineering, and governance that improves trust, performance, and long-term usability.</p>
+          <a href="#" class="arrow-link">
+            Learn more
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <line x1="2" y1="8" x2="13" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <polyline points="9,4 13,8 9,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
+          </a>
         </div>
       </div>
 
       <!-- Row 02 -->
       <div class="deliver-item">
-        <div class="deliver-item__tab"><span>02</span><span class="slash"> /</span></div>
-        <div class="deliver-item__main">
-          <div class="deliver-item__gutter" aria-hidden="true"></div>
-          <div class="deliver-item__img">
-            <img src="Assets/AdobeStock_671441977.png" alt="Business insights">
-          </div>
-          <div class="deliver-item__content">
-            <h3 class="deliver-item__title">Gain deeper insights</h3>
-            <p class="deliver-item__body">Transform operational and customer data into connected intelligence that improves visibility, accelerates decisions, and drives business performance.</p>
-            <a href="#" class="arrow-link">
-              Learn more
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <line x1="2" y1="8" x2="13" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                <polyline points="9,4 13,8 9,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-              </svg>
-            </a>
-          </div>
+        <div class="deliver-item__num"><span>02</span><span class="slash"> /</span></div>
+        <div class="deliver-item__img">
+          <img src="Assets/AdobeStock_671441977.png" alt="Business insights">
+        </div>
+        <div class="deliver-item__content">
+          <span class="deliver-item__eyebrow">Business Intelligence</span>
+          <h3 class="deliver-item__title">Gain deeper insights</h3>
+          <p class="deliver-item__body">Transform operational and customer data into connected intelligence that improves visibility, accelerates decisions, and drives business performance.</p>
+          <a href="#" class="arrow-link">
+            Learn more
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <line x1="2" y1="8" x2="13" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <polyline points="9,4 13,8 9,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
+          </a>
         </div>
       </div>
 
       <!-- Row 03 -->
       <div class="deliver-item">
-        <div class="deliver-item__tab"><span>03</span><span class="slash"> /</span></div>
-        <div class="deliver-item__main">
-          <div class="deliver-item__gutter" aria-hidden="true"></div>
-          <div class="deliver-item__img">
-            <img src="Assets/AdobeStock_1144658303.jpeg" alt="AI and outcomes">
-          </div>
-          <div class="deliver-item__content">
-            <h3 class="deliver-item__title">Accelerate to outcomes</h3>
-            <p class="deliver-item__body">Operationalize analytics and AI solutions that solve high-impact business problems, reduce operational risk, and accelerate measurable outcomes.</p>
-            <a href="#" class="arrow-link">
-              Learn more
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <line x1="2" y1="8" x2="13" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                <polyline points="9,4 13,8 9,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-              </svg>
-            </a>
-          </div>
+        <div class="deliver-item__num"><span>03</span><span class="slash"> /</span></div>
+        <div class="deliver-item__img">
+          <img src="Assets/AdobeStock_1144658303.jpeg" alt="AI and outcomes">
+        </div>
+        <div class="deliver-item__content">
+          <span class="deliver-item__eyebrow">AI &amp; Outcomes</span>
+          <h3 class="deliver-item__title">Accelerate to outcomes</h3>
+          <p class="deliver-item__body">Operationalize analytics and AI solutions that solve high-impact business problems, reduce operational risk, and accelerate measurable outcomes.</p>
+          <a href="#" class="arrow-link">
+            Learn more
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <line x1="2" y1="8" x2="13" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <polyline points="9,4 13,8 9,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
+          </a>
         </div>
       </div>
 
