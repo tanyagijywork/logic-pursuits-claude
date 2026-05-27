@@ -428,18 +428,25 @@
     }
     .deliver-item__tab .slash { color: var(--teal); }
 
-    /* Main body row: image | content */
+    /* Main body row: gutter | image | content
+       Gutter width = same as tab/section left padding → left gridline lines up
+       Image 3fr + Content 2fr → content starts at ~62% matching overview 62/38 split */
     .deliver-item__main {
       flex: 1;
       display: grid;
-      grid-template-columns: 2fr 3fr;
+      grid-template-columns: max(var(--mx), calc((100vw - var(--max-w)) / 2 + var(--mx))) 3fr 2fr;
       min-height: 0;
       overflow: hidden;
     }
 
+    /* Empty gutter — creates the left vertical gridline stroke */
+    .deliver-item__gutter {
+      border-right: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
     /* Image column */
     .deliver-item__img {
-      border-right: 1px solid rgba(255, 255, 255, 0.12);
+      border-right: 1px solid rgba(255, 255, 255, 0.15);
       overflow: hidden;
       position: relative;
     }
@@ -455,9 +462,9 @@
     }
     .deliver-item:hover .deliver-item__img img { transform: scale(1.03); }
 
-    /* Content column */
+    /* Content column — left edge aligns with overview right panel start */
     .deliver-item__content {
-      padding: 40px max(var(--mx), calc((100vw - var(--max-w)) / 2 + var(--mx))) 36px 64px;
+      padding: 40px max(var(--mx), calc((100vw - var(--max-w)) / 2 + var(--mx))) 36px 48px;
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
@@ -1156,6 +1163,7 @@
       .deliver-item            { position: static; height: auto; }
       .deliver-item__tab       { height: 44px; }
       .deliver-item__main      { grid-template-columns: 1fr; }
+      .deliver-item__gutter    { display: none; }
       .deliver-item__img       { border-right: none; height: 160px; }
       .deliver-item__content   { padding: 32px var(--mx) 48px; }
       .deliver-item__title     { font-size: 22px; }
@@ -1353,6 +1361,7 @@
       <div class="deliver-item">
         <div class="deliver-item__tab"><span>01</span><span class="slash"> /</span></div>
         <div class="deliver-item__main">
+          <div class="deliver-item__gutter" aria-hidden="true"></div>
           <div class="deliver-item__img">
             <img src="Assets/AdobeStock_268916410.jpeg" alt="Data foundations">
           </div>
@@ -1374,6 +1383,7 @@
       <div class="deliver-item">
         <div class="deliver-item__tab"><span>02</span><span class="slash"> /</span></div>
         <div class="deliver-item__main">
+          <div class="deliver-item__gutter" aria-hidden="true"></div>
           <div class="deliver-item__img">
             <img src="Assets/AdobeStock_671441977.png" alt="Business insights">
           </div>
@@ -1395,6 +1405,7 @@
       <div class="deliver-item">
         <div class="deliver-item__tab"><span>03</span><span class="slash"> /</span></div>
         <div class="deliver-item__main">
+          <div class="deliver-item__gutter" aria-hidden="true"></div>
           <div class="deliver-item__img">
             <img src="Assets/AdobeStock_1144658303.jpeg" alt="AI and outcomes">
           </div>
