@@ -401,7 +401,7 @@
     .deliver-item {
       position: sticky;
       top: 72px; /* height of nav */
-      height: 50vh;
+      height: 37.5vh;
       background: var(--navy);
       display: grid;
       grid-template-columns: 110px 2fr 3fr;
@@ -448,10 +448,10 @@
 
     /* Content column */
     .deliver-item__content {
-      padding: 64px max(var(--mx), calc((100vw - var(--max-w)) / 2 + var(--mx))) 64px 72px;
+      padding: 48px max(var(--mx), calc((100vw - var(--max-w)) / 2 + var(--mx))) 40px 72px;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-start;
     }
 
     .deliver-item__label {
@@ -465,20 +465,20 @@
     }
 
     .deliver-item__title {
-      font-size: clamp(28px, 2.8vw, 48px);
+      font-size: clamp(20px, 1.6vw, 28px);
       font-weight: 600;
-      letter-spacing: -0.025em;
-      line-height: 1.1;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
       color: var(--white);
-      margin-bottom: 28px;
+      margin-bottom: 16px;
       max-width: 520px;
     }
 
     .deliver-item__body {
-      font-size: 16px;
-      line-height: 1.8;
+      font-size: 15px;
+      line-height: 1.7;
       color: rgba(255, 255, 255, 0.70);
-      margin-bottom: 40px;
+      margin-bottom: 24px;
       max-width: 480px;
     }
 
