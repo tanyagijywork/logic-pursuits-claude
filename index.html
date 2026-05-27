@@ -263,16 +263,56 @@
 
     .hero__cell { position: relative; }
 
-    /* Borders ARE the two crossing grid lines */
-    .hero__cell--tl {
-      border-right:  1px solid rgba(255,255,255,0.14);
-      border-bottom: 1px solid rgba(255,255,255,0.14);
+    /* Animated grid lines — drawn on page load */
+    .hero__line {
+      position: absolute;
+      background: rgba(255,255,255,0.14);
+      pointer-events: none;
+      z-index: 1;
     }
-    .hero__cell--tr {
-      border-bottom: 1px solid rgba(255,255,255,0.14);
+    /* Horizontal line: left → right */
+    .hero__line--h {
+      top: 22%;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      transform: scaleX(0);
+      transform-origin: left center;
+      animation: hero-line-h 1s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards;
     }
+    /* Vertical line: top → bottom */
+    .hero__line--v {
+      top: 0;
+      left: 62%;
+      width: 1px;
+      height: 100%;
+      transform: scaleY(0);
+      transform-origin: top center;
+      animation: hero-line-v 1s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards;
+    }
+    @keyframes hero-line-h {
+      from { transform: scaleX(0); }
+      to   { transform: scaleX(1); }
+    }
+    @keyframes hero-line-v {
+      from { transform: scaleY(0); }
+      to   { transform: scaleY(1); }
+    }
+
+    /* Triangle fades in after lines finish */
+    .hero::before {
+      opacity: 0;
+      animation: hero-triangle 0.4s ease 1.1s forwards;
+    }
+    @keyframes hero-triangle {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    /* Grid cells — borders removed, lines are now animated divs */
+    .hero__cell--tl { }
+    .hero__cell--tr { }
     .hero__cell--bl {
-      border-right: 1px solid rgba(255,255,255,0.14);
       padding: 56px 64px 72px max(var(--mx), calc((100vw - var(--max-w)) / 2 + var(--mx)));
       display: flex;
       align-items: flex-start;
@@ -1330,6 +1370,9 @@
        Split: text left | image right
   ═══════════════════════════════════════════════════════ -->
   <section class="hero" aria-labelledby="hero-headline">
+    <!-- Animated grid lines -->
+    <div class="hero__line hero__line--h" aria-hidden="true"></div>
+    <div class="hero__line hero__line--v" aria-hidden="true"></div>
     <div class="hero__grid">
       <div class="hero__cell hero__cell--tl"></div>
       <div class="hero__cell hero__cell--tr"></div>
