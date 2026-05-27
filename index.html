@@ -416,8 +416,8 @@
 
     /* Number column — wide left column, number sits at top aligned with eyebrow */
     .deliver-item__num {
-      border-right: 1px solid rgba(255, 255, 255, 0.15);
-      padding: 20px 40px 20px max(var(--mx), calc((100vw - var(--max-w)) / 2 + var(--mx)));
+      /* no border-right here — the image's border-left is the single left gridline */
+      padding: 32px 40px 32px max(var(--mx), calc((100vw - var(--max-w)) / 2 + var(--mx)));
       display: flex;
       align-items: flex-start;
       font-size: 12px;
@@ -427,9 +427,10 @@
     }
     .deliver-item__num .slash { color: var(--teal); }
 
-    /* Image column */
+    /* Image column — framed by border-left (left gridline) + border-right (right gridline) */
     .deliver-item__img {
-      border-right: 1px solid rgba(255, 255, 255, 0.15);
+      border-left:  1px solid rgba(255, 255, 255, 0.18);
+      border-right: 1px solid rgba(255, 255, 255, 0.18);
       overflow: hidden;
       position: relative;
     }
@@ -445,15 +446,16 @@
     }
     .deliver-item:hover .deliver-item__img img { transform: scale(1.03); }
 
-    /* Content column */
+    /* Content column — padding-top 32px pushes h3 start to ~61px (> --tab-h 60px)
+       so only eyebrow is visible in the collapsed 60px strip, not the heading */
     .deliver-item__content {
-      padding: 20px max(var(--mx), calc((100vw - var(--max-w)) / 2 + var(--mx))) 32px 48px;
+      padding: 32px max(var(--mx), calc((100vw - var(--max-w)) / 2 + var(--mx))) 32px 48px;
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
     }
 
-    /* Eyebrow — sits at top of content column, aligned with number */
+    /* Eyebrow — visible in collapsed strip; heading is hidden below --tab-h */
     .deliver-item__eyebrow {
       font-size: 11px;
       font-weight: 600;
