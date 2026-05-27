@@ -303,22 +303,28 @@
       margin-bottom: 32px;
     }
 
-    /* OVERVIEW — editorial grid: blank-left + teal triangle | text-right
-       then full-width 3-column pillars below
+    /* OVERVIEW — unified 4-column grid (30% blank | 3 × 23.3% content)
+       Wrapper divs use display:contents so gap, text, and all 3 pillars
+       share the same column lines → perfect vertical alignment.
+       Columns: [1] blank gap  [2] pillar-1 / text-start  [3] pillar-2  [4] pillar-3
     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-    .overview { display: block; }
-
-    /* Top split: [blank gap col] [text content col] */
-    .overview__top {
+    .overview {
       display: grid;
-      grid-template-columns: 1fr 2.7fr;
+      grid-template-columns: 3fr repeat(3, 2.333fr); /* 30% | 3 × 23.3% */
+    }
+
+    /* Wrappers become transparent to the grid */
+    .overview__top     { display: contents; }
+    .overview__pillars { display: contents; }
+
+    /* — Gap column — row 1, col 1 */
+    .overview__gap {
+      grid-column: 1;
+      grid-row: 1;
+      position: relative;
       border-bottom: 1px solid var(--grey-200);
     }
-
-    /* Blank left column — teal triangle anchored to bottom-right */
-    .overview__gap {
-      position: relative;
-    }
+    /* Teal right-angle triangle: right angle sits at bottom-right of gap col */
     .overview__gap::after {
       content: '';
       position: absolute;
@@ -330,10 +336,13 @@
       clip-path: polygon(0 100%, 100% 0, 100% 100%);
     }
 
-    /* Right column: eyebrow + headline + body */
+    /* — Text content — row 1, spans cols 2-4 */
     .overview__text {
-      padding: 80px max(var(--mx), calc((100vw - var(--max-w)) / 2 + var(--mx))) 80px 64px;
+      grid-column: 2 / 5;
+      grid-row: 1;
+      padding: 80px max(var(--mx), calc((100vw - var(--max-w)) / 2 + var(--mx))) 80px 60px;
       border-left: 1px solid var(--grey-200);
+      border-bottom: 1px solid var(--grey-200);
     }
 
     .overview__headline {
@@ -353,21 +362,16 @@
       max-width: 600px;
     }
 
-    /* Bottom: 3 horizontal pillars, full-width, separated by vertical lines */
-    .overview__pillars {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-    }
-
+    /* — Pillars — row 2, cols 2 / 3 / 4 (col 1 stays blank) */
     .pillar {
+      grid-row: 2;
       padding: 52px 48px;
       border-left: 1px solid var(--grey-200);
     }
-    .pillar:first-child {
-      border-left: none;
-      padding-left: max(var(--mx), calc((100vw - var(--max-w)) / 2 + var(--mx)));
-    }
-    .pillar:last-child {
+    .pillar:nth-child(1) { grid-column: 2; padding-left: 60px; }
+    .pillar:nth-child(2) { grid-column: 3; }
+    .pillar:nth-child(3) {
+      grid-column: 4;
       padding-right: max(var(--mx), calc((100vw - var(--max-w)) / 2 + var(--mx)));
     }
 
@@ -1228,14 +1232,15 @@
       .tsec--bl  { border-right: none; border-top: 1px solid rgba(255,255,255,0.14); padding: 40px var(--mx); }
       .tsec--br  { border-top: 1px solid rgba(255,255,255,0.14); padding: 32px var(--mx) 48px; }
 
-      /* Overview → stack on mobile */
-      .overview__top           { grid-template-columns: 1fr; }
+      /* Overview → collapse to single column on mobile */
+      .overview                { display: block; }
+      .overview__top           { display: block; }
+      .overview__pillars       { display: block; }
       .overview__gap           { display: none; }
       .overview__text          { padding: 48px var(--mx); border-left: none; border-bottom: 1px solid var(--grey-200); }
-      .overview__pillars       { grid-template-columns: 1fr; }
       .pillar                  { border-left: none; border-top: 1px solid var(--grey-200); padding: 32px var(--mx); }
-      .pillar:first-child      { border-top: none; padding-left: var(--mx); }
-      .pillar:last-child       { padding-right: var(--mx); }
+      .pillar:nth-child(1)     { border-top: none; padding-left: var(--mx); }
+      .pillar:nth-child(3)     { padding-right: var(--mx); }
 
       /* Case cards → stack */
       .case-grid               { grid-template-columns: 1fr; }
