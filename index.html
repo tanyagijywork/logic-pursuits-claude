@@ -414,10 +414,9 @@
     .deliver-item:nth-child(2) { top: calc(72px + var(--tab-h));      z-index: 20; }
     .deliver-item:nth-child(3) { top: calc(72px + var(--tab-h) * 2); z-index: 30; }
 
-    /* Number column — wide left column, number sits at top aligned with eyebrow.
-       ::after draws the left gridline 20px inside the image column */
+    /* Number column — wide left column; border-right = left gridline */
     .deliver-item__num {
-      position: relative;
+      border-right: 1px solid rgba(255, 255, 255, 0.18);
       padding: 32px 40px 32px max(var(--mx), calc((100vw - var(--max-w)) / 2 + var(--mx)));
       display: flex;
       align-items: flex-start;
@@ -426,26 +425,16 @@
       letter-spacing: 0.08em;
       color: rgba(255, 255, 255, 0.38);
     }
-    .deliver-item__num::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: calc(100% + 20px); /* 20px into the image column */
-      width: 1px;
-      height: 100%;
-      background: rgba(255, 255, 255, 0.18);
-    }
     .deliver-item__num .slash { color: var(--teal); }
 
-    /* Image column — right gridline only; left gridline is drawn by __num::after */
+    /* Image column — padding pushes image 20px away from both gridlines on each side
+       border-right = right gridline; image sits between the two lines with breathing room */
     .deliver-item__img {
       border-right: 1px solid rgba(255, 255, 255, 0.18);
+      padding: 0 20px;
       overflow: hidden;
-      position: relative;
     }
     .deliver-item__img img {
-      position: absolute;
-      inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -455,8 +444,7 @@
     }
     .deliver-item:hover .deliver-item__img img { transform: scale(1.03); }
 
-    /* Content column — padding-top 32px pushes h3 start to ~61px (> --tab-h 60px)
-       so only eyebrow is visible in the collapsed 60px strip, not the heading */
+    /* Content column */
     .deliver-item__content {
       padding: 32px max(var(--mx), calc((100vw - var(--max-w)) / 2 + var(--mx))) 32px 48px;
       display: flex;
