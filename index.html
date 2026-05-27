@@ -1205,6 +1205,81 @@
     .footer__legal a:hover { color: rgba(255,255,255,0.70); }
 
     /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       LINE-DRAW ANIMATIONS — scroll-triggered
+       draw-line-h : left → right   draw-line-v : top → bottom
+       .lines-in added by IntersectionObserver when section enters view.
+       Structural borders replaced with pseudo-element lines so they
+       can be scaled from zero.
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    @keyframes draw-line-h { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+    @keyframes draw-line-v { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+
+    /* ─ HR full-width separators ─ */
+    .rule { transform: scaleX(0); transform-origin: left center; }
+    .rule.lines-in { animation: draw-line-h 1s cubic-bezier(0.4,0,0.2,1) forwards; }
+
+    /* ─ Overview ─ */
+    .overview__top { position: relative; }
+    .overview__gap  { border-bottom: none; }
+    .overview__text { border-left: none; border-bottom: none; position: relative; }
+    /* Horizontal separator across full width */
+    .overview__top::after {
+      content: ''; position: absolute; bottom: 0; left: 0;
+      width: 100%; height: 1px; background: var(--grey-200);
+      transform: scaleX(0); transform-origin: left center;
+    }
+    /* Vertical line — gap col | text col */
+    .overview__text::before {
+      content: ''; position: absolute; top: 0; left: 0;
+      width: 1px; height: 100%; background: var(--grey-200);
+      transform: scaleY(0); transform-origin: top center;
+    }
+    /* Vertical dividers between pillars */
+    .pillar { position: relative; border-left: none; }
+    .overview__pillars .pillar + .pillar::before {
+      content: ''; position: absolute; top: 0; left: 0;
+      width: 1px; height: 100%; background: var(--grey-200);
+      transform: scaleY(0); transform-origin: top center;
+    }
+    .overview.lines-in .overview__top::after                        { animation: draw-line-h 1s cubic-bezier(0.4,0,0.2,1)        forwards; }
+    .overview.lines-in .overview__text::before                      { animation: draw-line-v 1s cubic-bezier(0.4,0,0.2,1) 0.2s   forwards; }
+    .overview.lines-in .overview__pillars .pillar + .pillar::before { animation: draw-line-v 1s cubic-bezier(0.4,0,0.2,1) 0.4s   forwards; }
+
+    /* ─ How We Deliver — top border of four-cols grid ─ */
+    .four-cols { border-top: none; position: relative; }
+    .four-cols::before {
+      content: ''; position: absolute; top: 0; left: 0;
+      width: 100%; height: 1px; background: var(--grey-200);
+      transform: scaleX(0); transform-origin: left center;
+    }
+    .how-deliver.lines-in .four-cols::before { animation: draw-line-h 1s cubic-bezier(0.4,0,0.2,1) forwards; }
+
+    /* ─ What We Deliver — row top borders + internal verticals ─ */
+    .deliver-item { border-top: none; }
+    .deliver-item::before {
+      content: ''; position: absolute; top: 0; left: 0;
+      width: 100%; height: 1px; background: rgba(255,255,255,0.15);
+      transform: scaleX(0); transform-origin: left center;
+    }
+    .deliver-item__num { border-right: none; position: relative; }
+    .deliver-item__num::after {
+      content: ''; position: absolute; top: 0; right: 0;
+      width: 1px; height: 100%; background: rgba(255,255,255,0.18);
+      transform: scaleY(0); transform-origin: top center;
+    }
+    .deliver-item__img { border-right: none; position: relative; }
+    .deliver-item__img::after {
+      content: ''; position: absolute; top: 0; right: 0;
+      width: 1px; height: 100%; background: rgba(255,255,255,0.18);
+      transform: scaleY(0); transform-origin: top center;
+    }
+    .deliver.lines-in .deliver-item:nth-child(1)::before { animation: draw-line-h 1s   cubic-bezier(0.4,0,0.2,1)        forwards; }
+    .deliver.lines-in .deliver-item:nth-child(2)::before { animation: draw-line-h 1s   cubic-bezier(0.4,0,0.2,1) 0.15s  forwards; }
+    .deliver.lines-in .deliver-item:nth-child(3)::before { animation: draw-line-h 1s   cubic-bezier(0.4,0,0.2,1) 0.3s   forwards; }
+    .deliver.lines-in .deliver-item__num::after          { animation: draw-line-v 0.8s  cubic-bezier(0.4,0,0.2,1) 0.5s   forwards; }
+    .deliver.lines-in .deliver-item__img::after          { animation: draw-line-v 0.8s  cubic-bezier(0.4,0,0.2,1) 0.5s   forwards; }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
        RESPONSIVE — TABLET 1024px
     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
     @media (max-width: 1024px) {
@@ -1246,6 +1321,19 @@
       .hero__cell--br          { padding: 24px var(--mx) 64px; }
       .hero__headline          { font-size: 40px; }
       .tri--256                { width: 120px; height: 120px; }
+
+      /* Line-draw animations → off on mobile; restore static borders */
+      .rule                                        { transform: none; }
+      .overview__top::after                        { display: none; }
+      .overview__text::before                      { display: none; }
+      .overview__pillars .pillar + .pillar::before { display: none; }
+      .overview__text                              { border-bottom: 1px solid var(--grey-200); }
+      .four-cols::before                           { display: none; }
+      .four-cols                                   { border-top: 1px solid var(--grey-200); }
+      .deliver-item::before                        { display: none; }
+      .deliver-item__num::after                    { display: none; }
+      .deliver-item__img::after                    { display: none; }
+      .deliver-item                                { border-top: 1px solid rgba(255,255,255,0.15); }
 
       /* Deliver header on mobile */
       .deliver__header         { padding: 64px var(--mx) 48px; }
@@ -2014,6 +2102,19 @@
       document.querySelectorAll('.reveal').forEach(function (el) {
         io.observe(el);
       });
+
+      /* ── Line-draw observer — fires .lines-in on sections + hr rules ── */
+      var lineTargets = [].slice.call(document.querySelectorAll(
+        '.rule, .overview, .how-deliver, .deliver'
+      ));
+      var lineObs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('lines-in');
+          lineObs.unobserve(entry.target);
+        });
+      }, { threshold: 0.08 });
+      lineTargets.forEach(function(el) { lineObs.observe(el); });
 
       /* ── AI Slider — full-bleed bg + thumbnail peek ── */
       (function () {
