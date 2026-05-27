@@ -30,7 +30,23 @@
       "Bash(git commit -m 'Replace overview full-bleed image with autoplay video *)",
       "Bash(xxd)",
       "Bash(git commit -m 'Interactive partner mesh section with scattered logos *)",
-      "Bash(git commit -m 'Switch partner mesh to light theme *)"
+      "Bash(git commit -m 'Switch partner mesh to light theme *)",
+      "Bash(git commit -m 'Add all logos and new video assets *)",
+      "Bash(git commit -m 'Nav CTA: teal bg \\(was navy\\), hover transitions to navy *)",
+      "WebFetch(domain:localhost)",
+      "Bash(git commit -m 'What We Deliver: sticky accordion with dark navy theme, 3-col grid, CSS stroke lines *)",
+      "Bash(git commit -m 'Deliver section: half-height image, remove eyebrow labels *)",
+      "Bash(git commit -m 'Deliver section: reduce row height to 50vh, full-bleed image restored *)",
+      "Bash(git commit -m 'Deliver section: 37.5vh height, top-aligned content, h3-scale headings *)",
+      "Bash(git commit -m 'Deliver section: filing-cabinet sticky with tab strips *)",
+      "Bash(git commit -m 'Deliver section: gutter column + dual vertical gridlines, 61% content alignment *)",
+      "Bash(git commit -m 'Deliver section: Enerblock-style 3-col layout with eyebrow labels *)",
+      "Bash(git commit -m 'Deliver section: left gridline on image, heading hidden in collapsed strip *)",
+      "Bash(git commit -m 'Deliver: shift left gridline 20px left of image edge *)",
+      "Bash(git commit -m 'Deliver: image framed 20px inside both gridlines via column padding *)",
+      "Bash(git commit -m 'Final CTA: teal background, hover to navy *)",
+      "Bash(git commit -m 'Teal buttons: text + icon color #003B5E \\(navy\\) in default state *)",
+      "Bash(git commit -m 'Fix: white text+icon on hover for .cta-btn \\(pre-footer section\\) *)"
     ]
   }
 }
