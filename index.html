@@ -168,10 +168,25 @@
       padding: 0 28px;
       border-left-color: transparent;
       transition: background 150ms ease, color 150ms ease;
+      position: relative;
     }
     .nav__link--cta:hover {
       background: var(--navy);
       color: var(--white);
+    }
+    .nav__link--cta::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 0;
+      height: 0;
+      border-top: 7px solid rgba(0, 0, 0, 0.2);
+      border-left: 7px solid transparent;
+      transition: border-top-color 150ms ease;
+    }
+    .nav__link--cta:hover::after {
+      border-top-color: rgba(255, 255, 255, 0.25);
     }
 
     /* Hamburger (mobile only) */
@@ -1006,10 +1021,23 @@
       font-weight: 600;
       flex-shrink: 0;
       align-self: flex-start;
+      position: relative;
       transition: background 150ms ease, gap 200ms ease, color 150ms ease;
     }
     .cta-btn svg { flex-shrink: 0; }
+    .cta-btn::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 0;
+      height: 0;
+      border-top: 6px solid rgba(0, 0, 0, 0.2);
+      border-left: 6px solid transparent;
+      transition: border-top-color 150ms ease;
+    }
     .cta-btn:hover { background: var(--navy); gap: 16px; color: var(--white); }
+    .cta-btn:hover::after { border-top-color: rgba(255, 255, 255, 0.25); }
 
     /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
        FOOTER
