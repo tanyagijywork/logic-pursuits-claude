@@ -63,6 +63,20 @@
       margin: 0;
     }
 
+    /* Full-bleed video band between hero and overview */
+    .video-band {
+      width: 100%;
+      height: 480px;
+      overflow: hidden;
+    }
+    .video-band video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
     /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
        TRIANGLE MOTIF
        Right-angle anchored to top-right of containing block.
@@ -1324,7 +1338,15 @@
 
 
   <!-- ═══════════════════════════════════════════════════════
-       SECTION 2 — OVERVIEW
+       SECTION 2 — FULL-BLEED VIDEO
+  ═══════════════════════════════════════════════════════ -->
+  <div class="video-band">
+    <video src="Assets/gettyimages-2213753299-640_adpp.mp4" autoplay loop muted playsinline></video>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION 3 — OVERVIEW
   ═══════════════════════════════════════════════════════ -->
   <section class="overview" aria-labelledby="overview-headline">
 
