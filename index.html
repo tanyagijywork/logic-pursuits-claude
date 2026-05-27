@@ -164,10 +164,10 @@
 
     .nav__link--cta {
       background: var(--teal);
-      color: var(--white);
+      color: #003B5E;
       padding: 0 28px;
       border-left-color: transparent;
-      transition: background 150ms ease;
+      transition: background 150ms ease, color 150ms ease;
     }
     .nav__link--cta:hover {
       background: var(--navy);
@@ -1000,13 +1000,13 @@
       align-items: center;
       gap: 10px;
       background: var(--teal);
-      color: var(--white);
+      color: #003B5E;
       padding: 20px 36px;
       font-size: 14px;
       font-weight: 600;
       flex-shrink: 0;
       align-self: flex-start;
-      transition: background 150ms ease, gap 200ms ease;
+      transition: background 150ms ease, gap 200ms ease, color 150ms ease;
     }
     .cta-btn svg { flex-shrink: 0; }
     .cta-btn:hover { background: var(--navy); gap: 16px; }
@@ -1121,7 +1121,7 @@
       .nav__item                { width: 100%; }
       .nav__link                { border-left: none; border-top: 1px solid var(--grey-200);
                                   height: 56px; padding: 0 var(--mx); font-size: 14px; }
-      .nav__link--cta           { background: var(--teal); color: var(--white); }
+      .nav__link--cta           { background: var(--teal); color: #003B5E; }
       .nav__burger              { display: flex; }
 
       /* Hero — stack on mobile */
