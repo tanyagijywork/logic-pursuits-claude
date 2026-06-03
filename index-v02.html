@@ -187,69 +187,81 @@
     .alink svg { flex-shrink: 0; }
 
     /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-       HERO BENTO
+       HERO — 100VH VIDEO BANNER
     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
     .hero-section {
+      position: relative;
+      height: 100vh;
+      min-height: 640px;
+      overflow: hidden;
       background: var(--deep-navy);
-      padding: var(--gap);
-    }
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.75fr 1fr;
-      grid-template-rows: 1fr 180px;
-      gap: var(--gap);
-      min-height: calc(100vh - 72px - var(--gap)*2);
-      max-height: 820px;
     }
 
-    /* Main card */
-    .hero-main {
-      grid-column: 1; grid-row: 1 / 3;
-      background: var(--navy);
-      border-radius: var(--r);
-      padding: 72px 72px 64px;
-      display: flex; flex-direction: column;
+    /* Video fill */
+    .hero-video {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      display: block;
+    }
+
+    /* Layered overlay: subtle top vignette + strong bottom-left gradient */
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(to bottom,
+          rgba(0,18,36,0.30) 0%,
+          rgba(0,18,36,0.08) 28%,
+          rgba(0,18,36,0.08) 48%,
+          rgba(0,18,36,0.72) 76%,
+          rgba(0,18,36,0.92) 100%),
+        linear-gradient(to right,
+          rgba(0,18,36,0.55) 0%,
+          rgba(0,18,36,0.0)  55%);
+    }
+
+    /* Content — bottom-left anchored, cinematic */
+    .hero-content {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 0 max(var(--mx), calc((100vw - var(--max-w)) / 2 + var(--mx))) 80px var(--mx);
+      display: flex;
+      align-items: flex-end;
       justify-content: space-between;
-      position: relative; overflow: hidden;
+      gap: 48px;
+      max-width: calc(var(--max-w) + var(--mx)*2);
     }
-    .hero-main::before {
-      content: ''; position: absolute;
-      bottom: 0; left: 0;
-      width: 100%; height: 3px;
-      background: linear-gradient(90deg, var(--teal) 0%, transparent 70%);
+    .hero-content__left { flex: 1; }
+    .hero-content__right {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 20px;
+      padding-bottom: 8px;
     }
-    /* Decorative teal glow blob */
-    .hero-main::after {
-      content: ''; position: absolute;
-      top: -120px; right: -120px;
-      width: 400px; height: 400px;
-      background: var(--teal);
-      border-radius: 50%;
-      opacity: 0.05;
-      pointer-events: none;
-    }
+
     .hero-tag {
       font-size: 11px; font-weight: 600;
       letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--teal); opacity: 0.8;
+      color: var(--teal); display: block; margin-bottom: 20px;
     }
     .hero-headline {
-      font-size: clamp(52px, 5.2vw, 84px);
+      font-size: clamp(56px, 6.5vw, 104px);
       font-weight: 700;
       letter-spacing: -0.04em;
-      line-height: 1.0;
+      line-height: 0.96;
       color: var(--white);
-      margin-top: 48px;
     }
-    .hero-headline em { font-style: normal; color: var(--teal); }
     .hero-sub {
       font-size: 17px; line-height: 1.75;
-      color: rgba(255,255,255,0.62);
-      max-width: 520px; margin-top: 28px;
+      color: rgba(255,255,255,0.68);
+      max-width: 480px;
+      margin-top: 28px;
     }
     .hero-cta {
       display: flex; align-items: center;
-      gap: 16px; margin-top: 52px;
+      gap: 14px; margin-top: 44px;
     }
     .btn-p {
       display: inline-flex; align-items: center; gap: 10px;
@@ -258,7 +270,6 @@
       font-size: 14px; font-weight: 700;
       border-radius: 6px;
       transition: background 150ms, gap 200ms;
-      position: relative;
     }
     .btn-p:hover { background: var(--white); gap: 16px; }
     .btn-o {
@@ -266,54 +277,69 @@
       padding: 16px 32px;
       background: transparent; color: rgba(255,255,255,0.72);
       font-size: 14px; font-weight: 600;
-      border: 1px solid rgba(255,255,255,0.22);
+      border: 1px solid rgba(255,255,255,0.28);
       border-radius: 6px;
       transition: color 150ms, border-color 150ms;
     }
     .btn-o:hover { color: var(--white); border-color: rgba(255,255,255,0.55); }
 
-    /* Hero image card */
-    .hero-img {
-      grid-column: 2; grid-row: 1;
-      border-radius: var(--r);
-      overflow: hidden;
-      position: relative;
+    /* Right-side stat pill */
+    .hero-stat {
+      background: rgba(0,27,46,0.55);
+      border: 1px solid rgba(255,255,255,0.14);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 12px;
+      padding: 20px 28px;
+      text-align: right;
     }
-    .hero-img img {
-      width: 100%; height: 100%;
-      object-fit: cover; object-position: center 30%;
-      transition: transform 650ms ease;
+    .hero-stat__val {
+      font-size: 36px; font-weight: 800;
+      letter-spacing: -0.03em; line-height: 1;
+      color: var(--teal);
     }
-    .hero-img:hover img { transform: scale(1.04); }
-    .hero-img__overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(to bottom,
-        rgba(0,27,46,0.08) 0%, rgba(0,27,46,0.50) 100%);
+    .hero-stat__lbl {
+      font-size: 12px; font-weight: 600;
+      color: rgba(255,255,255,0.55);
+      margin-top: 6px; letter-spacing: 0.04em;
     }
 
-    /* Hero accent card */
-    .hero-accent {
-      grid-column: 2; grid-row: 2;
-      background: var(--teal);
-      border-radius: var(--r);
-      padding: 32px 40px;
+    /* Scroll indicator */
+    .hero-scroll {
+      position: absolute;
+      bottom: 32px; left: 50%; transform: translateX(-50%);
       display: flex; flex-direction: column;
-      justify-content: center;
-      transition: transform 320ms ease, box-shadow 320ms ease;
+      align-items: center; gap: 8px;
+      cursor: pointer; z-index: 2;
     }
-    .hero-accent:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 24px 48px rgba(0,200,183,0.3);
+    .hero-scroll__lbl {
+      font-size: 10px; font-weight: 600; letter-spacing: 0.14em;
+      text-transform: uppercase; color: rgba(255,255,255,0.38);
     }
-    .hero-accent__label {
-      font-size: 11px; font-weight: 600;
-      letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--navy); opacity: 0.7; margin-bottom: 10px;
+    .hero-scroll__line {
+      width: 1px; height: 48px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.30), transparent);
+      position: relative; overflow: hidden;
     }
-    .hero-accent__text {
-      font-size: 20px; font-weight: 700;
-      color: var(--navy); line-height: 1.35;
-      letter-spacing: -0.02em;
+    .hero-scroll__dot {
+      position: absolute; top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 3px; height: 12px;
+      background: var(--teal);
+      border-radius: 2px;
+      animation: scroll-drop 1.8s ease-in-out infinite;
+    }
+    @keyframes scroll-drop {
+      0%   { top: 0;    opacity: 1; }
+      80%  { top: 36px; opacity: 0.2; }
+      100% { top: 36px; opacity: 0; }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero-content { flex-direction: column; align-items: flex-start; padding-bottom: 72px; gap: 32px; }
+      .hero-content__right { align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
+      .hero-headline { font-size: clamp(44px, 10vw, 64px); }
     }
 
     /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -932,7 +958,7 @@
        RESPONSIVE
     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
     @media (max-width: 1100px) {
-      .hero-grid   { grid-template-columns: 1fr 1fr; max-height: none; }
+      .hero-content { padding-left: var(--mx); }
       .overview-grid { grid-template-columns: repeat(2, 1fr); }
       .deliver-grid  { grid-template-columns: 1fr 1fr; }
       .how-grid      { grid-template-columns: repeat(2, 1fr); }
@@ -944,8 +970,7 @@
     @media (max-width: 768px) {
       :root { --mx: 24px; }
       .hero-grid { grid-template-columns: 1fr; }
-      .hero-img, .hero-accent { display: none; }
-      .hero-main { grid-row: 1; min-height: 70vh; }
+      .hero-stat { display: none; }
       .overview-grid   { grid-template-columns: 1fr; }
       .deliver-grid    { grid-template-columns: 1fr; }
       .how-grid        { grid-template-columns: 1fr; }
@@ -998,47 +1023,60 @@
 
 
   <!-- ═══════════════════════════════════════════════════════
-       HERO BENTO
+       HERO — 100VH VIDEO BANNER
   ═══════════════════════════════════════════════════════ -->
   <section class="hero-section" aria-labelledby="hero-hl">
-    <div class="hero-grid">
 
-      <!-- Main card -->
-      <div class="hero-main">
+    <!-- Background video -->
+    <video class="hero-video" src="Assets/gettyimages-2213753299-640_adpp.mp4"
+           autoplay loop muted playsinline aria-hidden="true"></video>
+
+    <!-- Gradient overlay -->
+    <div class="hero-overlay" aria-hidden="true"></div>
+
+    <!-- Content — bottom anchored -->
+    <div class="hero-content">
+      <div class="hero-content__left">
         <span class="hero-tag">Enterprise Data &amp; AI Consulting</span>
-        <div>
-          <h1 class="hero-headline" id="hero-hl">
-            Accelerate<br>decisions.<br>Multiply<br>outcomes.
-          </h1>
-          <p class="hero-sub">
-            Enabling enterprises to turn data platform investments into trusted decisions, faster execution, and measurable business advantage.
-          </p>
-          <div class="hero-cta">
-            <a href="#" class="btn-p">
-              Get in touch
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <line x1="2" y1="8" x2="13" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                <polyline points="9,4 13,8 9,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-              </svg>
-            </a>
-            <a href="#" class="btn-o">See our work</a>
-          </div>
+        <h1 class="hero-headline" id="hero-hl">
+          Accelerate<br>decisions.<br>Multiply<br>outcomes.
+        </h1>
+        <p class="hero-sub">
+          Enabling enterprises to turn data platform investments into trusted decisions, faster execution, and measurable business advantage.
+        </p>
+        <div class="hero-cta">
+          <a href="#" class="btn-p">
+            Get in touch
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <line x1="2" y1="8" x2="13" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <polyline points="9,4 13,8 9,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
+          </a>
+          <a href="#" class="btn-o">See our work</a>
         </div>
       </div>
 
-      <!-- Image card -->
-      <div class="hero-img">
-        <img src="Assets/social.jpg" alt="Logic Pursuits — enterprise data strategy">
-        <div class="hero-img__overlay"></div>
+      <!-- Right-side frosted stat pills -->
+      <div class="hero-content__right">
+        <div class="hero-stat">
+          <p class="hero-stat__val">3×</p>
+          <p class="hero-stat__lbl">Faster decision cycles</p>
+        </div>
+        <div class="hero-stat">
+          <p class="hero-stat__val">$0</p>
+          <p class="hero-stat__lbl">Platform waste eliminated</p>
+        </div>
       </div>
-
-      <!-- Accent card -->
-      <div class="hero-accent">
-        <span class="hero-accent__label">Our focus</span>
-        <p class="hero-accent__text">Platform investments that multiply your business outcomes</p>
-      </div>
-
     </div>
+
+    <!-- Scroll indicator -->
+    <div class="hero-scroll" aria-hidden="true">
+      <span class="hero-scroll__lbl">Scroll</span>
+      <div class="hero-scroll__line">
+        <div class="hero-scroll__dot"></div>
+      </div>
+    </div>
+
   </section>
 
 
