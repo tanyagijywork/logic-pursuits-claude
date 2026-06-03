@@ -1,0 +1,1662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logic Pursuits — Accelerate decisions. Multiply outcomes.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       DESIGN TOKENS
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    :root {
+      --teal:      #00C8B7;
+      --navy:      #003B5E;
+      --orange:    #EF6A00;
+      --deep-navy: #002B3C;
+      --white:     #FFFFFF;
+      --grey-50:   #F8F9FA;
+      --grey-100:  #F0F2F4;
+      --grey-200:  #E2E6EA;
+      --grey-400:  #9AA5B1;
+      --grey-700:  #3D4F5C;
+
+      --r:    16px;   /* card radius */
+      --gap:  14px;   /* bento gap */
+      --mx:   40px;
+      --max-w: 1440px;
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       RESET
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Plus Jakarta Sans', 'Avenir Next', sans-serif;
+      background: var(--grey-100);
+      color: var(--deep-navy);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    a    { text-decoration: none; color: inherit; }
+    ul   { list-style: none; }
+    img  { display: block; max-width: 100%; }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       TYPE UTILITIES
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .t-overline {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      line-height: 1.5;
+      text-transform: uppercase;
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       SCROLL REVEAL
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 500ms ease, transform 500ms ease;
+    }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       SECTION CONTAINER
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .s-wrap {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 var(--mx);
+    }
+    .s-pad { padding: 80px var(--mx); }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       NAVIGATION
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .nav {
+      position: sticky; top: 0; z-index: 200;
+      background: var(--navy);
+      border-bottom: 1px solid rgba(255,255,255,0.10);
+    }
+    .nav__inner {
+      max-width: var(--max-w); margin: 0 auto;
+      padding: 0 0 0 var(--mx);
+      display: flex; align-items: stretch;
+      justify-content: space-between; height: 72px;
+    }
+    .nav__logo { display: flex; align-items: center; flex-shrink: 0; }
+    .nav__logo img { height: 30px; width: auto; }
+    .nav__menu { display: flex; align-items: stretch; }
+    .nav__item { display: flex; align-items: stretch; }
+    .nav__link {
+      display: flex; align-items: center;
+      padding: 0 18px; font-size: 13px; font-weight: 600;
+      color: rgba(255,255,255,0.72); white-space: nowrap;
+      border-left: 1px solid rgba(255,255,255,0.12);
+      transition: color 150ms ease;
+    }
+    .nav__link:hover { color: var(--white); }
+    .nav__link--cta {
+      background: var(--teal); color: var(--navy);
+      padding: 0 28px; border-left-color: transparent;
+      transition: background 150ms ease, color 150ms ease;
+      position: relative;
+    }
+    .nav__link--cta:hover { background: var(--white); color: var(--navy); }
+    .nav__link--cta::after {
+      content: ''; position: absolute; top: 0; right: 0;
+      border-top: 16px solid var(--white);
+      border-left: 16px solid transparent;
+      transition: border-top-color 150ms;
+    }
+    .nav__link--cta:hover::after { border-top-color: var(--teal); }
+
+    /* Mobile burger */
+    .nav__burger {
+      display: none; flex-direction: column; justify-content: center;
+      gap: 5px; background: none; border: none; cursor: pointer;
+      padding: 8px; align-self: center;
+    }
+    .nav__burger span {
+      display: block; width: 22px; height: 1.5px;
+      background: var(--white); transition: opacity 150ms ease;
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       BENTO CARD — shared base
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .bc {
+      border-radius: var(--r);
+      overflow: hidden;
+      position: relative;
+      transition: transform 320ms cubic-bezier(0.34,1.2,0.64,1),
+                  box-shadow 320ms ease;
+    }
+    .bc:hover { transform: translateY(-4px); box-shadow: 0 24px 64px rgba(0,27,46,0.16); }
+    .bc--dark  { background: var(--navy); }
+    .bc--darker { background: var(--deep-navy); }
+    .bc--light { background: var(--white); }
+    .bc--teal  { background: var(--teal); }
+    .bc--grey  { background: var(--grey-50); }
+    .bc--img { background: var(--navy); cursor: pointer; }
+
+    /* Image inside card */
+    .bc__img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      display: block;
+      transition: transform 650ms ease;
+    }
+    .bc:hover .bc__img { transform: scale(1.05); }
+
+    /* Bottom-aligned text overlay */
+    .bc__overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top,
+        rgba(0,18,36,0.93) 0%,
+        rgba(0,18,36,0.42) 46%,
+        rgba(0,18,36,0.0)  100%);
+      transition: background 400ms ease;
+    }
+    .bc:hover .bc__overlay {
+      background: linear-gradient(to top,
+        rgba(0,18,36,0.97) 0%,
+        rgba(0,18,36,0.68) 55%,
+        rgba(0,18,36,0.12) 100%);
+    }
+    .bc__body {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 36px;
+      z-index: 2;
+    }
+
+    /* Arrow link */
+    .alink {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 13px; font-weight: 600;
+      transition: gap 200ms ease;
+    }
+    .alink:hover { gap: 14px; }
+    .alink svg { flex-shrink: 0; }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       HERO BENTO
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .hero-section {
+      background: var(--deep-navy);
+      padding: var(--gap);
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.75fr 1fr;
+      grid-template-rows: 1fr 180px;
+      gap: var(--gap);
+      min-height: calc(100vh - 72px - var(--gap)*2);
+      max-height: 820px;
+    }
+
+    /* Main card */
+    .hero-main {
+      grid-column: 1; grid-row: 1 / 3;
+      background: var(--navy);
+      border-radius: var(--r);
+      padding: 72px 72px 64px;
+      display: flex; flex-direction: column;
+      justify-content: space-between;
+      position: relative; overflow: hidden;
+    }
+    .hero-main::before {
+      content: ''; position: absolute;
+      bottom: 0; left: 0;
+      width: 100%; height: 3px;
+      background: linear-gradient(90deg, var(--teal) 0%, transparent 70%);
+    }
+    /* Decorative teal glow blob */
+    .hero-main::after {
+      content: ''; position: absolute;
+      top: -120px; right: -120px;
+      width: 400px; height: 400px;
+      background: var(--teal);
+      border-radius: 50%;
+      opacity: 0.05;
+      pointer-events: none;
+    }
+    .hero-tag {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--teal); opacity: 0.8;
+    }
+    .hero-headline {
+      font-size: clamp(52px, 5.2vw, 84px);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      line-height: 1.0;
+      color: var(--white);
+      margin-top: 48px;
+    }
+    .hero-headline em { font-style: normal; color: var(--teal); }
+    .hero-sub {
+      font-size: 17px; line-height: 1.75;
+      color: rgba(255,255,255,0.62);
+      max-width: 520px; margin-top: 28px;
+    }
+    .hero-cta {
+      display: flex; align-items: center;
+      gap: 16px; margin-top: 52px;
+    }
+    .btn-p {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 16px 32px;
+      background: var(--teal); color: var(--navy);
+      font-size: 14px; font-weight: 700;
+      border-radius: 6px;
+      transition: background 150ms, gap 200ms;
+      position: relative;
+    }
+    .btn-p:hover { background: var(--white); gap: 16px; }
+    .btn-o {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 16px 32px;
+      background: transparent; color: rgba(255,255,255,0.72);
+      font-size: 14px; font-weight: 600;
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 6px;
+      transition: color 150ms, border-color 150ms;
+    }
+    .btn-o:hover { color: var(--white); border-color: rgba(255,255,255,0.55); }
+
+    /* Hero image card */
+    .hero-img {
+      grid-column: 2; grid-row: 1;
+      border-radius: var(--r);
+      overflow: hidden;
+      position: relative;
+    }
+    .hero-img img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center 30%;
+      transition: transform 650ms ease;
+    }
+    .hero-img:hover img { transform: scale(1.04); }
+    .hero-img__overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom,
+        rgba(0,27,46,0.08) 0%, rgba(0,27,46,0.50) 100%);
+    }
+
+    /* Hero accent card */
+    .hero-accent {
+      grid-column: 2; grid-row: 2;
+      background: var(--teal);
+      border-radius: var(--r);
+      padding: 32px 40px;
+      display: flex; flex-direction: column;
+      justify-content: center;
+      transition: transform 320ms ease, box-shadow 320ms ease;
+    }
+    .hero-accent:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 24px 48px rgba(0,200,183,0.3);
+    }
+    .hero-accent__label {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--navy); opacity: 0.7; margin-bottom: 10px;
+    }
+    .hero-accent__text {
+      font-size: 20px; font-weight: 700;
+      color: var(--navy); line-height: 1.35;
+      letter-spacing: -0.02em;
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       OVERVIEW BENTO
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .overview-section { padding: 80px var(--mx); background: var(--grey-100); }
+    .overview-intro {
+      display: flex; align-items: flex-end;
+      justify-content: space-between; gap: 48px;
+      margin-bottom: 40px;
+    }
+    .overview-hl {
+      font-size: clamp(36px,3.5vw,54px);
+      font-weight: 700; letter-spacing: -0.028em; line-height: 1.1;
+      color: var(--deep-navy); max-width: 680px;
+    }
+    .overview-desc {
+      font-size: 16px; line-height: 1.75;
+      color: var(--grey-700); max-width: 360px;
+      flex-shrink: 0;
+    }
+    .overview-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr) 1.1fr;
+      gap: var(--gap);
+    }
+
+    /* Pillar card */
+    .pillar-bc {
+      background: var(--white);
+      border-radius: var(--r);
+      padding: 40px 36px;
+      position: relative; overflow: hidden;
+      transition: transform 300ms ease, box-shadow 300ms ease;
+    }
+    .pillar-bc:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 48px rgba(0,59,94,0.10);
+    }
+    .pillar-bc::after {
+      content: ''; position: absolute;
+      bottom: 0; left: 0;
+      height: 3px; width: 0;
+      background: var(--teal);
+      transition: width 400ms ease;
+    }
+    .pillar-bc:hover::after { width: 100%; }
+    .pillar-num {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--teal);
+      display: block; margin-bottom: 18px;
+    }
+    .pillar-title {
+      font-size: 20px; font-weight: 700; line-height: 1.35;
+      color: var(--deep-navy); margin-bottom: 14px;
+      letter-spacing: -0.015em;
+    }
+    .pillar-copy {
+      font-size: 15px; line-height: 1.7; color: var(--grey-700);
+    }
+
+    /* Overview image card */
+    .overview-img-bc {
+      background: var(--navy);
+      border-radius: var(--r);
+      overflow: hidden; position: relative;
+      cursor: pointer;
+    }
+    .overview-img-bc img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      opacity: 0.65;
+      transition: transform 650ms ease, opacity 300ms ease;
+    }
+    .overview-img-bc:hover img { transform: scale(1.05); opacity: 0.80; }
+    .overview-img-bc__badge {
+      position: absolute; bottom: 28px; left: 28px;
+      background: var(--teal); color: var(--navy);
+      font-size: 11px; font-weight: 700;
+      padding: 8px 18px; border-radius: 100px;
+      letter-spacing: 0.05em;
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       WHAT WE DELIVER — image-forward bento
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .deliver-section {
+      background: var(--deep-navy);
+      padding: 80px var(--mx);
+    }
+    .deliver-head {
+      display: flex; align-items: flex-start;
+      justify-content: space-between; gap: 40px;
+      margin-bottom: 40px;
+    }
+    .deliver-eyebrow {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--teal); display: block; margin-bottom: 16px;
+    }
+    .deliver-hl {
+      font-size: clamp(30px,3vw,46px);
+      font-weight: 700; letter-spacing: -0.025em; line-height: 1.15;
+      color: var(--white); max-width: 480px;
+    }
+    .deliver-desc {
+      font-size: 16px; line-height: 1.7;
+      color: rgba(255,255,255,0.58);
+      max-width: 360px; align-self: flex-end;
+    }
+    .deliver-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      gap: var(--gap);
+      min-height: 480px;
+    }
+    .deliver-card {
+      border-radius: var(--r);
+      overflow: hidden; position: relative;
+      cursor: pointer; min-height: 460px;
+    }
+    .deliver-card__img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      transition: transform 700ms ease;
+    }
+    .deliver-card:hover .deliver-card__img { transform: scale(1.07); }
+    .deliver-card__ov {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top,
+        rgba(0,18,36,0.96) 0%,
+        rgba(0,18,36,0.52) 46%,
+        rgba(0,18,36,0.04) 100%);
+      transition: background 400ms ease;
+    }
+    .deliver-card:hover .deliver-card__ov {
+      background: linear-gradient(to top,
+        rgba(0,18,36,0.98) 0%,
+        rgba(0,18,36,0.72) 55%,
+        rgba(0,18,36,0.18) 100%);
+    }
+    .deliver-card__cnt {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 36px; z-index: 2;
+    }
+    .deliver-eyebrow-sm {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--teal);
+      display: block; margin-bottom: 10px;
+    }
+    .deliver-title {
+      font-size: 22px; font-weight: 700;
+      letter-spacing: -0.02em; line-height: 1.2;
+      color: var(--white); margin-bottom: 10px;
+    }
+    .deliver-body-text {
+      font-size: 14px; line-height: 1.65;
+      color: rgba(255,255,255,0.75);
+      max-height: 0; overflow: hidden;
+      opacity: 0;
+      transition: max-height 420ms ease, opacity 380ms ease;
+    }
+    .deliver-card:hover .deliver-body-text { max-height: 120px; opacity: 1; }
+    .deliver-link {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 13px; font-weight: 600; color: var(--teal);
+      margin-top: 14px;
+      opacity: 0; transform: translateY(8px);
+      transition: opacity 280ms ease, transform 280ms ease, gap 200ms ease;
+    }
+    .deliver-card:hover .deliver-link { opacity: 1; transform: translateY(0); }
+    .deliver-link:hover { gap: 14px; }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       HOW WE DELIVER — 4-card service bento
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .how-section { padding: 80px var(--mx); background: var(--grey-100); }
+    .how-header { margin-bottom: 40px; }
+    .how-eyebrow {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--grey-400); margin-bottom: 14px; display: block;
+    }
+    .how-hl {
+      font-size: clamp(28px,3vw,42px);
+      font-weight: 700; letter-spacing: -0.02em; line-height: 1.2;
+      color: var(--deep-navy); max-width: 680px;
+    }
+    .how-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--gap);
+    }
+    .svc-card {
+      background: var(--white);
+      border-radius: var(--r);
+      padding: 40px 32px 36px;
+      display: flex; flex-direction: column;
+      position: relative; overflow: hidden;
+      transition: transform 300ms ease, box-shadow 300ms ease, background 250ms ease;
+      cursor: pointer;
+    }
+    .svc-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 48px rgba(0,59,94,0.11);
+      background: var(--grey-50);
+    }
+    .svc-card--dark { background: var(--navy); }
+    .svc-card--dark:hover { background: var(--deep-navy); }
+    .svc-card__icon {
+      width: 40px; height: 40px;
+      margin-bottom: 28px; flex-shrink: 0;
+      position: relative;
+    }
+    .svc-card__icon img {
+      width: 40px; height: 40px; display: block;
+      transition: opacity 250ms ease;
+    }
+    .svc-card__icon .icon-hover {
+      position: absolute; top: 0; left: 0; opacity: 0;
+      transition: opacity 250ms ease;
+    }
+    .svc-card--dark .icon-default { opacity: 0; }
+    .svc-card--dark .icon-hover   { opacity: 1; }
+    .svc-card__title {
+      font-size: 18px; font-weight: 700; line-height: 1.35;
+      color: var(--deep-navy); margin-bottom: 14px;
+      letter-spacing: -0.01em;
+    }
+    .svc-card--dark .svc-card__title { color: var(--white); }
+    .svc-card__body {
+      font-size: 14px; line-height: 1.7;
+      color: var(--grey-700); flex: 1; margin-bottom: 24px;
+    }
+    .svc-card--dark .svc-card__body { color: rgba(255,255,255,0.72); }
+    .svc-card__link {
+      font-size: 13px; font-weight: 600; color: var(--teal);
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: gap 200ms;
+    }
+    .svc-card__link:hover { gap: 14px; }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       AI SERVICES — large feature + 3 side cards
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .ai-section { padding: 0 var(--mx) 80px; background: var(--grey-100); }
+    .ai-header { padding: 80px 0 40px; }
+    .ai-grid {
+      display: grid;
+      grid-template-columns: 1.25fr 1fr;
+      grid-template-rows: repeat(3, 1fr);
+      gap: var(--gap);
+      min-height: 620px;
+    }
+    .ai-feat {
+      grid-column: 1; grid-row: 1 / 4;
+      border-radius: var(--r); overflow: hidden;
+      position: relative; cursor: pointer;
+    }
+    .ai-feat img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 700ms ease;
+    }
+    .ai-feat:hover img { transform: scale(1.04); }
+    .ai-feat__ov {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top,
+        rgba(0,12,24,0.97) 0%,
+        rgba(0,12,24,0.55) 46%,
+        rgba(0,12,24,0.08) 100%);
+    }
+    .ai-feat__cnt {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 48px; z-index: 2;
+    }
+    .ai-feat__eyebrow {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--teal);
+      display: block; margin-bottom: 14px;
+    }
+    .ai-feat__title {
+      font-size: 34px; font-weight: 700;
+      letter-spacing: -0.025em; line-height: 1.12;
+      color: var(--white); margin-bottom: 16px;
+    }
+    .ai-feat__body {
+      font-size: 15px; line-height: 1.7;
+      color: rgba(255,255,255,0.78); max-width: 420px;
+    }
+    .ai-side-card {
+      border-radius: var(--r); background: var(--white);
+      padding: 32px 28px;
+      display: flex; align-items: flex-start; gap: 20px;
+      transition: transform 300ms ease, box-shadow 300ms ease;
+      cursor: pointer;
+    }
+    .ai-side-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 40px rgba(0,59,94,0.09);
+    }
+    .ai-side-num {
+      font-size: 36px; font-weight: 800;
+      color: var(--grey-200); letter-spacing: -0.03em;
+      flex-shrink: 0; line-height: 1; min-width: 52px;
+    }
+    .ai-side-eyebrow {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--teal); margin-bottom: 6px;
+    }
+    .ai-side-title {
+      font-size: 17px; font-weight: 700;
+      color: var(--deep-navy); letter-spacing: -0.01em; line-height: 1.35;
+    }
+    .ai-side-body {
+      font-size: 13px; line-height: 1.65;
+      color: var(--grey-700); margin-top: 8px;
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       PARTNERS — interactive mesh (same as v01)
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .partner-logos {
+      padding: 67px 0 0;
+      background: var(--grey-100);
+    }
+    .partner-logos__headline {
+      font-size: 40px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.2;
+      color: var(--deep-navy); max-width: 680px; margin-bottom: 0;
+      padding: 0 var(--mx);
+    }
+    .partners-mesh-wrap {
+      position: relative; width: 100%; height: 378px;
+      margin-top: 45px; cursor: crosshair; overflow: hidden;
+    }
+    #mesh-canvas {
+      position: absolute; inset: 0; width: 100%; height: 100%; display: block;
+    }
+    .partners-mesh-wrap::before,
+    .partners-mesh-wrap::after {
+      content: ''; position: absolute; left: 0; right: 0;
+      height: 100px; pointer-events: none; z-index: 2;
+    }
+    .partners-mesh-wrap::before {
+      top: 0;
+      background: linear-gradient(to bottom, var(--grey-100) 0%, transparent 100%);
+    }
+    .partners-mesh-wrap::after {
+      bottom: 0;
+      background: linear-gradient(to top, var(--grey-100) 0%, transparent 100%);
+    }
+    .partner-logo-pill {
+      position: absolute; background: var(--white);
+      border: 1px solid var(--grey-200);
+      box-shadow: 0 2px 16px rgba(0,59,94,0.07);
+      padding: 14px 26px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      min-width: 110px; z-index: 3;
+      transition: transform 0.18s ease-out, box-shadow 0.22s ease, border-color 0.22s ease;
+      will-change: transform;
+    }
+    .partner-logo-pill:hover {
+      box-shadow: 0 0 0 1px var(--teal), 0 10px 36px rgba(0,200,183,0.22);
+      border-color: var(--teal); z-index: 4;
+    }
+    .partner-logo-pill img {
+      height: 26px; width: auto; max-width: 136px;
+      display: block; object-fit: contain;
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       CASE STUDIES — image-forward bento
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .cases-section { padding: 80px var(--mx); background: var(--grey-100); }
+    .cases-header { margin-bottom: 40px; }
+    .cases-hl {
+      font-size: clamp(28px,3vw,42px);
+      font-weight: 700; letter-spacing: -0.02em; line-height: 1.2;
+      color: var(--deep-navy); margin-top: 12px;
+    }
+    .cases-grid {
+      display: grid;
+      grid-template-columns: 1.35fr 1fr 1fr;
+      gap: var(--gap);
+      min-height: 500px;
+    }
+    .case-bc {
+      border-radius: var(--r); overflow: hidden;
+      position: relative; cursor: pointer;
+      background: var(--navy); min-height: 460px;
+    }
+    .case-bc img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      opacity: 0.70;
+      transition: transform 700ms ease, opacity 300ms ease;
+    }
+    .case-bc:hover img { transform: scale(1.06); opacity: 0.80; }
+    .case-bc__ov {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top,
+        rgba(0,18,36,0.95) 0%,
+        rgba(0,18,36,0.40) 55%,
+        rgba(0,18,36,0.02) 100%);
+    }
+    .case-bc__cnt {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 36px; z-index: 2;
+    }
+    .case-num {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--teal);
+      display: block; margin-bottom: 12px;
+    }
+    .case-title {
+      font-size: 19px; font-weight: 700;
+      letter-spacing: -0.015em; line-height: 1.35;
+      color: var(--white); margin-bottom: 16px;
+    }
+    .case-link {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 13px; font-weight: 600; color: var(--teal);
+      opacity: 0; transform: translateY(8px);
+      transition: opacity 280ms ease, transform 280ms ease, gap 200ms ease;
+    }
+    .case-bc:hover .case-link { opacity: 1; transform: translateY(0); }
+    .case-link:hover { gap: 14px; }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       TESTIMONIALS — full-width bento card
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .test-section { padding: 0 var(--mx) 80px; background: var(--grey-100); }
+    .test-card {
+      background: var(--navy);
+      border-radius: var(--r);
+      padding: 80px 80px 72px;
+      position: relative; overflow: hidden;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 80px; align-items: center;
+      transition: transform 300ms ease;
+    }
+    .test-card::before {
+      content: ''; position: absolute;
+      top: -100px; right: -100px;
+      width: 500px; height: 500px;
+      background: var(--teal); border-radius: 50%;
+      opacity: 0.05; pointer-events: none;
+    }
+    .test-card::after {
+      content: ''; position: absolute;
+      bottom: -120px; left: 200px;
+      width: 360px; height: 360px;
+      background: var(--teal); border-radius: 50%;
+      opacity: 0.04; pointer-events: none;
+    }
+    .test-quote { position: relative; z-index: 1; }
+    .test-mark {
+      font-size: 88px; line-height: 0.8;
+      color: var(--teal); font-family: Georgia, serif;
+      opacity: 0.45; display: block; margin-bottom: 20px;
+    }
+    .test-text {
+      font-size: 20px; font-weight: 500; line-height: 1.75;
+      color: rgba(255,255,255,0.90); font-style: italic;
+      max-width: 580px;
+    }
+    .test-meta { position: relative; z-index: 1; }
+    .test-eyebrow {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--teal);
+      display: block; margin-bottom: 10px;
+    }
+    .test-tagline {
+      font-size: 30px; font-weight: 700;
+      letter-spacing: -0.02em; line-height: 1.2;
+      color: var(--white); margin-bottom: 40px;
+    }
+    .test-profile {
+      display: flex; align-items: center; gap: 16px;
+    }
+    .test-avatar {
+      width: 56px; height: 56px; border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.20);
+      overflow: hidden; flex-shrink: 0; background: var(--teal);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .test-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .test-name {
+      font-size: 15px; font-weight: 700; color: var(--white);
+      margin-bottom: 4px;
+    }
+    .test-role {
+      font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.5;
+    }
+    /* Prev / next controls */
+    .test-nav {
+      margin-top: 32px; display: flex; align-items: center; gap: 12px;
+    }
+    .test-btn {
+      width: 44px; height: 44px; background: none;
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 50%; color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: background 150ms, border-color 150ms;
+    }
+    .test-btn:hover {
+      background: rgba(255,255,255,0.10);
+      border-color: rgba(255,255,255,0.45);
+    }
+    .test-counter {
+      font-size: 13px; font-weight: 600; letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.35); margin-left: 4px;
+    }
+    .test-fade { transition: opacity 260ms ease; }
+    .test-fade.fading { opacity: 0; }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       PRE-FOOTER CTA — full-bleed image bento
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .cta-section { padding: 0 var(--mx) var(--gap); background: var(--grey-100); }
+    .cta-bc {
+      border-radius: var(--r); overflow: hidden;
+      position: relative; min-height: 380px;
+      display: flex; align-items: flex-end;
+      justify-content: space-between;
+      padding: 64px 80px;
+      gap: 48px;
+    }
+    .cta-bc__bg { position: absolute; inset: 0; }
+    .cta-bc__bg img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .cta-bc__bg::after {
+      content: ''; position: absolute; inset: 0;
+      background: rgba(0,0,0,0.62);
+    }
+    .cta-bc__hl {
+      position: relative; z-index: 1; flex: 1;
+      font-size: clamp(36px,4vw,56px);
+      font-weight: 700; letter-spacing: -0.03em; line-height: 1.08;
+      color: var(--white); max-width: 640px;
+    }
+    .cta-bc__act {
+      position: relative; z-index: 1; flex-shrink: 0;
+      display: flex; flex-direction: column;
+      align-items: flex-end; justify-content: flex-end;
+    }
+    .btn-cta {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 20px 40px;
+      background: var(--teal); color: var(--navy);
+      font-size: 15px; font-weight: 700;
+      border-radius: 6px;
+      transition: background 150ms, gap 200ms;
+      position: relative; overflow: hidden; white-space: nowrap;
+    }
+    .btn-cta:hover { background: var(--white); gap: 16px; }
+    .btn-cta::after {
+      content: ''; position: absolute; top: 0; right: 0;
+      border-top: 12px solid var(--navy);
+      border-left: 12px solid transparent;
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       FOOTER
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .site-footer { background: var(--navy); }
+    .footer__top {
+      max-width: var(--max-w); margin: 0 auto;
+      padding: 80px var(--mx) 72px;
+      display: grid;
+      grid-template-columns: 240px repeat(3, 1fr);
+      gap: 56px 40px;
+    }
+    .footer__brand { grid-row: 1 / span 2; grid-column: 1; }
+    .footer__logo {
+      height: 34px; width: auto; display: block;
+      margin-bottom: 28px; filter: brightness(0) invert(1);
+    }
+    .footer__tagline {
+      font-size: 14px; line-height: 1.65;
+      color: rgba(255,255,255,0.72); margin-bottom: 32px;
+    }
+    .footer__contact {
+      font-size: 13px; line-height: 1.8; color: rgba(255,255,255,0.68);
+    }
+    .footer__contact a { color: var(--teal); transition: color 150ms; }
+    .footer__contact a:hover { color: var(--white); }
+    .footer__col-title {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--white);
+      margin-bottom: 20px; display: block;
+    }
+    .footer__links { display: flex; flex-direction: column; gap: 11px; }
+    .footer__links a {
+      font-size: 13px; line-height: 1.4; color: rgba(255,255,255,0.70);
+      transition: color 150ms;
+    }
+    .footer__links a:hover { color: var(--teal); }
+    .footer__bottom {
+      border-top: 1px solid rgba(255,255,255,0.10);
+      max-width: var(--max-w); margin: 0 auto;
+      padding: 24px var(--mx);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .footer__copy { font-size: 12px; color: rgba(255,255,255,0.48); }
+    .footer__legal { display: flex; gap: 24px; }
+    .footer__legal a {
+      font-size: 12px; color: rgba(255,255,255,0.48); transition: color 150ms;
+    }
+    .footer__legal a:hover { color: rgba(255,255,255,0.70); }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       RESPONSIVE
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    @media (max-width: 1100px) {
+      .hero-grid   { grid-template-columns: 1fr 1fr; max-height: none; }
+      .overview-grid { grid-template-columns: repeat(2, 1fr); }
+      .deliver-grid  { grid-template-columns: 1fr 1fr; }
+      .how-grid      { grid-template-columns: repeat(2, 1fr); }
+      .ai-grid       { grid-template-columns: 1fr; }
+      .ai-feat       { grid-row: 1; min-height: 420px; }
+      .cases-grid    { grid-template-columns: 1fr 1fr; }
+      .test-card     { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      :root { --mx: 24px; }
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero-img, .hero-accent { display: none; }
+      .hero-main { grid-row: 1; min-height: 70vh; }
+      .overview-grid   { grid-template-columns: 1fr; }
+      .deliver-grid    { grid-template-columns: 1fr; }
+      .how-grid        { grid-template-columns: 1fr; }
+      .cases-grid      { grid-template-columns: 1fr; }
+      .test-card       { padding: 48px 32px; gap: 40px; }
+      .cta-bc          { flex-direction: column; align-items: flex-start; padding: 48px 40px; }
+      .footer__top     { grid-template-columns: 1fr; }
+      .footer__brand   { grid-row: 1; }
+      .nav__menu       { display: none; }
+      .nav__burger     { display: flex; }
+      .nav__menu.is-open {
+        display: flex; flex-direction: column;
+        position: fixed; top: 72px; left: 0; right: 0;
+        background: var(--navy); z-index: 199;
+        border-bottom: 1px solid rgba(255,255,255,0.10);
+      }
+      .nav__menu.is-open .nav__item { width: 100%; }
+      .nav__menu.is-open .nav__link {
+        border-left: none; border-top: 1px solid rgba(255,255,255,0.12);
+        height: 56px; padding: 0 var(--mx); font-size: 14px;
+      }
+      .nav__menu.is-open .nav__link--cta { background: var(--teal); color: var(--navy); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════
+       NAVIGATION
+  ═══════════════════════════════════════════════════════ -->
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <div class="nav__inner">
+      <a href="/" class="nav__logo" aria-label="Logic Pursuits — home">
+        <img src="Assets/LP-logo-inverse.svg" alt="Logic Pursuits">
+      </a>
+      <ul class="nav__menu" id="nav-menu">
+        <li class="nav__item"><a class="nav__link" href="#">What we deliver</a></li>
+        <li class="nav__item"><a class="nav__link" href="#">How we deliver</a></li>
+        <li class="nav__item"><a class="nav__link" href="#">AI &amp; Data Science Services</a></li>
+        <li class="nav__item"><a class="nav__link" href="#">Who we serve</a></li>
+        <li class="nav__item"><a class="nav__link" href="#">What we think</a></li>
+        <li class="nav__item"><a class="nav__link" href="#">Who we are</a></li>
+        <li class="nav__item"><a class="nav__link nav__link--cta" href="#">Contact us</a></li>
+      </ul>
+      <button class="nav__burger" id="nav-burger" aria-controls="nav-menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       HERO BENTO
+  ═══════════════════════════════════════════════════════ -->
+  <section class="hero-section" aria-labelledby="hero-hl">
+    <div class="hero-grid">
+
+      <!-- Main card -->
+      <div class="hero-main">
+        <span class="hero-tag">Enterprise Data &amp; AI Consulting</span>
+        <div>
+          <h1 class="hero-headline" id="hero-hl">
+            Accelerate<br>decisions.<br>Multiply<br>outcomes.
+          </h1>
+          <p class="hero-sub">
+            Enabling enterprises to turn data platform investments into trusted decisions, faster execution, and measurable business advantage.
+          </p>
+          <div class="hero-cta">
+            <a href="#" class="btn-p">
+              Get in touch
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <line x1="2" y1="8" x2="13" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <polyline points="9,4 13,8 9,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              </svg>
+            </a>
+            <a href="#" class="btn-o">See our work</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Image card -->
+      <div class="hero-img">
+        <img src="Assets/social.jpg" alt="Logic Pursuits — enterprise data strategy">
+        <div class="hero-img__overlay"></div>
+      </div>
+
+      <!-- Accent card -->
+      <div class="hero-accent">
+        <span class="hero-accent__label">Our focus</span>
+        <p class="hero-accent__text">Platform investments that multiply your business outcomes</p>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       OVERVIEW BENTO
+  ═══════════════════════════════════════════════════════ -->
+  <section class="overview-section" aria-labelledby="overview-hl">
+    <div class="s-wrap">
+      <div class="overview-intro">
+        <div>
+          <p class="t-overline reveal" style="color:var(--grey-400);margin-bottom:16px;">Overview</p>
+          <h2 class="overview-hl reveal" id="overview-hl">
+            Delivering outcomes<br>that are strategic multipliers
+          </h2>
+        </div>
+        <p class="overview-desc reveal" data-delay="120">
+          Enterprises have invested heavily in data and AI platforms. At Logic Pursuits, we bridge the gap between platform investments and operational outcomes.
+        </p>
+      </div>
+      <div class="overview-grid">
+
+        <div class="pillar-bc reveal" data-delay="0">
+          <span class="pillar-num">01</span>
+          <h3 class="pillar-title">Multiply decision confidence</h3>
+          <p class="pillar-copy">By turning fragmented operational data into trusted business intelligence.</p>
+        </div>
+
+        <div class="pillar-bc reveal" data-delay="80">
+          <span class="pillar-num">02</span>
+          <h3 class="pillar-title">Multiply execution speed</h3>
+          <p class="pillar-copy">By removing reporting bottlenecks and accelerating operational workflows.</p>
+        </div>
+
+        <div class="pillar-bc reveal" data-delay="160">
+          <span class="pillar-num">03</span>
+          <h3 class="pillar-title">Multiply organizational capability</h3>
+          <p class="pillar-copy">By building long-term data and AI maturity alongside delivery.</p>
+        </div>
+
+        <div class="overview-img-bc reveal" data-delay="240">
+          <img src="Assets/partner-final.jpg" alt="Strategy in action">
+          <span class="overview-img-bc__badge">Strategic Multiplier</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       WHAT WE DELIVER — image bento
+  ═══════════════════════════════════════════════════════ -->
+  <section class="deliver-section" aria-labelledby="deliver-hl">
+    <div class="s-wrap">
+      <div class="deliver-head">
+        <div>
+          <span class="deliver-eyebrow">What we deliver</span>
+          <h2 class="deliver-hl" id="deliver-hl">We help you turn<br>data into outcomes</h2>
+        </div>
+        <p class="deliver-desc">
+          Three integrated capabilities working together to move you from raw data to measurable business impact.
+        </p>
+      </div>
+      <div class="deliver-grid">
+
+        <div class="deliver-card">
+          <img class="deliver-card__img" src="Assets/img303-data-foundations.jpeg" alt="Data foundations">
+          <div class="deliver-card__ov"></div>
+          <div class="deliver-card__cnt">
+            <span class="deliver-eyebrow-sm">Trusted Data</span>
+            <h3 class="deliver-title">Build robust data foundations</h3>
+            <p class="deliver-body-text">Modernize enterprise data environments with scalable architecture, reliable engineering, and governance that improves trust, performance, and long-term usability.</p>
+            <a href="#" class="deliver-link">Learn more →</a>
+          </div>
+        </div>
+
+        <div class="deliver-card">
+          <img class="deliver-card__img" src="Assets/img303-insights-v02.png" alt="Business intelligence">
+          <div class="deliver-card__ov"></div>
+          <div class="deliver-card__cnt">
+            <span class="deliver-eyebrow-sm">Business Intelligence</span>
+            <h3 class="deliver-title">Deliver decision-ready intelligence</h3>
+            <p class="deliver-body-text">Turn enterprise data into decision-ready intelligence through connected analytics, self-service reporting, and scalable insight platforms.</p>
+            <a href="#" class="deliver-link">Learn more →</a>
+          </div>
+        </div>
+
+        <div class="deliver-card">
+          <img class="deliver-card__img" src="Assets/img303-accelerate.jpeg" alt="AI outcomes">
+          <div class="deliver-card__ov"></div>
+          <div class="deliver-card__cnt">
+            <span class="deliver-eyebrow-sm">AI &amp; Outcomes</span>
+            <h3 class="deliver-title">Accelerate AI-driven business impact</h3>
+            <p class="deliver-body-text">Deploy AI and automation solutions that deliver measurable operational outcomes, faster decision cycles, and enterprise-wide efficiency gains.</p>
+            <a href="#" class="deliver-link">Learn more →</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       HOW WE DELIVER — 4-card bento
+  ═══════════════════════════════════════════════════════ -->
+  <section class="how-section" aria-labelledby="how-hl">
+    <div class="s-wrap">
+      <div class="how-header">
+        <span class="how-eyebrow t-overline reveal">How we deliver</span>
+        <h2 class="how-hl reveal" id="how-hl">Connecting cloud, analytics, and automation for business growth</h2>
+      </div>
+      <div class="how-grid">
+
+        <div class="svc-card reveal" data-delay="0">
+          <div class="svc-card__icon" aria-hidden="true">
+            <img class="icon-default" src="Assets/icon-cloud-data-platform-consulting-white-bg.svg" alt="">
+            <img class="icon-hover"   src="Assets/icon-cloud-data-platform-consulting-blue-bg.svg" alt="">
+          </div>
+          <h3 class="svc-card__title">Cloud Data Platform Consulting</h3>
+          <p class="svc-card__body">Build scalable, modern cloud data environments that improve data accessibility, platform performance, and operational readiness across the enterprise.</p>
+          <a href="#" class="svc-card__link">Learn more →</a>
+        </div>
+
+        <div class="svc-card reveal" data-delay="80">
+          <div class="svc-card__icon" aria-hidden="true">
+            <img class="icon-default" src="Assets/icon-data-analytics-platform-consulting-white-bg.svg" alt="">
+            <img class="icon-hover"   src="Assets/icon-data-analytics-platform-consulting-blue-bg.svg" alt="">
+          </div>
+          <h3 class="svc-card__title">Data &amp; Analytics Platform Consulting</h3>
+          <p class="svc-card__body">Turn enterprise data into decision-ready intelligence through connected analytics, self-service reporting, and scalable insight platforms.</p>
+          <a href="#" class="svc-card__link">Learn more →</a>
+        </div>
+
+        <div class="svc-card reveal" data-delay="160">
+          <div class="svc-card__icon" aria-hidden="true">
+            <img class="icon-default" src="Assets/icon-enterprise-automation-white-bg.svg" alt="">
+            <img class="icon-hover"   src="Assets/icon-enterprise-automation-blue-bg.svg" alt="">
+          </div>
+          <h3 class="svc-card__title">Enterprise &amp; Automation Consulting</h3>
+          <p class="svc-card__body">Strengthen governance, automate operational workflows, and improve enterprise efficiency through connected data and automation solutions.</p>
+          <a href="#" class="svc-card__link">Learn more →</a>
+        </div>
+
+        <div class="svc-card svc-card--dark reveal" data-delay="240">
+          <div class="svc-card__icon" aria-hidden="true">
+            <img class="icon-default" src="Assets/icon-our-partners-white-bg.svg" alt="">
+            <img class="icon-hover"   src="Assets/icon-our-partners-blue-bg.svg" alt="">
+          </div>
+          <h3 class="svc-card__title">Our Partners</h3>
+          <p class="svc-card__body">Leverage our deep expertise across leading cloud, data, analytics, governance, and automation ecosystems to accelerate platform adoption and business outcomes.</p>
+          <a href="#" class="svc-card__link">Learn more →</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       AI SERVICES — feature + 3 side cards
+  ═══════════════════════════════════════════════════════ -->
+  <section class="ai-section" aria-labelledby="ai-hl">
+    <div class="s-wrap">
+      <div class="ai-header">
+        <p class="t-overline reveal" style="color:var(--grey-400);margin-bottom:14px;">AI &amp; Data Science Services</p>
+        <h2 class="how-hl reveal" id="ai-hl">Turning AI potential into measurable outcomes</h2>
+      </div>
+      <div class="ai-grid">
+
+        <!-- Feature card -->
+        <div class="ai-feat">
+          <img src="Assets/img303-accelerate.jpeg" alt="AI-driven decision intelligence">
+          <div class="ai-feat__ov"></div>
+          <div class="ai-feat__cnt">
+            <span class="ai-feat__eyebrow">Featured service</span>
+            <h3 class="ai-feat__title">AI-Driven Decision Intelligence</h3>
+            <p class="ai-feat__body">We help enterprises move from data collection to decision augmentation — embedding AI into the workflows that matter most for your business.</p>
+          </div>
+        </div>
+
+        <!-- Side cards -->
+        <div class="ai-side-card reveal" data-delay="0">
+          <div class="ai-side-num">01</div>
+          <div>
+            <p class="ai-side-eyebrow">Predictive Analytics</p>
+            <h4 class="ai-side-title">Forecast demand, risk, and opportunity with precision</h4>
+            <p class="ai-side-body">Build models that turn historical patterns into forward-looking decisions across your enterprise.</p>
+          </div>
+        </div>
+
+        <div class="ai-side-card reveal" data-delay="80">
+          <div class="ai-side-num">02</div>
+          <div>
+            <p class="ai-side-eyebrow">ML Automation</p>
+            <h4 class="ai-side-title">Automate decisions at scale with reliable ML pipelines</h4>
+            <p class="ai-side-body">Deploy machine learning that operates reliably in production environments, continuously improving over time.</p>
+          </div>
+        </div>
+
+        <div class="ai-side-card reveal" data-delay="160">
+          <div class="ai-side-num">03</div>
+          <div>
+            <p class="ai-side-eyebrow">GenAI &amp; LLM Integration</p>
+            <h4 class="ai-side-title">Integrate generative AI into enterprise workflows</h4>
+            <p class="ai-side-body">Connect large language models to your data and systems for real business impact at enterprise scale.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       PARTNERS LOGOS — interactive mesh
+  ═══════════════════════════════════════════════════════ -->
+  <section class="partner-logos" aria-labelledby="partners-hl">
+    <div class="s-wrap">
+      <h2 class="partner-logos__headline reveal" id="partners-hl">
+        Multiplying outcomes<br>with our partners
+      </h2>
+    </div>
+    <div class="partners-mesh-wrap" id="partners-mesh-wrap">
+      <canvas id="mesh-canvas"></canvas>
+      <div class="partner-logo-pill" style="left:5.5%;top:13%;" data-depth="1.3">
+        <img src="Assets/Logo/Color-logos-logic/Snowflake_Logo.svg.png" alt="Snowflake">
+      </div>
+      <div class="partner-logo-pill" style="left:26%;top:9%;" data-depth="0.8">
+        <img src="Assets/Logo/Color-logos-logic/databricks-logo (1).png" alt="Databricks">
+      </div>
+      <div class="partner-logo-pill" style="left:50%;top:15%;" data-depth="1.6">
+        <img src="Assets/Logo/Color-logos-logic/Microsoft_Azure-Logo.wine.png" alt="Microsoft Azure">
+      </div>
+      <div class="partner-logo-pill" style="left:75%;top:8%;" data-depth="0.9">
+        <img src="Assets/Logo/Color-logos-logic/Salesforce.com_logo.svg.png" alt="Salesforce">
+      </div>
+      <div class="partner-logo-pill" style="left:3%;top:45%;" data-depth="1.8">
+        <img src="Assets/Logo/Color-logos-logic/Atlan-logo-full.svg (1).png" alt="Atlan">
+      </div>
+      <div class="partner-logo-pill" style="left:21%;top:52%;" data-depth="1.1">
+        <img src="Assets/Logo/Color-logos-logic/dbt-labs-logo.png" alt="dbt Labs">
+      </div>
+      <div class="partner-logo-pill" style="left:43%;top:41%;" data-depth="0.7">
+        <img src="Assets/Logo/Color-logos-logic/striim_Final_Logo_rgb_whitebg_2015091011.png" alt="Striim">
+      </div>
+      <div class="partner-logo-pill" style="left:63%;top:37.5%;" data-depth="1.4">
+        <img src="Assets/Logo/Color-logos-logic/DQLabs-Logo-1.webp" alt="DQLabs">
+      </div>
+      <div class="partner-logo-pill" style="left:82%;top:43%;" data-depth="0.6">
+        <img src="Assets/Logo/Color-logos-logic/Boomi-logo-no-tagline.svg (1).png" alt="Boomi">
+      </div>
+      <div class="partner-logo-pill" style="left:12%;top:71%;" data-depth="1.5">
+        <img src="Assets/Logo/Color-logos-logic/sap-logo.png" alt="SAP">
+      </div>
+      <div class="partner-logo-pill" style="left:39%;top:76%;" data-depth="1.0">
+        <img src="Assets/Logo/Color-logos-logic/Matillion Logo Horizontal - Black bg.png" alt="Matillion">
+      </div>
+      <div class="partner-logo-pill" style="left:67%;top:67%;" data-depth="1.7">
+        <img src="Assets/Logo/Color-logos-logic/Quest_Software_logo.svg.png" alt="Quest Software">
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       CASE STUDIES — image bento
+  ═══════════════════════════════════════════════════════ -->
+  <section class="cases-section" aria-labelledby="cases-hl">
+    <div class="s-wrap">
+      <div class="cases-header">
+        <p class="t-overline reveal" style="color:var(--grey-400);margin-bottom:12px;">Delivering Excellence</p>
+        <h2 class="cases-hl reveal" id="cases-hl">Real outcomes for real enterprises</h2>
+      </div>
+      <div class="cases-grid">
+
+        <div class="case-bc">
+          <img src="Assets/AdobeStock_268916410.jpeg" alt="Case study 01">
+          <div class="case-bc__ov"></div>
+          <div class="case-bc__cnt">
+            <span class="case-num">Case 01</span>
+            <h3 class="case-title">Building a unified marketing data ecosystem for a leading destination marketing organization</h3>
+            <a href="#" class="case-link">Read case study →</a>
+          </div>
+        </div>
+
+        <div class="case-bc">
+          <img src="Assets/delivering-excellence-card-02.jpeg" alt="Case study 02">
+          <div class="case-bc__ov"></div>
+          <div class="case-bc__cnt">
+            <span class="case-num">Case 02</span>
+            <h3 class="case-title">Automating procure-to-pay insights from fragmented systems to unified reporting</h3>
+            <a href="#" class="case-link">Read case study →</a>
+          </div>
+        </div>
+
+        <div class="case-bc">
+          <img src="Assets/AdobeStock_1144658303.jpeg" alt="Case study 03">
+          <div class="case-bc__ov"></div>
+          <div class="case-bc__cnt">
+            <span class="case-num">Case 03</span>
+            <h3 class="case-title">Strengthening financial accuracy through automated revenue reconciliation</h3>
+            <a href="#" class="case-link">Read case study →</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       TESTIMONIALS — full-width bento card
+  ═══════════════════════════════════════════════════════ -->
+  <section class="test-section" aria-labelledby="test-hl">
+    <div class="s-wrap">
+      <div class="test-card">
+
+        <!-- Quote side -->
+        <div class="test-quote">
+          <span class="test-mark">&ldquo;</span>
+          <p class="test-text test-fade" id="test-quote">
+            In addition to bringing technical expertise around data analytics, Logic Pursuits brings extremely valuable knowledge around the types of analytics that can be used to provide insights across various business processes. Their work quality is comparable to that found in top-tier consulting companies.
+          </p>
+        </div>
+
+        <!-- Meta side -->
+        <div class="test-meta">
+          <div>
+            <span class="test-eyebrow">Client voices</span>
+            <p class="test-tagline" id="test-hl">And earning their trust</p>
+          </div>
+          <div>
+            <div class="test-profile test-fade" id="test-profile">
+              <div class="test-avatar">
+                <img id="test-avatar" src="https://i.pravatar.cc/104?img=11" alt="Kalyan Upadhyaya">
+              </div>
+              <div>
+                <p class="test-name" id="test-name">Kalyan Upadhyaya</p>
+                <p class="test-role" id="test-role">Director, Business Assurance Services (BAS)</p>
+              </div>
+            </div>
+            <div class="test-nav">
+              <button class="test-btn" id="test-prev" aria-label="Previous testimonial">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <line x1="12" y1="8" x2="4" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  <polyline points="7,5 4,8 7,11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                </svg>
+              </button>
+              <button class="test-btn" id="test-next" aria-label="Next testimonial">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <line x1="4" y1="8" x2="12" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  <polyline points="9,5 12,8 9,11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                </svg>
+              </button>
+              <span class="test-counter" id="test-counter">01 / 02</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       PRE-FOOTER CTA
+  ═══════════════════════════════════════════════════════ -->
+  <section class="cta-section">
+    <div class="s-wrap">
+      <div class="cta-bc">
+        <div class="cta-bc__bg">
+          <img src="Assets/social.jpg" alt="">
+        </div>
+        <h2 class="cta-bc__hl">
+          Ready to accelerate your decisions and multiply outcomes?
+        </h2>
+        <div class="cta-bc__act">
+          <a href="#" class="btn-cta">
+            Get in touch
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <line x1="2" y1="8" x2="13" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <polyline points="9,4 13,8 9,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════════════════ -->
+  <footer class="site-footer">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <img class="footer__logo" src="Assets/LP-logo-inverse.svg" alt="Logic Pursuits">
+        <p class="footer__tagline">Accelerate decisions.<br>Multiply outcomes.</p>
+        <div class="footer__contact">
+          <p>hello@logicpursuits.com</p>
+          <p>Singapore · Melbourne · London</p>
+        </div>
+      </div>
+      <div>
+        <span class="footer__col-title">What we deliver</span>
+        <ul class="footer__links">
+          <li><a href="#">Data Foundations</a></li>
+          <li><a href="#">Business Intelligence</a></li>
+          <li><a href="#">AI &amp; Outcomes</a></li>
+        </ul>
+      </div>
+      <div>
+        <span class="footer__col-title">How we deliver</span>
+        <ul class="footer__links">
+          <li><a href="#">Cloud data platform services</a></li>
+          <li><a href="#">Analytics &amp; BI platform services</a></li>
+          <li><a href="#">Delivery accelerators</a></li>
+          <li><a href="#">Technology partners</a></li>
+        </ul>
+      </div>
+      <div>
+        <span class="footer__col-title">Company</span>
+        <ul class="footer__links">
+          <li><a href="#">Who we are</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">What we think</a></li>
+          <li><a href="#">Contact us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p class="footer__copy">&copy; 2026 Logic Pursuits. All rights reserved.</p>
+      <div class="footer__legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       JAVASCRIPT
+  ═══════════════════════════════════════════════════════ -->
+  <script>
+    (function () {
+      'use strict';
+
+      /* ── Scroll reveals ── */
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var delay = parseInt(entry.target.dataset.delay) || 0;
+          setTimeout(function () { entry.target.classList.add('in'); }, delay);
+          io.unobserve(entry.target);
+        });
+      }, { threshold: 0.12 });
+      document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+
+      /* ── Mobile nav ── */
+      var burger = document.getElementById('nav-burger');
+      var menu   = document.getElementById('nav-menu');
+      if (burger && menu) {
+        burger.addEventListener('click', function () {
+          var open = menu.classList.toggle('is-open');
+          burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+      }
+
+      /* ── Testimonial slider ── */
+      var testData = [
+        {
+          name:   'Kalyan Upadhyaya',
+          role:   'Director, Business Assurance Services (BAS)',
+          avatar: 'https://i.pravatar.cc/104?img=11',
+          quote:  'In addition to bringing technical expertise around data analytics, Logic Pursuits brings extremely valuable knowledge around the types of analytics that can be used to provide insights across various business processes. Their work quality is comparable to that found in top-tier consulting companies.'
+        },
+        {
+          name:   'Raymond Lopez',
+          role:   'Director of Internal Audit and Compliance',
+          avatar: 'https://i.pravatar.cc/104?img=52',
+          quote:  'Logic Pursuits has augmented our Internal Audit data analytics capabilities, enabling us to produce more work per same unit of time. Logic Pursuits has been a force multiplier for us — bringing compelling value at a fraction of the cost of top-tier consulting.'
+        }
+      ];
+      var testIdx     = 0;
+      var testQuoteEl = document.getElementById('test-quote');
+      var testProfile = document.getElementById('test-profile');
+      var testAvatar  = document.getElementById('test-avatar');
+      var testName    = document.getElementById('test-name');
+      var testRole    = document.getElementById('test-role');
+      var testCounter = document.getElementById('test-counter');
+
+      function testGo(idx) {
+        var faders = [testQuoteEl, testProfile];
+        faders.forEach(function (el) { el.classList.add('fading'); });
+        setTimeout(function () {
+          var d = testData[idx];
+          testQuoteEl.textContent = d.quote;
+          testAvatar.src  = d.avatar;
+          testName.textContent = d.name;
+          testRole.textContent = d.role;
+          testCounter.textContent = (idx + 1 < 10 ? '0' : '') + (idx + 1) + ' / 0' + testData.length;
+          faders.forEach(function (el) { el.classList.remove('fading'); });
+        }, 260);
+      }
+      var testPrev = document.getElementById('test-prev');
+      var testNext = document.getElementById('test-next');
+      if (testPrev) testPrev.addEventListener('click', function () {
+        testIdx = (testIdx - 1 + testData.length) % testData.length;
+        testGo(testIdx);
+      });
+      if (testNext) testNext.addEventListener('click', function () {
+        testIdx = (testIdx + 1) % testData.length;
+        testGo(testIdx);
+      });
+
+      /* ── Partner mesh ── */
+      (function () {
+        var wrap   = document.getElementById('partners-mesh-wrap');
+        var canvas = document.getElementById('mesh-canvas');
+        if (!wrap || !canvas) return;
+        var ctx   = canvas.getContext('2d');
+        var mouse = { x: -9999, y: -9999, active: false };
+        var nodes = [];
+        var W = 0, H = 0;
+        var COLS = 26, ROWS = 10;
+
+        function buildNodes() {
+          nodes = [];
+          for (var r = 0; r <= ROWS; r++) {
+            for (var c = 0; c <= COLS; c++) {
+              var ox = (c / COLS) * W;
+              var oy = (r / ROWS) * H;
+              nodes.push({ ox: ox, oy: oy, x: ox, y: oy, vx: 0, vy: 0, c: c, r: r });
+            }
+          }
+        }
+        function n(c, r) { return nodes[r * (COLS + 1) + c]; }
+        function resize() {
+          W = canvas.width  = wrap.offsetWidth;
+          H = canvas.height = wrap.offsetHeight;
+          buildNodes();
+        }
+        var PULL_R = 200, PULL_S = 0.38, SPRING = 0.055, DAMPING = 0.76;
+        function update() {
+          for (var i = 0; i < nodes.length; i++) {
+            var nd = nodes[i];
+            var dx = mouse.x - nd.ox, dy = mouse.y - nd.oy;
+            var dist = Math.sqrt(dx*dx + dy*dy);
+            var tx = nd.ox, ty = nd.oy;
+            if (mouse.active && dist < PULL_R) {
+              var f = (1 - dist / PULL_R); f = f * f;
+              tx = nd.ox + dx * f * PULL_S;
+              ty = nd.oy + dy * f * PULL_S;
+            }
+            nd.vx += (tx - nd.x) * SPRING;
+            nd.vy += (ty - nd.y) * SPRING;
+            nd.vx *= DAMPING; nd.vy *= DAMPING;
+            nd.x += nd.vx; nd.y += nd.vy;
+          }
+        }
+        function draw() {
+          ctx.clearRect(0, 0, W, H);
+          for (var r = 0; r <= ROWS; r++) {
+            for (var c = 0; c <= COLS; c++) {
+              var nd = n(c, r);
+              var dx = mouse.x - nd.x, dy = mouse.y - nd.y;
+              var d  = Math.sqrt(dx*dx + dy*dy);
+              var glow = mouse.active ? Math.max(0, 1 - d / 140) : 0;
+              if (c < COLS) {
+                var nr = n(c + 1, r);
+                ctx.beginPath(); ctx.moveTo(nd.x, nd.y); ctx.lineTo(nr.x, nr.y);
+                var la = glow > 0 ? (0.12 + glow * 0.60) : 0.10;
+                ctx.strokeStyle = glow > 0 ? 'rgba(0,200,183,' + la + ')' : 'rgba(0,59,94,' + la + ')';
+                ctx.lineWidth = 0.5 + glow * 1.2; ctx.stroke();
+              }
+              if (r < ROWS) {
+                var nb = n(c, r + 1);
+                ctx.beginPath(); ctx.moveTo(nd.x, nd.y); ctx.lineTo(nb.x, nb.y);
+                var la2 = glow > 0 ? (0.12 + glow * 0.60) : 0.10;
+                ctx.strokeStyle = glow > 0 ? 'rgba(0,200,183,' + la2 + ')' : 'rgba(0,59,94,' + la2 + ')';
+                ctx.lineWidth = 0.5 + glow * 1.2; ctx.stroke();
+              }
+              var ns = glow > 0.35 ? 2.2 : 1;
+              ctx.fillStyle = glow > 0.2 ? 'rgba(0,200,183,' + (0.60 + glow * 0.40) + ')' : 'rgba(0,59,94,0.18)';
+              ctx.fillRect(nd.x - ns, nd.y - ns, ns * 2, ns * 2);
+            }
+          }
+        }
+        function loop() { update(); draw(); requestAnimationFrame(loop); }
+        wrap.addEventListener('mousemove', function (e) {
+          var rect = wrap.getBoundingClientRect();
+          mouse.x = e.clientX - rect.left; mouse.y = e.clientY - rect.top;
+          mouse.active = true;
+        });
+        wrap.addEventListener('mouseleave', function () { mouse.active = false; });
+        var pills = wrap.querySelectorAll('.partner-logo-pill');
+        wrap.addEventListener('mousemove', function (e) {
+          var rect = wrap.getBoundingClientRect();
+          var rx = ((e.clientX - rect.left) / rect.width  - 0.5) * 2;
+          var ry = ((e.clientY - rect.top)  / rect.height - 0.5) * 2;
+          pills.forEach(function (pill) {
+            var depth = parseFloat(pill.dataset.depth) || 1;
+            pill.style.transform = 'translate(' + (rx * depth * -14) + 'px,' + (ry * depth * -9) + 'px)';
+          });
+        });
+        wrap.addEventListener('mouseleave', function () {
+          pills.forEach(function (pill) { pill.style.transform = 'translate(0,0)'; });
+        });
+        var rt;
+        window.addEventListener('resize', function () {
+          clearTimeout(rt); rt = setTimeout(resize, 120);
+        });
+        resize(); loop();
+      })();
+
+    })();
+  </script>
+
+</body>
+</html>
