@@ -9,64 +9,51 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
-    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-       TOKENS
-    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    /* ─── TOKENS ──────────────────────────────────────── */
     :root {
-      --teal:      #00C8B7;
-      --navy:      #003B5E;
-      --deep:      #002B3C;
-      --white:     #FFFFFF;
-      --g50:       #F8F9FA;
-      --g200:      #E2E6EA;
-      --g400:      #9AA5B1;
-      --ease:      cubic-bezier(0.16, 1, 0.3, 1);
+      --teal:  #00C8B7;
+      --navy:  #003B5E;
+      --deep:  #002B3C;
+      --white: #FFFFFF;
+      --g50:   #F8F9FA;
+      --g200:  #E2E6EA;
+      --g400:  #9AA5B1;
+      --ease:  cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      background: var(--white);
-      color: var(--deep);
+      background: #fff; color: var(--deep);
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
     }
-    a    { text-decoration: none; color: inherit; }
-    img  { display: block; max-width: 100%; }
-    ul   { list-style: none; }
+    a   { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+    ul  { list-style: none; }
 
-    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-       NAV
-    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    /* ─── NAV ─────────────────────────────────────────── */
+    /* Matches Figma: 72px, #003B5E, logo at x=40, links flush right */
     .nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 200;
-      height: 60px;
-      display: flex;
-      align-items: center;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      height: 72px; background: var(--navy);
+      display: flex; align-items: center;
       padding: 0 40px;
-      background: rgba(0, 43, 60, 0.90);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
     }
-    .nav__logo img { height: 28px; display: block; }
+    .nav__logo img { height: 33px; display: block; }
     .nav__links {
-      display: flex;
-      align-items: center;
+      display: flex; align-items: stretch;
       margin-left: auto;
     }
+    .nav__links li { display: flex; }
     .nav__links li a {
-      display: block;
-      padding: 0 15px;
-      line-height: 60px;
-      font-size: 13px;
-      font-weight: 500;
-      color: rgba(255,255,255,0.70);
-      letter-spacing: 0.01em;
-      transition: color 200ms;
+      display: flex; align-items: center;
+      padding: 0 16px;
+      font-size: 13px; font-weight: 500;
+      color: rgba(255,255,255,0.72);
       white-space: nowrap;
+      transition: color 200ms;
     }
     .nav__links li a:hover { color: #fff; }
     .nav__cta {
@@ -74,389 +61,385 @@
       background: var(--teal) !important;
       color: var(--deep) !important;
       font-weight: 700 !important;
-      padding: 0 24px !important;
+      padding: 0 28px !important;
       overflow: hidden;
     }
     .nav__cta::after {
       content: '';
-      position: absolute;
-      top: 0; right: 0;
-      border-top: 14px solid var(--white);
+      position: absolute; top: 0; right: 0;
+      border-top: 14px solid #fff;
       border-left: 14px solid transparent;
       pointer-events: none;
     }
-    .nav__cta:hover { background: var(--white) !important; }
+    .nav__cta:hover { background: #fff !important; }
     .nav__cta:hover::after { border-top-color: var(--teal); }
 
-    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-       FOLD 1 — HERO
-    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+    /* ─── FOLD 1: HERO ────────────────────────────────── */
+    /*
+      Figma: 1440×768, starts at y=72 (below nav).
+      Three grid lines: H at y=110, H at y=543, V at x=1215.
+      Two teal triangles:
+        - small 64×64  at x=1151, y=110  (top-right, right edge aligns with V-line)
+        - large 225×225 at x=1215, y=543  (bottom-right corner, flush to edges)
+    */
     .hero {
       position: relative;
-      height: 100vh;
-      min-height: 620px;
-      background: var(--deep);
+      width: 100%; height: 768px;
+      background: var(--navy);
       overflow: hidden;
-      display: flex;
-      align-items: flex-end;
+      margin-top: 72px; /* pushes hero below fixed nav */
     }
 
-    /* Video background */
+    /* Background video */
     .hero__bg {
-      position: absolute;
-      inset: 0;
-      z-index: 0;
+      position: absolute; inset: 0; z-index: 0;
     }
     .hero__bg video {
       width: 100%; height: 100%;
-      object-fit: cover;
-      opacity: 0.40;
+      object-fit: cover; object-position: center;
+      opacity: 0.55;
     }
-    /* Gradient overlay — protects left text legibility */
-    .hero__overlay {
-      position: absolute;
-      inset: 0;
-      z-index: 1;
+    /* Subtle left-side gradient to keep text legible */
+    .hero__bg::after {
+      content: '';
+      position: absolute; inset: 0;
       background: linear-gradient(
-        108deg,
-        rgba(0,43,60,0.88) 0%,
-        rgba(0,43,60,0.55) 45%,
-        rgba(0,43,60,0.08) 100%
+        105deg,
+        rgba(0,43,60,0.72) 0%,
+        rgba(0,43,60,0.30) 55%,
+        rgba(0,43,60,0.00) 100%
       );
     }
 
-    /* Text content */
+    /* Grid lines */
+    .hero__line {
+      position: absolute; z-index: 2;
+      background: rgba(255,255,255,0.14);
+      pointer-events: none;
+    }
+    /* Horizontal line at y=110 */
+    .hero__line--h1 { top: 110px; left: 0; right: 0; height: 1px; }
+    /* Horizontal line at y=543 */
+    .hero__line--h2 { top: 543px; left: 0; right: 0; height: 1px; }
+    /* Vertical line at x=1215 (= right: 225px) */
+    .hero__line--v  { left: 1215px; top: 0; bottom: 0; width: 1px; }
+
+    /* Teal triangles — static (no animation), clip-path = polygon(100% 0, 100% 100%, 0 0) */
+    /* Path from Figma: M W 0 L W H L 0 0 — right-angle at top-right */
+    .hero__tri {
+      position: absolute; z-index: 3;
+      background: var(--teal);
+      clip-path: polygon(100% 0, 100% 100%, 0 0);
+      pointer-events: none;
+    }
+    /* Small 64×64: right edge at x=1215 (right: 225px), top at y=110 */
+    .hero__tri--sm {
+      width: 64px; height: 64px;
+      right: 225px; top: 110px;
+    }
+    /* Large 225×225: left edge at x=1215 (right: 0), top at y=543 */
+    .hero__tri--lg {
+      width: 225px; height: 225px;
+      right: 0; top: 543px;
+    }
+
+    /* Hero text content */
+    /* Figma: text frame 945×302 at x=40, y=166 within hero */
     .hero__content {
-      position: relative;
-      z-index: 3;
-      padding: 0 56px 96px;
-      max-width: 820px;
+      position: absolute; z-index: 4;
+      left: 40px; top: 166px;
+      width: 945px;
     }
     .hero__hl {
-      font-size: clamp(52px, 6.5vw, 96px);
-      font-weight: 800;
+      font-size: 90px; font-weight: 800;
+      line-height: 1.2; letter-spacing: -0.025em;
       color: var(--white);
-      line-height: 1.01;
-      letter-spacing: -0.025em;
-      margin-bottom: 28px;
+      margin-bottom: 24px;
     }
-    .hero__hl .line      { display: block; overflow: hidden; }
-    .hero__hl .line-in   {
-      display: block;
-      transform: translateY(108%);
-      will-change: transform;
-    }
+    .hero__hl .line     { display: block; overflow: hidden; }
+    .hero__hl .line-in  { display: block; transform: translateY(108%); will-change: transform; }
     .hero__sub {
-      font-size: 18px;
-      font-weight: 400;
-      line-height: 1.65;
-      color: rgba(255,255,255,0.72);
-      max-width: 540px;
-      opacity: 0;
-      transform: translateY(18px);
+      font-size: 16px; font-weight: 400;
+      line-height: 1.65; letter-spacing: 0.005em;
+      color: rgba(255,255,255,0.75);
+      max-width: 768px;
+      opacity: 0; transform: translateY(14px);
       will-change: opacity, transform;
     }
 
-    /* ── TRIANGLE ANIMATIONS ───────────────────── */
+
+    /* ─── FOLD 2: OVERVIEW ────────────────────────────── */
     /*
-      Three stacks of animated teal triangles:
-        1. Hero top-right  — "top-right corner" shape, staggered rise
-        2. Hero bottom-right — "bottom-right corner" shape, staggered rise
-        3. Overview corner    — bottom-left triangle in image cell
-
-      All triangles move upward continuously, looping.
-      Each group has 2–3 triangles with offset delays
-      so at any moment at least one is rising.
+      Figma: 1440×650, white bg.
+      Left image:    432×430 at (0,0)
+      V-divider:     1px teal at x=432, h=540
+      H-divider:     1px teal at y=430 (full width)
+      Triangle:      80×80 at x=352, y=431  (right edge aligns with V-divider)
+      Text block:    x=432, y=0, padding 80px 60px
+      Pillars:       x=432, y=430, 3×336px wide, 220px tall
     */
-
-    /* Top-right corner: right-angle at top-right — clip(100% 0, 100% 100%, 0 0) */
-    .tri-tr {
-      position: absolute;
-      right: 0;
-      clip-path: polygon(100% 0, 100% 100%, 0 0);
-      background: var(--teal);
-      pointer-events: none;
-      z-index: 4;
-      animation: rise-tr var(--dur, 5s) ease-in var(--del, 0s) infinite;
-    }
-    .tri-tr--a { width: 190px; height: 190px; top: 60px;  --dur: 5.2s; --del: 0s;   }
-    .tri-tr--b { width: 118px; height: 118px; top: 230px; --dur: 5.2s; --del: 1.73s; }
-    .tri-tr--c { width:  72px; height:  72px; top: 330px; --dur: 5.2s; --del: 3.46s; }
-
-    @keyframes rise-tr {
-      0%   { transform: translateY(0);    opacity: 1;   }
-      75%  { opacity: 0.55; }
-      100% { transform: translateY(-80px); opacity: 0;  }
-    }
-
-    /* Bottom-right corner: right-angle at bottom-right — clip(100% 0, 100% 100%, 0 100%) */
-    .tri-br {
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      clip-path: polygon(100% 0, 100% 100%, 0 100%);
-      background: var(--teal);
-      pointer-events: none;
-      z-index: 4;
-      animation: rise-br var(--dur, 6s) ease-in var(--del, 0s) infinite;
-    }
-    .tri-br--a { width: 150px; height: 150px; --dur: 6s; --del: 0s;   }
-    .tri-br--b { width:  88px; height:  88px; --dur: 6s; --del: 2s;   }
-
-    @keyframes rise-br {
-      0%   { transform: translateY(0);    opacity: 1;   }
-      70%  { opacity: 0.55; }
-      100% { transform: translateY(-60px); opacity: 0;  }
-    }
-
-    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-       FOLD 2 — OVERVIEW
-    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-    .overview { background: var(--white); }
-
-    /* Top half: image left + text right */
-    .ov-top {
-      display: grid;
-      grid-template-columns: 42% 58%;
-      min-height: 500px;
-    }
-
-    .ov-img {
+    .overview {
       position: relative;
+      width: 100%; height: 650px;
+      background: #fff;
       overflow: hidden;
     }
-    .ov-img img {
+
+    /* Left image */
+    .ov__img {
+      position: absolute; left: 0; top: 0;
+      width: 432px; height: 430px;
+      overflow: hidden;
+    }
+    .ov__img img {
       width: 100%; height: 100%;
-      object-fit: cover;
-      object-position: center top;
-      display: block;
+      object-fit: cover; object-position: center top;
     }
 
-    /* Bottom-left corner triangle inside the image cell — rising */
-    .tri-ov {
+    /* Teal vertical divider: x=432, height 540 */
+    .ov__vdiv {
       position: absolute;
-      bottom: 0; left: 0;
-      clip-path: polygon(0 0, 0 100%, 100% 100%);
+      left: 432px; top: 0;
+      width: 1px; height: 540px;
       background: var(--teal);
-      pointer-events: none;
+    }
+    /* Teal horizontal divider: full width at y=430 */
+    .ov__hdiv {
+      position: absolute;
+      left: 0; right: 0; top: 430px;
+      height: 1px;
+      background: var(--teal);
+    }
+
+    /* Teal triangle 80×80 at x=352, y=431 — right edge at x=432 */
+    .ov__tri {
+      position: absolute;
+      left: 352px; top: 431px;
+      width: 80px; height: 80px;
+      background: var(--teal);
+      clip-path: polygon(100% 0, 100% 100%, 0 0);
       z-index: 2;
-      animation: rise-ov var(--dur, 5s) ease-in var(--del, 0s) infinite;
-    }
-    .tri-ov--a { width: 96px; height: 96px; --dur: 5s; --del: 0s;  }
-    .tri-ov--b { width: 56px; height: 56px; --dur: 5s; --del: 1.67s; }
-    .tri-ov--c { width: 32px; height: 32px; --dur: 5s; --del: 3.33s; }
-
-    @keyframes rise-ov {
-      0%   { transform: translateY(0);    opacity: 1;  }
-      70%  { opacity: 0.5; }
-      100% { transform: translateY(-50px); opacity: 0; }
+      pointer-events: none;
     }
 
-    .ov-text {
-      padding: 72px 64px;
-      border-left: 1px solid var(--g200);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 20px;
+    /* Text block: x=432, y=0 */
+    .ov__text {
+      position: absolute;
+      left: 432px; top: 0;
+      width: 1008px; height: 430px;
+      padding: 80px 60px 40px;
+      display: flex; flex-direction: column;
+      gap: 14px;
     }
 
-    /* Bottom half: pillars */
+    /* Eyebrow label */
+    .eyebrow {
+      font-size: 12px; font-weight: 700;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: var(--teal);
+    }
+    /* Overridden white for dark sections */
+    .eyebrow--white { color: var(--white); }
+
+    .ov__hl {
+      font-size: 40px; font-weight: 800;
+      line-height: 1.2; letter-spacing: -0.02em;
+      color: var(--deep);
+    }
+    .ov__body {
+      font-size: 15px; font-weight: 400;
+      line-height: 1.70; color: var(--g400);
+      max-width: 734px;
+    }
+
+    /* Pillars: x=432, y=430, 3 cols × 336px, h=220px */
     .pillars {
+      position: absolute;
+      left: 432px; top: 431px;
+      width: 1008px; height: 219px;
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      border-top: 1px solid var(--g200);
+      grid-template-columns: 336px 336px 336px;
     }
     .pillar {
-      padding: 40px 48px;
-      border-right: 1px solid var(--g200);
       position: relative;
+      padding: 44px 48px 32px;
+      border-right: 1px solid var(--g200);
       overflow: hidden;
       transition: background 240ms ease;
+      cursor: default;
     }
     .pillar:last-child { border-right: none; }
-    .pillar:hover { background: var(--g50); }
+    .pillar:hover      { background: var(--g50); }
     .pillar::before {
       content: '';
-      position: absolute;
-      top: 0; left: 0;
+      position: absolute; top: 0; left: 0;
       width: 3px; height: 0;
       background: var(--teal);
       transition: height 380ms var(--ease);
     }
     .pillar:hover::before { height: 100%; }
     .pillar__title {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--deep);
+      font-size: 17px; font-weight: 700;
+      line-height: 1.35; color: var(--deep);
       margin-bottom: 10px;
-      line-height: 1.35;
     }
     .pillar__copy {
-      font-size: 14px;
-      line-height: 1.65;
-      color: var(--g400);
+      font-size: 14px; font-weight: 400;
+      line-height: 1.65; color: var(--g400);
     }
 
-    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-       FOLD 3 — WHAT WE DELIVER
-    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+    /* ─── FOLD 3: WHAT WE DELIVER ─────────────────────── */
+    /*
+      Figma: 1440×768, #003B5E bg.
+      Left panel:  0–433px (433px wide)
+        - Eyebrow "WHAT WE DELIVER" at x=50, y=80
+        - Heading  "We help you turn data into outcomes" 291×144 at x=50, y=116
+        - Triangle large 195×195 at x=182, y=384
+        - Triangle small  36×36  at x=147, y=579
+      Right panel: x=433, 1007×768
+        - Top-left  image: 504×384
+        - Top-right image: 504×384  (always-visible text overlay: title + body + link)
+        - Bottom    image: 1007×384 (title at bottom)
+    */
     .deliver {
-      display: grid;
-      grid-template-columns: 30% 70%;
-    }
-
-    /* Dark left panel */
-    .dv-left {
-      background: var(--deep);
-      padding: 72px 48px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
       position: relative;
+      width: 100%; height: 768px;
+      background: var(--navy);
       overflow: hidden;
-      border-right: 1px solid rgba(255,255,255,0.06);
-      min-height: 580px;
     }
 
-    /* Bottom-left corner triangles inside dv-left — rising */
-    .tri-dl {
+    /* Left panel */
+    .dv__left {
       position: absolute;
-      bottom: 0; left: 0;
-      clip-path: polygon(0 0, 0 100%, 100% 100%);
+      left: 0; top: 0;
+      width: 433px; height: 768px;
+    }
+    .dv__left .eyebrow {
+      position: absolute;
+      left: 50px; top: 80px;
+    }
+    .dv__hl {
+      position: absolute;
+      left: 50px; top: 116px;
+      width: 291px;
+      font-size: 40px; font-weight: 800;
+      line-height: 1.2; letter-spacing: -0.02em;
+      color: var(--white);
+    }
+
+    /* Static teal triangles in left panel */
+    /* Large 195×195 at x=182, y=384 */
+    .dv__tri--lg {
+      position: absolute;
+      left: 182px; top: 384px;
+      width: 195px; height: 195px;
       background: var(--teal);
+      clip-path: polygon(100% 0, 100% 100%, 0 0);
       pointer-events: none;
-      z-index: 2;
-      animation: rise-dl var(--dur, 5.5s) ease-in var(--del, 0s) infinite;
     }
-    .tri-dl--a { width: 110px; height: 110px; --dur: 5.5s; --del: 0s;    }
-    .tri-dl--b { width:  66px; height:  66px; --dur: 5.5s; --del: 1.83s; }
-    .tri-dl--c { width:  38px; height:  38px; --dur: 5.5s; --del: 3.67s; }
-
-    @keyframes rise-dl {
-      0%   { transform: translateY(0);    opacity: 1;  }
-      70%  { opacity: 0.55; }
-      100% { transform: translateY(-55px); opacity: 0; }
+    /* Small 36×36 at x=147, y=579 */
+    .dv__tri--sm {
+      position: absolute;
+      left: 147px; top: 579px;
+      width: 36px; height: 36px;
+      background: var(--teal);
+      clip-path: polygon(100% 0, 100% 100%, 0 0);
+      pointer-events: none;
     }
 
-    .dv-left__text { position: relative; z-index: 3; }
-
-    /* Image grid: right panel */
-    .dv-grid {
+    /* Right image grid: starts at x=433 */
+    .dv__grid {
+      position: absolute;
+      left: 433px; top: 0;
+      width: 1007px; height: 768px;
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: 1fr 1fr;
+      grid-template-columns: 504px 503px;
+      grid-template-rows: 384px 384px;
     }
-    .dv-card {
-      position: relative;
-      overflow: hidden;
-      border-left: 1px solid rgba(255,255,255,0.06);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+    .dv__card {
+      position: relative; overflow: hidden;
+      border-left: 1px solid rgba(255,255,255,0.10);
+      border-top: 1px solid rgba(255,255,255,0.10);
     }
-    .dv-card:nth-child(3) { border-bottom: none; }
-    .dv-card--wide {
+    .dv__card:first-child { border-left: none; }
+    /* Wide bottom card spans both columns */
+    .dv__card--wide {
       grid-column: 1 / -1;
-      border-bottom: none;
+      border-top: 1px solid rgba(255,255,255,0.10);
     }
-    .dv-card img {
+    .dv__card img {
       width: 100%; height: 100%;
-      object-fit: cover;
-      object-position: center;
+      object-fit: cover; object-position: center;
       display: block;
       transition: transform 600ms ease;
     }
-    .dv-card:hover img { transform: scale(1.04); }
+    .dv__card:hover img { transform: scale(1.04); }
 
-    .dv-card__cap {
+    /* Caption at bottom — cards 1 and 3 */
+    .dv__cap {
       position: absolute;
       bottom: 0; left: 0; right: 0;
-      padding: 28px 32px;
-      background: linear-gradient(to top, rgba(0,43,60,0.92) 0%, transparent 100%);
+      padding: 0 40px 28px;
+      background: linear-gradient(to top, rgba(0,43,60,0.85) 0%, transparent 100%);
+      height: 100px;
+      display: flex; align-items: flex-end;
     }
-    .dv-card__cap h3 {
-      font-size: 17px;
-      font-weight: 700;
-      color: var(--white);
-      margin-bottom: 0;
-      line-height: 1.3;
+    .dv__cap h3 {
+      font-size: 17px; font-weight: 700;
+      color: var(--white); line-height: 1.3;
     }
-    .dv-card__cap p {
-      font-size: 13px;
-      line-height: 1.6;
-      color: rgba(255,255,255,0.65);
-      margin-top: 8px;
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 380ms var(--ease), opacity 300ms ease;
-      opacity: 0;
-    }
-    .dv-card:hover .dv-card__cap p { max-height: 80px; opacity: 1; }
 
-    .dv-card__cap .arrow-link {
-      display: inline-flex;
+    /* Full overlay — card 2 "Gain deeper insights" (always visible) */
+    .dv__overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to left, rgba(0,43,60,0.92) 40%, transparent 100%);
+      display: flex;
       align-items: center;
-      gap: 6px;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      color: var(--teal);
-      margin-top: 10px;
-      max-height: 0;
-      overflow: hidden;
-      opacity: 0;
-      transition: max-height 380ms var(--ease) 60ms, opacity 300ms ease 60ms;
+      justify-content: flex-end;
     }
-    .dv-card:hover .dv-card__cap .arrow-link { max-height: 40px; opacity: 1; }
-
-    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-       SHARED TYPOGRAPHY HELPERS
-    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-    .eyebrow {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--teal);
+    .dv__overlay__text {
+      width: 300px;
+      margin-right: 40px;
     }
-    .h2-dark {
-      font-size: clamp(30px, 3vw, 44px);
-      font-weight: 800;
-      line-height: 1.12;
-      letter-spacing: -0.022em;
-      color: var(--deep);
+    .dv__overlay__text h3 {
+      font-size: 20px; font-weight: 700;
+      color: var(--white);
+      margin-bottom: 12px;
+      line-height: 1.25;
     }
-    .h2-light {
-      font-size: clamp(32px, 3.5vw, 52px);
-      font-weight: 800;
-      line-height: 1.1;
-      letter-spacing: -0.022em;
+    .dv__overlay__text p {
+      font-size: 14px; line-height: 1.6;
+      color: rgba(255,255,255,0.72);
+      margin-bottom: 16px;
+    }
+    .dv__overlay__text .arrow-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 13px; font-weight: 700;
+      letter-spacing: 0.03em;
       color: var(--white);
     }
-    .body-muted {
-      font-size: 15px;
-      line-height: 1.70;
-      color: var(--g400);
-    }
+    .dv__overlay__text .arrow-link:hover { color: var(--teal); }
 
-    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-       SCROLL REVEAL
-    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+    /* ─── SCROLL REVEAL ───────────────────────────────── */
     .rv {
-      opacity: 0;
-      transform: translateY(24px);
+      opacity: 0; transform: translateY(20px);
       transition: opacity 560ms ease, transform 560ms var(--ease);
     }
     .rv.in { opacity: 1; transform: translateY(0); }
-    .rv[data-d="1"] { transition-delay: 100ms; }
-    .rv[data-d="2"] { transition-delay: 200ms; }
-    .rv[data-d="3"] { transition-delay: 300ms; }
+    .rv[data-d="1"] { transition-delay: 110ms; }
+    .rv[data-d="2"] { transition-delay: 220ms; }
   </style>
 </head>
 <body>
 
-  <!-- ══════════════════════════════════
+  <!-- ═══════════════════════════════════════
        NAV
-  ══════════════════════════════════ -->
+  ═══════════════════════════════════════ -->
   <nav class="nav" aria-label="Main navigation">
     <a href="/" class="nav__logo" aria-label="Logic Pursuits — home">
       <img src="Assets/LP-logo-inverse.svg" alt="Logic Pursuits">
@@ -473,9 +456,10 @@
   </nav>
 
 
-  <!-- ══════════════════════════════════
+  <!-- ═══════════════════════════════════════
        FOLD 1 — HERO
-  ══════════════════════════════════ -->
+       Figma: 1440×768 · margin-top: 72px (below nav)
+  ═══════════════════════════════════════ -->
   <section class="hero" aria-labelledby="hero-hl">
 
     <!-- Background video -->
@@ -483,18 +467,19 @@
       <video src="Assets/gettyimages-2213753299-640_adpp.mp4"
              autoplay loop muted playsinline></video>
     </div>
-    <div class="hero__overlay" aria-hidden="true"></div>
 
-    <!-- Animated triangles — top-right stack -->
-    <div class="tri-tr tri-tr--a" aria-hidden="true"></div>
-    <div class="tri-tr tri-tr--b" aria-hidden="true"></div>
-    <div class="tri-tr tri-tr--c" aria-hidden="true"></div>
+    <!-- Grid lines (H at y=110, H at y=543, V at x=1215) -->
+    <div class="hero__line hero__line--h1" aria-hidden="true"></div>
+    <div class="hero__line hero__line--h2" aria-hidden="true"></div>
+    <div class="hero__line hero__line--v"  aria-hidden="true"></div>
 
-    <!-- Animated triangles — bottom-right stack -->
-    <div class="tri-br tri-br--a" aria-hidden="true"></div>
-    <div class="tri-br tri-br--b" aria-hidden="true"></div>
+    <!-- Teal triangles — static, no animation -->
+    <!-- Small 64×64: right edge = x=1215, top = y=110 -->
+    <div class="hero__tri hero__tri--sm" aria-hidden="true"></div>
+    <!-- Large 225×225: left edge = x=1215, top = y=543 (flush bottom-right) -->
+    <div class="hero__tri hero__tri--lg" aria-hidden="true"></div>
 
-    <!-- Headline + subtext -->
+    <!-- Text: Figma x=40, y=166 within hero -->
     <div class="hero__content">
       <h1 class="hero__hl" id="hero-hl">
         <span class="line"><span class="line-in">Accelerate decisions.</span></span>
@@ -508,36 +493,37 @@
   </section>
 
 
-  <!-- ══════════════════════════════════
+  <!-- ═══════════════════════════════════════
        FOLD 2 — OVERVIEW
-  ══════════════════════════════════ -->
+       Figma: 1440×650 · white bg
+  ═══════════════════════════════════════ -->
   <section class="overview" aria-labelledby="ov-hl">
 
-    <!-- Top: image left + text right -->
-    <div class="ov-top">
-
-      <div class="ov-img">
-        <img src="Assets/AdobeStock_671441977.png"
-             alt="Logic Pursuits consultant reviewing data strategy">
-        <!-- Rising triangles at bottom-left of image -->
-        <div class="tri-ov tri-ov--a" aria-hidden="true"></div>
-        <div class="tri-ov tri-ov--b" aria-hidden="true"></div>
-        <div class="tri-ov tri-ov--c" aria-hidden="true"></div>
-      </div>
-
-      <div class="ov-text">
-        <p class="eyebrow rv">Overview</p>
-        <h2 class="h2-dark rv" id="ov-hl" data-d="1">
-          Delivering outcomes that are strategic multipliers
-        </h2>
-        <p class="body-muted rv" data-d="2">
-          Enterprises have invested heavily in data and AI platforms. But fragmented data, delayed insights, and disconnected execution slow down the business impact. At Logic Pursuits, we focus on delivering outcomes that act as a strategic multiplier for your business by bridging the gap between platform investments and operational outcomes.
-        </p>
-      </div>
-
+    <!-- Left image: 432×430 -->
+    <div class="ov__img">
+      <img src="Assets/AdobeStock_671441977.png"
+           alt="Logic Pursuits consultant reviewing data strategy">
     </div>
 
-    <!-- Bottom: 3 pillars -->
+    <!-- Teal dividers -->
+    <div class="ov__vdiv" aria-hidden="true"></div>
+    <div class="ov__hdiv" aria-hidden="true"></div>
+
+    <!-- Teal triangle 80×80 at x=352, y=431 -->
+    <div class="ov__tri" aria-hidden="true"></div>
+
+    <!-- Text: x=432, y=0, padding 80px 60px -->
+    <div class="ov__text">
+      <p class="eyebrow rv">Overview</p>
+      <h2 class="ov__hl rv" id="ov-hl" data-d="1">
+        Delivering outcomes that are strategic multipliers
+      </h2>
+      <p class="ov__body rv" data-d="2">
+        Enterprises have invested heavily in data and AI platforms. But fragmented data, delayed insights, and disconnected execution slow down the business impact. At Logic Pursuits, we focus on delivering outcomes that act as a strategic multiplier for your business by bridging the gap between platform investments and operational outcomes.
+      </p>
+    </div>
+
+    <!-- Pillars: x=432, y=430, three 336px cols, 220px tall -->
     <div class="pillars">
       <div class="pillar rv">
         <p class="pillar__title">Multiply decision confidence</p>
@@ -556,76 +542,60 @@
   </section>
 
 
-  <!-- ══════════════════════════════════
+  <!-- ═══════════════════════════════════════
        FOLD 3 — WHAT WE DELIVER
-  ══════════════════════════════════ -->
+       Figma: 1440×768 · #003B5E bg
+  ═══════════════════════════════════════ -->
   <section class="deliver" aria-labelledby="dv-hl">
 
-    <!-- Dark left panel -->
-    <div class="dv-left">
-      <div class="dv-left__text">
-        <p class="eyebrow rv" style="margin-bottom:24px;">What we deliver</p>
-        <h2 class="h2-light rv" id="dv-hl" data-d="1">
-          We help you<br>turn data into<br>outcomes
-        </h2>
-      </div>
-      <!-- Rising triangles — bottom-left of dark panel -->
-      <div class="tri-dl tri-dl--a" aria-hidden="true"></div>
-      <div class="tri-dl tri-dl--b" aria-hidden="true"></div>
-      <div class="tri-dl tri-dl--c" aria-hidden="true"></div>
+    <!-- Left panel: 0–433px -->
+    <div class="dv__left">
+      <p class="eyebrow eyebrow--white rv">What we deliver</p>
+      <h2 class="dv__hl rv" id="dv-hl" data-d="1">
+        We help you turn data into outcomes
+      </h2>
+      <!-- Static triangles — exact Figma positions -->
+      <div class="dv__tri--lg" aria-hidden="true"></div>
+      <div class="dv__tri--sm" aria-hidden="true"></div>
     </div>
 
-    <!-- Image grid right panel -->
-    <div class="dv-grid">
+    <!-- Right image grid: x=433, 1007×768 -->
+    <div class="dv__grid">
 
-      <!-- Card 1 -->
-      <div class="dv-card rv">
+      <!-- Card 1: top-left 504×384 · title only at bottom -->
+      <div class="dv__card rv">
         <img src="Assets/img303-data-foundations.jpeg"
              alt="Build robust data foundations">
-        <div class="dv-card__cap">
+        <div class="dv__cap">
           <h3>Build robust data foundations</h3>
-          <p>Modernize enterprise data environments with scalable architecture, reliable engineering, and governance that improves trust, performance, and long-term usability.</p>
-          <a href="#" class="arrow-link">
-            Learn more
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <line x1="2" y1="8" x2="13" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-              <polyline points="9,4 13,8 9,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-            </svg>
-          </a>
         </div>
       </div>
 
-      <!-- Card 2 -->
-      <div class="dv-card rv" data-d="1">
+      <!-- Card 2: top-right 504×384 · always-visible full overlay -->
+      <div class="dv__card rv" data-d="1">
         <img src="Assets/img303-insights-v02.png"
              alt="Gain deeper insights">
-        <div class="dv-card__cap">
-          <h3>Gain deeper insights</h3>
-          <p>Transform operational and customer data into connected intelligence that improves visibility, accelerates decisions, and drives business performance.</p>
-          <a href="#" class="arrow-link">
-            Learn more
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <line x1="2" y1="8" x2="13" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-              <polyline points="9,4 13,8 9,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-            </svg>
-          </a>
+        <div class="dv__overlay">
+          <div class="dv__overlay__text">
+            <h3>Gain deeper insights</h3>
+            <p>Transform operational and customer data into connected intelligence that improves visibility, accelerates decisions, and drives business performance.</p>
+            <a href="#" class="arrow-link">
+              Learn more
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <line x1="2" y1="8" x2="13" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <polyline points="9,4 13,8 9,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              </svg>
+            </a>
+          </div>
         </div>
       </div>
 
-      <!-- Card 3 — wide -->
-      <div class="dv-card dv-card--wide rv" data-d="2">
+      <!-- Card 3: bottom wide 1007×384 · title only at bottom -->
+      <div class="dv__card dv__card--wide rv" data-d="2">
         <img src="Assets/img303-accelerate.jpeg"
              alt="Accelerate to outcomes">
-        <div class="dv-card__cap">
+        <div class="dv__cap">
           <h3>Accelerate to outcomes</h3>
-          <p>Operationalize analytics and AI solutions that solve high-impact business problems, reduce operational risk, and accelerate measurable outcomes.</p>
-          <a href="#" class="arrow-link">
-            Learn more
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <line x1="2" y1="8" x2="13" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-              <polyline points="9,4 13,8 9,12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-            </svg>
-          </a>
         </div>
       </div>
 
@@ -637,12 +607,12 @@
   <script>
     var ease = 'cubic-bezier(0.16,1,0.3,1)';
 
-    /* ── Hero headline line-reveal ─────────────── */
+    /* Hero headline line-reveal on load */
     window.addEventListener('load', function () {
       var lines = document.querySelectorAll('.hero__hl .line-in');
       lines.forEach(function (el, i) {
         el.style.transition = 'transform 920ms ' + ease;
-        setTimeout(function () { el.style.transform = 'translateY(0)'; }, 220 + i * 150);
+        setTimeout(function () { el.style.transform = 'translateY(0)'; }, 200 + i * 150);
       });
       var sub = document.querySelector('.hero__sub');
       setTimeout(function () {
@@ -652,16 +622,12 @@
       }, 680);
     });
 
-    /* ── Scroll reveals ────────────────────────── */
+    /* Scroll reveals */
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
-        if (e.isIntersecting) {
-          e.target.classList.add('in');
-          io.unobserve(e.target);
-        }
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
       });
     }, { threshold: 0.12 });
-
     document.querySelectorAll('.rv').forEach(function (el) { io.observe(el); });
   </script>
 
