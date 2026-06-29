@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logic Pursuits — Partners</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --teal:      #00C8B7;
+      --navy:      #003B5E;
+      --deep-navy: #002B3C;
+      --white:     #FFFFFF;
+      --grey-200:  #E2E6EA;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--white);
+      -webkit-font-smoothing: antialiased;
+      height: 100%;
+    }
+
+    /* Centre the section vertically and horizontally */
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .wrap {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    /* Reveal helper (already visible — no scroll needed) */
+    .reveal { opacity: 1; }
+
+    /* ── Partners section ───────────────────────────── */
+    .partner-logos {
+      width: 100vw;
+      padding: 67px 0 0;
+      background: var(--white);
+    }
+
+    .partner-logos__headline {
+      font-size: 40px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+      color: var(--deep-navy);
+      max-width: 680px;
+      margin-bottom: 0;
+    }
+
+    /* Mesh canvas area */
+    .partners-mesh-wrap {
+      position: relative;
+      width: 100%;
+      height: 378px;
+      margin-top: 45px;
+      cursor: crosshair;
+      overflow: hidden;
+    }
+
+    #mesh-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* Fade edges into white */
+    .partners-mesh-wrap::before,
+    .partners-mesh-wrap::after {
+      content: '';
+      position: absolute;
+      left: 0; right: 0;
+      height: 100px;
+      pointer-events: none;
+      z-index: 2;
+    }
+    .partners-mesh-wrap::before {
+      top: 0;
+      background: linear-gradient(to bottom, var(--white) 0%, transparent 100%);
+    }
+    .partners-mesh-wrap::after {
+      bottom: 0;
+      background: linear-gradient(to top, var(--white) 0%, transparent 100%);
+    }
+
+    /* Logo pills */
+    .partner-logo-pill {
+      position: absolute;
+      background: var(--white);
+      border: 1px solid var(--grey-200);
+      box-shadow: 0 2px 16px rgba(0, 59, 94, 0.07);
+      padding: 14px 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 110px;
+      z-index: 3;
+      transition: transform 0.18s ease-out, box-shadow 0.22s ease, border-color 0.22s ease;
+      will-change: transform;
+    }
+    .partner-logo-pill:hover {
+      box-shadow: 0 0 0 1px var(--teal), 0 10px 36px rgba(0, 200, 183, 0.22);
+      border-color: var(--teal);
+      z-index: 4;
+    }
+    .partner-logo-pill img {
+      height: 26px;
+      width: auto;
+      max-width: 136px;
+      display: block;
+      object-fit: contain;
+    }
+  </style>
+</head>
+<body>
+
+  <section class="partner-logos" aria-labelledby="partners-headline">
+    <div class="wrap">
+      <h2 class="partner-logos__headline" id="partners-headline">
+        Multiplying outcomes<br>with our partners
+      </h2>
+    </div>
+
+    <div class="partners-mesh-wrap" id="partners-mesh-wrap">
+      <canvas id="mesh-canvas"></canvas>
+
+      <!-- Row 1 — top -->
+      <div class="partner-logo-pill" style="left:5.5%;top:13%;" data-depth="1.3">
+        <img src="Assets/Logo/Color-logos-logic/Snowflake_Logo.svg.png" alt="Snowflake">
+      </div>
+      <div class="partner-logo-pill" style="left:26%;top:9%;" data-depth="0.8">
+        <img src="Assets/Logo/Color-logos-logic/databricks-logo (1).png" alt="Databricks">
+      </div>
+      <div class="partner-logo-pill" style="left:50%;top:15%;" data-depth="1.6">
+        <img src="Assets/Logo/Color-logos-logic/Microsoft_Azure-Logo.wine.png" alt="Microsoft Azure">
+      </div>
+      <div class="partner-logo-pill" style="left:75%;top:8%;" data-depth="0.9">
+        <img src="Assets/Logo/Color-logos-logic/Salesforce.com_logo.svg.png" alt="Salesforce">
+      </div>
+
+      <!-- Row 2 — middle -->
+      <div class="partner-logo-pill" style="left:3%;top:45%;" data-depth="1.8">
+        <img src="Assets/Logo/Color-logos-logic/Atlan-logo-full.svg (1).png" alt="Atlan">
+      </div>
+      <div class="partner-logo-pill" style="left:21%;top:52%;" data-depth="1.1">
+        <img src="Assets/Logo/Color-logos-logic/dbt-labs-logo.png" alt="dbt Labs">
+      </div>
+      <div class="partner-logo-pill" style="left:43%;top:41%;" data-depth="0.7">
+        <img src="Assets/Logo/Color-logos-logic/striim_Final_Logo_rgb_whitebg_2015091011.png" alt="Striim">
+      </div>
+      <div class="partner-logo-pill" style="left:63%;top:37.5%;" data-depth="1.4">
+        <img src="Assets/Logo/Color-logos-logic/DQLabs-Logo-1.webp" alt="DQLabs">
+      </div>
+      <div class="partner-logo-pill" style="left:82%;top:43%;" data-depth="0.6">
+        <img src="Assets/Logo/Color-logos-logic/Boomi-logo-no-tagline.svg (1).png" alt="Boomi">
+      </div>
+
+      <!-- Row 3 — bottom -->
+      <div class="partner-logo-pill" style="left:12%;top:71%;" data-depth="1.5">
+        <img src="Assets/Logo/Color-logos-logic/sap-logo.png" alt="SAP">
+      </div>
+      <div class="partner-logo-pill" style="left:39%;top:76%;" data-depth="1.0">
+        <img src="Assets/Logo/Color-logos-logic/Matillion Logo Horizontal - Black bg.png" alt="Matillion">
+      </div>
+      <div class="partner-logo-pill" style="left:67%;top:67%;" data-depth="1.7">
+        <img src="Assets/Logo/Color-logos-logic/Quest_Software_logo.svg.png" alt="Quest Software">
+      </div>
+
+    </div>
+  </section>
+
+  <script>
+    (function () {
+      var wrap   = document.getElementById('partners-mesh-wrap');
+      var canvas = document.getElementById('mesh-canvas');
+      if (!wrap || !canvas) return;
+
+      var ctx   = canvas.getContext('2d');
+      var mouse = { x: -9999, y: -9999, active: false };
+      var nodes = [];
+      var W = 0, H = 0;
+      var COLS = 26, ROWS = 10;
+
+      function buildNodes() {
+        nodes = [];
+        for (var r = 0; r <= ROWS; r++) {
+          for (var c = 0; c <= COLS; c++) {
+            var ox = (c / COLS) * W;
+            var oy = (r / ROWS) * H;
+            nodes.push({ ox: ox, oy: oy, x: ox, y: oy, vx: 0, vy: 0, c: c, r: r });
+          }
+        }
+      }
+
+      function n(c, r) { return nodes[r * (COLS + 1) + c]; }
+
+      function resize() {
+        W = canvas.width  = wrap.offsetWidth;
+        H = canvas.height = wrap.offsetHeight;
+        buildNodes();
+      }
+
+      var PULL_R  = 200;
+      var PULL_S  = 0.38;
+      var SPRING  = 0.055;
+      var DAMPING = 0.76;
+
+      function update() {
+        for (var i = 0; i < nodes.length; i++) {
+          var nd = nodes[i];
+          var dx = mouse.x - nd.ox;
+          var dy = mouse.y - nd.oy;
+          var dist = Math.sqrt(dx * dx + dy * dy);
+          var tx = nd.ox, ty = nd.oy;
+
+          if (mouse.active && dist < PULL_R) {
+            var f = (1 - dist / PULL_R);
+            f = f * f;
+            tx = nd.ox + dx * f * PULL_S;
+            ty = nd.oy + dy * f * PULL_S;
+          }
+
+          nd.vx += (tx - nd.x) * SPRING;
+          nd.vy += (ty - nd.y) * SPRING;
+          nd.vx *= DAMPING;
+          nd.vy *= DAMPING;
+          nd.x  += nd.vx;
+          nd.y  += nd.vy;
+        }
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, W, H);
+
+        for (var r = 0; r <= ROWS; r++) {
+          for (var c = 0; c <= COLS; c++) {
+            var nd = n(c, r);
+            var dx = mouse.x - nd.x;
+            var dy = mouse.y - nd.y;
+            var d  = Math.sqrt(dx * dx + dy * dy);
+            var glow = mouse.active ? Math.max(0, 1 - d / 140) : 0;
+
+            /* horizontal line */
+            if (c < COLS) {
+              var nr = n(c + 1, r);
+              ctx.beginPath();
+              ctx.moveTo(nd.x, nd.y);
+              ctx.lineTo(nr.x, nr.y);
+              var a1 = glow > 0 ? (0.12 + glow * 0.60) : 0.10;
+              ctx.strokeStyle = glow > 0 ? 'rgba(0,200,183,' + a1 + ')' : 'rgba(0,59,94,' + a1 + ')';
+              ctx.lineWidth = 0.5 + glow * 1.2;
+              ctx.stroke();
+            }
+            /* vertical line */
+            if (r < ROWS) {
+              var nb = n(c, r + 1);
+              ctx.beginPath();
+              ctx.moveTo(nd.x, nd.y);
+              ctx.lineTo(nb.x, nb.y);
+              var a2 = glow > 0 ? (0.12 + glow * 0.60) : 0.10;
+              ctx.strokeStyle = glow > 0 ? 'rgba(0,200,183,' + a2 + ')' : 'rgba(0,59,94,' + a2 + ')';
+              ctx.lineWidth = 0.5 + glow * 1.2;
+              ctx.stroke();
+            }
+            /* node dot */
+            var ns = glow > 0.35 ? 2.2 : 1;
+            ctx.fillStyle = glow > 0.2
+              ? 'rgba(0,200,183,' + (0.60 + glow * 0.40) + ')'
+              : 'rgba(0,59,94,0.18)';
+            ctx.fillRect(nd.x - ns, nd.y - ns, ns * 2, ns * 2);
+          }
+        }
+      }
+
+      function loop() { update(); draw(); requestAnimationFrame(loop); }
+
+      /* Mouse tracking */
+      wrap.addEventListener('mousemove', function (e) {
+        var rect = wrap.getBoundingClientRect();
+        mouse.x = e.clientX - rect.left;
+        mouse.y = e.clientY - rect.top;
+        mouse.active = true;
+      });
+      wrap.addEventListener('mouseleave', function () { mouse.active = false; });
+
+      /* Logo parallax */
+      var pills = wrap.querySelectorAll('.partner-logo-pill');
+      wrap.addEventListener('mousemove', function (e) {
+        var rect = wrap.getBoundingClientRect();
+        var rx = ((e.clientX - rect.left) / rect.width  - 0.5) * 2;
+        var ry = ((e.clientY - rect.top)  / rect.height - 0.5) * 2;
+        pills.forEach(function (pill) {
+          var depth = parseFloat(pill.dataset.depth) || 1;
+          pill.style.transform = 'translate(' + (rx * depth * -14) + 'px,' + (ry * depth * -9) + 'px)';
+        });
+      });
+      wrap.addEventListener('mouseleave', function () {
+        pills.forEach(function (pill) { pill.style.transform = 'translate(0,0)'; });
+      });
+
+      var resizeTimer;
+      window.addEventListener('resize', function () {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(resize, 120);
+      });
+
+      resize();
+      loop();
+    })();
+  </script>
+
+</body>
+</html>
