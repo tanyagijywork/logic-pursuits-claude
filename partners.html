@@ -146,25 +146,19 @@
     .secondary-logos-box {
       border: 1px solid rgba(0,59,94,0.15);
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      grid-template-rows: repeat(2, 1fr);
+      grid-template-columns: repeat(8, 1fr);
     }
 
     .secondary-logo-cell {
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 36px 40px;
+      padding: 36px 24px;
       border-right: 1px solid rgba(0,59,94,0.15);
-      border-bottom: 1px solid rgba(0,59,94,0.15);
     }
 
-    .secondary-logo-cell:nth-child(4n) {
+    .secondary-logo-cell:last-child {
       border-right: none;
-    }
-
-    .secondary-logo-cell:nth-last-child(-n+4) {
-      border-bottom: none;
     }
 
     .secondary-logo-cell img {
