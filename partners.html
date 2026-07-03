@@ -130,43 +130,47 @@
       object-fit: contain;
     }
 
-    /* ── Secondary partners slider ───────────────────── */
+    /* ── Secondary partners grid ─────────────────────── */
     .secondary-partners {
       width: 100vw;
       padding: 80px 0;
       background: var(--white);
-      overflow: hidden;
     }
 
-    .slider-track-wrap {
-      overflow: hidden;
-      width: 100%;
-      -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
-      mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
+    .secondary-partners__inner {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 0 40px;
     }
 
-    .slider-track {
+    .secondary-logos-box {
+      border: 1px solid rgba(0,59,94,0.15);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+    }
+
+    .secondary-logo-cell {
       display: flex;
       align-items: center;
-      gap: 72px;
-      width: max-content;
-      animation: marquee 40s linear infinite;
+      justify-content: center;
+      padding: 36px 40px;
+      border-right: 1px solid rgba(0,59,94,0.15);
+      border-bottom: 1px solid rgba(0,59,94,0.15);
     }
 
-    @keyframes marquee {
-      0%   { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
+    .secondary-logo-cell:nth-child(4n) {
+      border-right: none;
     }
 
-    .slider-logo {
-      display: flex;
-      align-items: center;
-      flex-shrink: 0;
+    .secondary-logo-cell:nth-last-child(-n+4) {
+      border-bottom: none;
     }
 
-    .slider-logo img {
+    .secondary-logo-cell img {
       height: 32px;
       width: auto;
+      max-width: 140px;
       object-fit: contain;
       display: block;
     }
@@ -221,25 +225,16 @@
   </section>
 
   <section class="secondary-partners">
-    <div class="slider-track-wrap">
-      <div class="slider-track">
-        <div class="slider-logo"><img src="Assets/Logo/new-logo-secondary-partners/logo-SAP.png" alt="SAP"></div>
-        <div class="slider-logo"><img src="Assets/Logo/new-logo-secondary-partners/logo-atlan.png" alt="Atlan"></div>
-        <div class="slider-logo"><img src="Assets/Logo/new-logo-secondary-partners/logo-aws.png" alt="AWS"></div>
-        <div class="slider-logo"><img src="Assets/Logo/new-logo-secondary-partners/logo-azure.png" alt="Azure"></div>
-        <div class="slider-logo"><img src="Assets/Logo/new-logo-secondary-partners/logo-powerBL.png" alt="Power BI"></div>
-        <div class="slider-logo"><img src="Assets/Logo/new-logo-secondary-partners/logo-redpoint.png" alt="Redpoint"></div>
-        <div class="slider-logo"><img src="Assets/Logo/new-logo-secondary-partners/logo-salesforce.png" alt="Salesforce"></div>
-        <div class="slider-logo"><img src="Assets/Logo/new-logo-secondary-partners/logo-tableau.png" alt="Tableau"></div>
-        <!-- duplicate for seamless loop -->
-        <div class="slider-logo"><img src="Assets/Logo/new-logo-secondary-partners/logo-SAP.png" alt="SAP"></div>
-        <div class="slider-logo"><img src="Assets/Logo/new-logo-secondary-partners/logo-atlan.png" alt="Atlan"></div>
-        <div class="slider-logo"><img src="Assets/Logo/new-logo-secondary-partners/logo-aws.png" alt="AWS"></div>
-        <div class="slider-logo"><img src="Assets/Logo/new-logo-secondary-partners/logo-azure.png" alt="Azure"></div>
-        <div class="slider-logo"><img src="Assets/Logo/new-logo-secondary-partners/logo-powerBL.png" alt="Power BI"></div>
-        <div class="slider-logo"><img src="Assets/Logo/new-logo-secondary-partners/logo-redpoint.png" alt="Redpoint"></div>
-        <div class="slider-logo"><img src="Assets/Logo/new-logo-secondary-partners/logo-salesforce.png" alt="Salesforce"></div>
-        <div class="slider-logo"><img src="Assets/Logo/new-logo-secondary-partners/logo-tableau.png" alt="Tableau"></div>
+    <div class="secondary-partners__inner">
+      <div class="secondary-logos-box">
+        <div class="secondary-logo-cell"><img src="Assets/Logo/new-logo-secondary-partners/logo-SAP.png" alt="SAP"></div>
+        <div class="secondary-logo-cell"><img src="Assets/Logo/new-logo-secondary-partners/logo-atlan.png" alt="Atlan"></div>
+        <div class="secondary-logo-cell"><img src="Assets/Logo/new-logo-secondary-partners/logo-aws.png" alt="AWS"></div>
+        <div class="secondary-logo-cell"><img src="Assets/Logo/new-logo-secondary-partners/logo-azure.png" alt="Azure"></div>
+        <div class="secondary-logo-cell"><img src="Assets/Logo/new-logo-secondary-partners/logo-powerBL.png" alt="Power BI"></div>
+        <div class="secondary-logo-cell"><img src="Assets/Logo/new-logo-secondary-partners/logo-redpoint.png" alt="Redpoint"></div>
+        <div class="secondary-logo-cell"><img src="Assets/Logo/new-logo-secondary-partners/logo-salesforce.png" alt="Salesforce"></div>
+        <div class="secondary-logo-cell"><img src="Assets/Logo/new-logo-secondary-partners/logo-tableau.png" alt="Tableau"></div>
       </div>
     </div>
   </section>
