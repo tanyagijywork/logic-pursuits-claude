@@ -102,30 +102,20 @@
       background: linear-gradient(to top, var(--white) 0%, transparent 100%);
     }
 
-    /* Logo pills */
+    /* Logo pills — no card, raw image */
     .partner-logo-pill {
       position: absolute;
-      background: var(--white);
-      border: 1px solid var(--grey-200);
-      box-shadow: 0 2px 16px rgba(0, 59, 94, 0.07);
-      padding: 14px 26px;
       display: flex;
       align-items: center;
       justify-content: center;
-      min-width: 110px;
       z-index: 3;
-      transition: transform 0.18s ease-out, box-shadow 0.22s ease, border-color 0.22s ease;
+      transition: transform 0.18s ease-out;
       will-change: transform;
     }
-    .partner-logo-pill:hover {
-      box-shadow: 0 0 0 1px var(--teal), 0 10px 36px rgba(0, 200, 183, 0.22);
-      border-color: var(--teal);
-      z-index: 4;
-    }
     .partner-logo-pill img {
-      height: 26px;
+      height: 32px;
       width: auto;
-      max-width: 136px;
+      max-width: 160px;
       display: block;
       object-fit: contain;
     }
