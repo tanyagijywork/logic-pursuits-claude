@@ -168,6 +168,50 @@
       object-fit: contain;
       display: block;
     }
+    /* ── Mobile ─────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .partner-logos { padding: 40px 0 0; }
+
+      .partner-logos__headline { font-size: 32px; padding: 0 20px; }
+
+      .partners-mesh-wrap { height: 480px; }
+
+      .partner-logo-pill { height: 48px; padding: 0 12px; }
+
+      /* Row 1 */
+      .pill-snowflake  { left: 2%  !important; top: 6%  !important; }
+      .pill-snowflake  img { height: 22px !important; }
+      .pill-databricks { left: 34% !important; top: 6%  !important; }
+      .pill-databricks img { height: 18px !important; }
+      .pill-dbtlabs    { left: 66% !important; top: 6%  !important; }
+      .pill-dbtlabs    img { height: 20px !important; }
+
+      /* Row 2 */
+      .pill-matillion  { left: 2%  !important; top: 39% !important; }
+      .pill-matillion  img { height: 21px !important; }
+      .pill-striim     { left: 34% !important; top: 39% !important; }
+      .pill-striim     img { height: 22px !important; }
+      .pill-glean      { left: 66% !important; top: 39% !important; }
+      .pill-glean      img { height: 22px !important; }
+
+      /* Row 3 */
+      .pill-anthropic  { left: 2%  !important; top: 72% !important; }
+      .pill-anthropic  img { height: 12px !important; }
+      .pill-openai     { left: 34% !important; top: 72% !important; }
+      .pill-openai     img { height: 22px !important; }
+      .pill-palantir   { left: 66% !important; top: 72% !important; }
+      .pill-palantir   img { height: 18px !important; }
+
+      /* Secondary grid */
+      .secondary-partners { padding: 30px 0 50px; }
+      .secondary-partners__inner { padding: 0 20px; }
+      .secondary-logos-box { grid-template-columns: repeat(4, 1fr); }
+      .secondary-logo-cell { padding: 20px 12px; }
+      .secondary-logo-cell:last-child { border-right: 1px solid rgba(0,59,94,0.15); }
+      .secondary-logo-cell:nth-child(4n) { border-right: none; }
+      .secondary-logo-cell:nth-child(-n+4) { border-bottom: 1px solid rgba(0,59,94,0.15); }
+      .secondary-logo-cell img { height: 24px; }
+    }
   </style>
 </head>
 <body>
@@ -183,35 +227,35 @@
       <canvas id="mesh-canvas"></canvas>
 
       <!-- Row 1 — top -->
-      <div class="partner-logo-pill" style="left:3%;top:9%;" data-depth="1.3">
+      <div class="partner-logo-pill pill-snowflake" style="left:3%;top:9%;" data-depth="1.3">
         <img src="Assets/Logo/New-logos-primary-partners/logo-snowflake.png" alt="Snowflake" style="height:30px">
       </div>
-      <div class="partner-logo-pill" style="left:36%;top:13%;" data-depth="0.8">
+      <div class="partner-logo-pill pill-databricks" style="left:36%;top:13%;" data-depth="0.8">
         <img src="Assets/Logo/New-logos-primary-partners/logo-databricks.png" alt="Databricks" style="height:24px">
       </div>
-      <div class="partner-logo-pill" style="left:70%;top:10%;" data-depth="1.1">
+      <div class="partner-logo-pill pill-dbtlabs" style="left:70%;top:10%;" data-depth="1.1">
         <img src="Assets/Logo/New-logos-primary-partners/logo-dbtLabs.png" alt="dbt Labs" style="height:26px">
       </div>
 
       <!-- Row 2 — middle -->
-      <div class="partner-logo-pill" style="left:19%;top:40%;" data-depth="1.0">
+      <div class="partner-logo-pill pill-matillion" style="left:19%;top:40%;" data-depth="1.0">
         <img src="Assets/Logo/New-logos-primary-partners/logo-matillion.png" alt="Matillion" style="height:28px">
       </div>
-      <div class="partner-logo-pill" style="left:54%;top:41%;" data-depth="0.7">
+      <div class="partner-logo-pill pill-striim" style="left:54%;top:41%;" data-depth="0.7">
         <img src="Assets/Logo/New-logos-primary-partners/logo-striim.png" alt="Striim" style="height:30px">
       </div>
-      <div class="partner-logo-pill" style="left:87%;top:37%;" data-depth="1.8">
+      <div class="partner-logo-pill pill-glean" style="left:87%;top:37%;" data-depth="1.8">
         <img src="Assets/Logo/New-logos-primary-partners/logo-glean.png" alt="Glean" style="height:30px">
       </div>
 
       <!-- Row 3 — bottom -->
-      <div class="partner-logo-pill" style="left:4%;top:71%;" data-depth="0.9">
+      <div class="partner-logo-pill pill-anthropic" style="left:4%;top:71%;" data-depth="0.9">
         <img src="Assets/Logo/New-logos-primary-partners/logo-anthropic.png" alt="Anthropic" style="height:16px">
       </div>
-      <div class="partner-logo-pill" style="left:39%;top:71%;" data-depth="1.6">
+      <div class="partner-logo-pill pill-openai" style="left:39%;top:71%;" data-depth="1.6">
         <img src="Assets/Logo/New-logos-primary-partners/logo-openAI.png" alt="OpenAI" style="height:30px">
       </div>
-      <div class="partner-logo-pill" style="left:72%;top:68%;" data-depth="1.4">
+      <div class="partner-logo-pill pill-palantir" style="left:72%;top:68%;" data-depth="1.4">
         <img src="Assets/Logo/New-logos-primary-partners/logo- palantir.png" alt="Palantir" style="height:24px">
       </div>
 
